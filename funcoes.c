@@ -9,11 +9,11 @@ char *getCharDinamicamente()  //
     while (ch) {
         ch = getc(stdin);
 
-        /* Check if we need to stop. */
+        /* Verifica se é necessário parar */
         if (ch == EOF || ch == '\n')
             ch = 0;
 
-        /* Check if we need to expand. */
+        /* Verifica se é necessário realocar. */
         if (size <= i) {
     
             aux =(char*)realloc(aux,i*sizeof(char*));
@@ -25,9 +25,30 @@ char *getCharDinamicamente()  //
             line = aux;
         }
 
-        /* Actually store the thing. */
+        /* Guarda o caractér. */
         line[i++] = ch;
     }
 
     return line;
+}
+
+CLIENTE NovoCliente(){   //criar novo cliente
+  CLIENTE c;
+  printf("Digite o NIF do novo cliente:\n");
+  c.NIF = scanf("%d",c.NIF);
+  printf("Digite o nome do novo cliente:\n");
+  c.nome=getCharDinamicamente();
+  printf("Digite a morada do novo cliente:\n");
+  c.morada = getCharDinamicamente();
+  printf("Digite o número de telefone do novo cliente:\n");
+  c.telefone = scanf("%ld",c.telefone);
+  return c;
+}
+
+void main(){
+    CLIENTE c = NovoCliente();
+
+    printf("%s",c.nome);
+    
+
 }

@@ -11,28 +11,28 @@ typedef struct data{
 
 typedef struct livro{
     int ISBN;
-    char titulo[50];
-    char idioma[15];
-    char primeiroAutor[50];
-    char segundoAutor[50];
-    char editora[50];
+    char *titulo;
+    char *idioma;
+    char *primeiroAutor;
+    char *segundoAutor;
+    char *editora;
     int ano;
-    char areacientifica[100];
+    char *areacientifica;
     float preco;
     int stock;
 }LIVRO;
 
 typedef struct cliente{
  long int NIF;  //NIF
- char nome[50];  //Nome do Cliente
- char morada[100];  //Morada do Cliente
+ char *nome;  //Nome do Cliente
+ char *morada;  //Morada do Cliente
  long int telefone; //Número de Telefone do Cliente
 
 }CLIENTE;  // estrutura para Clientes
 
 typedef struct NodoCliente{
  CLIENTE cliente;
- NODOCLIENTE *next;
+ struct NodoCliente* next;
 }NODOCLIENTE;
 
 typedef struct encomendas{
@@ -45,17 +45,10 @@ typedef struct encomendas{
 
 typedef struct filaEncomendas{
     ENCOMENDA encomenda;
-    FILAENCOMENDAS *next;
+    struct filaEncomendas *next;
 }FILAENCOMENDAS;
 
 
-
-CLIENTE NovoCliente(){
-  CLIENTE c;
-  c.NIF = scanf("%d",c.NIF);
-  c.telefone = scanf("%ld",c.telefone);
-  c.nome[50]= scanf("%c",c.nome);
-  c.morada[100] = scanf("%c",c.morada);
- 
-  return c;
-}
+//Funções utilizadas 
+char *getCharDinamicamente();
+CLIENTE NovoCliente();
