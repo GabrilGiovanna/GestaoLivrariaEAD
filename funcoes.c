@@ -75,3 +75,80 @@ LIVRO NovoLivro(){
 
 }
 
+
+//Funcões para criar uma árvore binária balanceada
+NODOABL CriarArvoreEquilibrada (NODOABL *T) {//Algoritmo dado nas aulas para criar árvore binária equilibrada
+    LIVRO *Lista;
+    int N = 0, Num;
+    Num = NumeroNodosAB(T);
+    if (T == NULL)
+        return NULL;
+    Lista = (LIVRO *) malloc(Num * sizeof(LIVRO));
+    if (Lista == NULL)
+        return NULL;
+    CriarSequenciaEmOrdem(T, Lista, &N);
+    EquilibrarArvore(&T, Lista, 0, N-1);
+    return T;
+ }
+int NumeroNodosAB (NODOABL *T) {  //Conta número de Nodos em árvore
+  int  e, d;
+  if (T == NULL)
+    return 0;
+  e = NumeroNodosAB(T->Esquerda);
+  d = NumeroNodosAB(T->Direita);
+  return (e + d + 1);
+}
+
+void CriarSequenciaEmOrdem (NODOABL *T, LIVRO *L, int *N) {
+    if (T != NULL) {
+        CriarSequenciaEmOrdem(T->Esquerda,L,N);
+        L[*N] = T->livro;
+        *N = (*N) + 1;
+        CriarSequenciaEmOrdem(T->Direita,L,N);
+    }
+}
+
+void EquilibrarArvore (NODOABL **T, LIVRO *L, int inicio, int fim) {
+    int medio;
+    if (inicio > fim)
+        return;
+    if (inicio == fim) {
+        *T = InserirABP(*T, L[inicio]);
+        return;
+    }
+    medio = (inicio + fim) / 2;
+    *T = InserirABP(*T, L[medio]);
+    EquilibrarArvore(T, L, inicio, medio-1);
+    EquilibrarArvore(T, L, medio+1, fim);
+}
+
+NODOABL InserirABP (NODOABL *T, LIVRO X){
+  if (T == NULL) {
+    T = CriarNodoAB(X);
+    return T;
+  }
+  if (CompararElementosLivro(X, T->livro) == -1)
+    T->Esquerda = InserirABP(T->Esquerda, X);
+  else
+    T->Direita = InserirABP(T->Direita, X);
+  return T;
+}
+
+NODOABL CriarNodoAB(LIVRO X){
+  NODOABL *P = (NODOABL*) malloc(sizeof(NODOABL));
+  if (P == NULL)
+    return  NULL;
+  P->livro = X;
+  P->Esquerda = NULL;
+  P->Direita = NULL;
+  return P;
+}
+
+
+int CompararElementosLivro (LIVRO X, LIVRO Y){  // devolve -1 se X < Y, 0 se X = Y, 1 se X > Y
+  if (X.ISBN > Y.ISBN)
+    return 1;
+  if (X.NIF < Y.NIF)
+    return -1;
+  return 0;
+}

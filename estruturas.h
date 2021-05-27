@@ -24,10 +24,10 @@ typedef struct livro{
 
 typedef struct NodoABLivro{ //Arvore binária para manusear livros
     LIVRO livro;
-    struct NodoABLivro *esquerda;
-    struct NodoABLivro *direita;
+    struct NodoABLivro *Esquerda;
+    struct NodoABLivro *Direita;
 
-}NODOAPB;
+}NODOABL;
 
 typedef struct Compra{  //Lista Ligada para lista de compras
     char *Produto;
@@ -70,7 +70,14 @@ typedef struct filaEncomendas{  //Fila para manusear encomendas
 }FILAENCOMENDAS;
 
 
-//Funções utilizadas 
+//Funções utilizadas
 char *getCharDinamicamente();
 CLIENTE NovoCliente();
 LIVRO NovoLivro();
+NODOABL CriarArvoreEquilibrada (NODOABL *T);
+int NumeroNodosAB (NODOABL *T);
+void CriarSequenciaEmOrdem (NODOABL *T, LIVRO *L, int *N);
+void EquilibrarArvore (NODOABL **T, LIVRO *L, int inicio, int fim);
+NODOABL InserirABP (NODOABL *T, LIVRO X);
+NODOABL CriarNodoAB(LIVRO X);
+int CompararElementosLivro (LIVRO X, LIVRO Y);
