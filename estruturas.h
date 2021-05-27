@@ -29,15 +29,6 @@ typedef struct NodoABLivro{ //Arvore binária para manusear livros
 
 }NODOAPB;
 
-typedef struct cliente{
-    long int NIF;  //NIF
-    char *nome;  //Nome do Cliente
-    char *morada;  //Morada do Cliente
-    long int telefone; //Número de Telefone do Cliente
-    NODOLC compras;
-
-}CLIENTE;  // estrutura para Clientes
-
 typedef struct Compra{  //Lista Ligada para lista de compras
     char *Produto;
     DATA  datadecompra;
@@ -49,6 +40,16 @@ typedef struct NodoLC{  //Lista ligada para manusear clientes, cada Nodo contêm
  COMPRA compra;
  struct NodoLC* next;
 }NODOLC;
+
+typedef struct cliente{
+    long int NIF;  //NIF
+    char *nome;  //Nome do Cliente
+    char *morada;  //Morada do Cliente
+    long int telefone; //Número de Telefone do Cliente
+    NODOLC compras;
+
+}CLIENTE;  // estrutura para Clientes
+
 
 typedef struct NodoCliente{  //Lista ligada para manusear clientes, cada Nodo contêm um cliente
  CLIENTE cliente;
