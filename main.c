@@ -4,7 +4,10 @@
 
 main(){
 
+LIVRO livro;
+
+livro=NovoLivro();
 
 
-    
+
 }

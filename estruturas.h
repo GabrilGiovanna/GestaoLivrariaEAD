@@ -34,16 +34,21 @@ typedef struct cliente{
     char *nome;  //Nome do Cliente
     char *morada;  //Morada do Cliente
     long int telefone; //Número de Telefone do Cliente
-    LC compras;
+    NODOLC compras;
 
 }CLIENTE;  // estrutura para Clientes
 
-typedef struct ListaDeCompras{
+typedef struct Compra{  //Lista Ligada para lista de compras
     char *Produto;
     DATA  datadecompra;
     int NumeroDeUnidadesCompradas;
     float PrecoTotal;
-}LC;
+}COMPRA;
+
+typedef struct NodoLC{  //Lista ligada para manusear clientes, cada Nodo contêm um cliente
+ COMPRA compra;
+ struct NodoLC* next;
+}NODOLC;
 
 typedef struct NodoCliente{  //Lista ligada para manusear clientes, cada Nodo contêm um cliente
  CLIENTE cliente;
@@ -67,3 +72,4 @@ typedef struct filaEncomendas{  //Fila para manusear encomendas
 //Funções utilizadas 
 char *getCharDinamicamente();
 CLIENTE NovoCliente();
+LIVRO NovoLivro();

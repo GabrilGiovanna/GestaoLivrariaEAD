@@ -75,12 +75,3 @@ LIVRO NovoLivro(){
 
 }
 
-void main(){
-    CLIENTE c = NovoCliente();
-
-    printf("%s",c.nome);
-    printf("%s",c.morada);
-
-
-
-}
