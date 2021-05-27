@@ -22,15 +22,30 @@ typedef struct livro{
     int stock;
 }LIVRO;
 
+typedef struct NodoABLivro{ //Arvore binária para manusear livros
+    LIVRO livro;
+    struct NodoABLivro *esquerda;
+    struct NodoABLivro *direita;
+
+}NODOAPB;
+
 typedef struct cliente{
- long int NIF;  //NIF
- char *nome;  //Nome do Cliente
- char *morada;  //Morada do Cliente
- long int telefone; //Número de Telefone do Cliente
+    long int NIF;  //NIF
+    char *nome;  //Nome do Cliente
+    char *morada;  //Morada do Cliente
+    long int telefone; //Número de Telefone do Cliente
+    LC compras;
 
 }CLIENTE;  // estrutura para Clientes
 
-typedef struct NodoCliente{
+typedef struct ListaDeCompras{
+    char *Produto;
+    DATA  datadecompra;
+    int NumeroDeUnidadesCompradas;
+    float PrecoTotal;
+}LC;
+
+typedef struct NodoCliente{  //Lista ligada para manusear clientes, cada Nodo contêm um cliente
  CLIENTE cliente;
  struct NodoCliente* next;
 }NODOCLIENTE;
@@ -43,7 +58,7 @@ typedef struct encomendas{
     float precoTotal;
 }ENCOMENDA;
 
-typedef struct filaEncomendas{
+typedef struct filaEncomendas{  //Fila para manusear encomendas
     ENCOMENDA encomenda;
     struct filaEncomendas *next;
 }FILAENCOMENDAS;
