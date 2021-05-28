@@ -122,7 +122,7 @@ void EquilibrarArvore (NODOABL **T, LIVRO *L, int inicio, int fim) {
     EquilibrarArvore(T, L, medio+1, fim);
 }
 
-NODOABL* InserirABP (NODOABL *T, LIVRO X){  //Utilizar esta função para adicionar novos Livros à ABP balanceada, e depois utilizar a função CriarArvoreBalanceada, para balancear a árvore de novo
+NODOABL* InserirABP (NODOABL *T, LIVRO X){  //Utilizar esta função para adicionar novos Livros à ABP balanceada, e depois utilizar a função CriarArvoreEquilibrada, para balancear a árvore de novo
   if (T == NULL) {
     T = CriarNodoAB(X);
     return T;
@@ -244,10 +244,21 @@ NODOABL* PesquisarISBN (LIVRO X, NODOABL *T) {  //Pesquisar na árvore binário 
   return PesquisarISBN(X, T->Direita);
 }
 
+NODOABL* PesquisarChar (char *X, NODOABL *T) {  //Pesquisar na árvore binário por ISBN
+  NODOABL *P;
+  if (T == NULL)
+    return NULL;
+  if (CompararLivroISBN(X, T->livro) == 0)
+    return T;
+  P = PesquisarISBN(X, T->Esquerda);
+  if (P != NULL)
+    return P;
+  return PesquisarISBN(X, T->Direita);
+}
 
 //Funções Lista Ligada Cliente
 
-NODOCLIENTE* CriarNodo (CLIENTE X){
+NODOCLIENTE* CriarNodoCliente (CLIENTE X){
   NODOCLIENTE *P;
   P = (NODOCLIENTE*) malloc(sizeof(NODOCLIENTE));
   if (P == NULL)
@@ -257,12 +268,12 @@ NODOCLIENTE* CriarNodo (CLIENTE X){
   return P;
 }
 
-void LibertarNodo (NODOCLIENTE* P){
+void LibertarNodoCliente (NODOCLIENTE* P){
   free(P);
   P = NULL;
 }
 
-int Vazia (NODOCLIENTE* L){
+int VaziaCliente (NODOCLIENTE* L){
   if (L == NULL)
     return 1;
   else
@@ -277,9 +288,147 @@ void ListarClienteRec (NODOCLIENTE* L){
   }
 }
 
-void MostrarElementoCliente (CLIENTE X){  //Alterar parâmetros
+void MostrarElementoCliente (CLIENTE X){  //Alterar parâmetros *****POR FAZER***
   printf("%d - ", X.NIF);
   printf("%d - ", X.Telefone);
   printf("%d - ", X.NFatura);
   printf("%f\n",  X.Pagamento);
+}
+
+int PesquisarClienteRec (CLIENTE X, NODOCLIENTE* L){
+  if (L == NULL)
+    return  0;
+  if (CompararCliente(L->cliente, X) == 0)
+    return  1;
+  else
+    return PesquisarClienteRec(X, L->next);
+}
+
+int CompararCliente (CLIENTE X, CLIENTE Y){  // devolve -1 se X < Y, 0 se X = Y, 1 se X > Y Comparar Clientes
+  if (X.NIF > Y.NIF)
+    return 1;
+  if (X.NIF < Y.NIF)
+    return -1;
+  return 0;
+}
+
+NODOCLIENTE* RemoverClienteRec (CLIENTE X, NODOCLIENTE *L, NODOCLIENTE *LAux) {
+  NODOCLIENTE *P;
+  if (CompararCliente(L->cliente, X) == 0){   // X está no início da Lista L
+    P = L;
+    L = L->next;
+    free(P);
+    return  L;
+  }
+  if (CompararCliente(LAux->next->cliente, X) == 0){
+    // X está na lista L, mas não no inicio
+    P = LAux->next;
+    LAux->next = P->next;    // ou LAux->next->next;
+    free(P);
+    return L;
+  }
+  return RemoverClienteRec(X, L, LAux->next);
+}
+
+NODOCLIENTE* InserirFim (CLIENTE X, NODOCLIENTE *L){
+  NODOCLIENTE *P, *PAux;
+  P = CriarNodoCliente(X);
+  if (P == NULL)
+    return L;
+  if (L == NULL)
+    return P;
+  PAux = L;
+  while (PAux->next != NULL)    // marcar o cliente do fim de L
+    PAux = PAux->next;
+  PAux->next = P;
+  return  L;
+}
+
+//Funções Lista Ligada Compras
+
+
+NODOLC* CriarNodoLC (COMPRA X){
+  NODOLC *P;
+  P = (NODOLC*) malloc(sizeof(NODOLC));
+  if (P == NULL)
+    return NULL;
+  P->compra = X;
+  P->next = NULL;
+  return P;
+}
+
+void LibertarNodoLC (NODOLC *P){
+  free(P);
+  P = NULL;
+}
+
+int VaziaLC (NODOLC *L){
+  if (L == NULL)
+    return 1;
+  else
+    return 0;
+}
+
+
+void ListarLCRec (NODOLC *L){
+  if (L != NULL){
+    MostrarLC(L->compra);
+    ListarLCRec(L->next);
+  }
+}
+
+void MostrarLC (COMPRA X){  //Alterar parâmetros *****POR FAZER***
+  printf("%d - ", X.NIF);
+  printf("%d - ", X.Telefone);
+  printf("%d - ", X.NFatura);
+  printf("%f\n",  X.Pagamento);
+}
+
+int PesquisarLCRec (COMPRA X, NODOLC *L){
+  if (L == NULL)
+    return  0;
+  if (CompararCompra(L->compra, X) == 0)
+    return  1;
+  else
+    return PesquisarLCRec(X, L->next);
+}
+
+int CompararCompra (COMPRA X, COMPRA Y){  // devolve -1 se X < Y, 0 se X = Y, 1 se X > Y Comparar compras de cliente
+  if (X.codigo > Y.codigo)
+    return 1;
+  if (X.codigo < Y.codigo)
+    return -1;
+  return 0;
+}
+
+NODOLC* RemoverCompraRec (COMPRA X, NODOLC *L, NODOLC *LAux) {
+  NODOLC *P;
+  if (CompararCompra(L->compra, X) == 0){   // X está no início da Lista L
+    P = L;
+    L = L->next;
+    free(P);
+    return  L;
+  }
+  if (CompararCompra(LAux->next->compra, X) == 0){
+    // X está na lista L, mas não no inicio
+    P = LAux->next;
+    LAux->next = P->next;    // ou LAux->next->next;
+    free(P);
+    return L;
+  }
+  return RemoverCompraRec(X, L, LAux->next);
+}
+
+NODOLC* InserirFimLC (COMPRA X, NODOLC *L){
+  NODOLC *P, *PAux;
+  P = CriarNodoLC(X);
+  if (P == NULL)
+    return L;
+  if (L == NULL)
+    return P;
+  PAux = L;
+  while (PAux->next != NULL)    // marcar a compra do fim de L
+    PAux = PAux->next;
+  PAux->next = P;
+  return  L;
 }
