@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <string.h>
 #include "estruturas.h"
 
 char *getCharDinamicamente()  //Para não haver desperdícios de memória, utilizamos esta função para alocar apenas a memória necessária em cada array de chars
@@ -145,7 +147,7 @@ NODOABL* CriarNodoAB(LIVRO X){
 }
 
 
-int CompararLivroISBN (LIVRO X, LIVRO Y){  // devolve -1 se X < Y, 0 se X = Y, 1 se X > Y Comparar com ISGN
+int CompararLivroISBN (LIVRO X, LIVRO Y){  // devolve -1 se X < Y, 0 se X = Y, 1 se X > Y ***COMPARAR LIVRO COM ISBN***
   if (X.ISBN > Y.ISBN)
     return 1;
   if (X.ISBN < Y.ISBN)
@@ -230,7 +232,7 @@ NODOABL* SubstituirNodoEsquerda (NODOABL *T, INFO *X){
   return T;
 }
 
-//
+//Funções para pesquisar e listar elementos específicos na árvore
 
 NODOABL* PesquisarABISBN (LIVRO X, NODOABL *T) {  //Pesquisar na árvore binária de Pesquisa por ISBN
  NODOABL *P;
@@ -238,23 +240,27 @@ NODOABL* PesquisarABISBN (LIVRO X, NODOABL *T) {  //Pesquisar na árvore binári
     return 0;
   if (CompararLivroISBN(X, T->livro) == 0)
     return 1;
-  if (CompararElementos(X, T->livro) == -1)   // X.ISB < (T->livro).ISBN)
+  if (CompararLivroISBN(X, T->livro) == -1)   // X.ISB < (T->livro).ISBN)
     return PesquisarABISBN(T->Esquerda, X);
   else
     return PesquisarABISBN(T->Direita, X);
 }
 
-NODOABL* PesquisarChar (char *X, NODOABL *T) {  //Pesquisar na árvore binário por ISBN
-  NODOABL *P;
-  if (T == NULL)
-    return NULL;
-  if (CompararLivroISBN(X, T->livro) == 0)
-    return T;
-  P = PesquisarISBN(X, T->Esquerda);
-  if (P != NULL)
-    return P;
-  return PesquisarISBN(X, T->Direita);
+void ListarLivroTitulo (char *X, NODOABL *T) {  //Lista Livros que contêm a frase pedida, no título
+  if (T != NULL) {
+    ListarLivroTitulo(X,T->Esquerda);
+    if(contemChar(T->livro.titulo,X)==0) MostrarLivro(T->livro);
+    ListarLivroTitulo(X,T->Direita);
+  }
 }
+
+int contemChar (char *X, char *Y){  // devolve 0 se string Y está contida algures na string X. Verifica se string contêm substring
+    char *c = strstr(X, Y);
+    if(c!=NULL) return 0;
+    return 1;
+
+}
+
 
 void MostrarLivro(LIVRO X){
     printf("ISBN - %d |", X.ISBN);
@@ -269,7 +275,7 @@ void MostrarLivro(LIVRO X){
     printf("Stock - %d |", X.stock);
     return X;
 }
-}
+
 
 //Funções Lista Ligada Cliente
 
