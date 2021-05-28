@@ -77,7 +77,7 @@ LIVRO NovoLivro(){
 
 
 //Funcões para criar uma árvore binária balanceada
-NODOABL CriarArvoreEquilibrada (NODOABL *T) {//Algoritmo dado nas aulas para criar árvore binária equilibrada
+NODOABL* CriarArvoreEquilibrada (NODOABL *T) {//Algoritmo dado nas aulas para criar árvore binária equilibrada
     LIVRO *Lista;
     int N = 0, Num;
     Num = NumeroNodosAB(T);
@@ -122,7 +122,7 @@ void EquilibrarArvore (NODOABL **T, LIVRO *L, int inicio, int fim) {
     EquilibrarArvore(T, L, medio+1, fim);
 }
 
-NODOABL InserirABP (NODOABL *T, LIVRO X){
+NODOABL* InserirABP (NODOABL *T, LIVRO X){  //Utilizar esta função para adicionar novos Livros à ABP balanceada, e depois utilizar a função CriarArvoreBalanceada, para balancear a árvore de novo
   if (T == NULL) {
     T = CriarNodoAB(X);
     return T;
@@ -134,7 +134,7 @@ NODOABL InserirABP (NODOABL *T, LIVRO X){
   return T;
 }
 
-NODOABL CriarNodoAB(LIVRO X){
+NODOABL* CriarNodoAB(LIVRO X){
   NODOABL *P = (NODOABL*) malloc(sizeof(NODOABL));
   if (P == NULL)
     return  NULL;
@@ -148,7 +148,84 @@ NODOABL CriarNodoAB(LIVRO X){
 int CompararElementosLivro (LIVRO X, LIVRO Y){  // devolve -1 se X < Y, 0 se X = Y, 1 se X > Y
   if (X.ISBN > Y.ISBN)
     return 1;
-  if (X.NIF < Y.NIF)
+  if (X.ISBN < Y.ISBN)
     return -1;
   return 0;
+}
+
+
+//Funçoes para remover um elemento da árvore(Não esquecer de equilibrar com a funçao CriarArvoreEquilibrada no fim de cada remoção)
+
+NODOABL* RemoverABP (NODOABL *T, LIVRO X) {
+  if (CompararElementos(X, T->livro) == 0) {
+    T = RemoverNodoABP(T);
+    return T;
+  }
+  if (CompararElementos(X, T->livro) == -1)
+    T->Esquerda = RemoverABP(T->Esquerda, X);
+  else
+    T->Direita = RemoverABP(T->Direita, X);
+  return T;
+}
+
+
+NODOABL* RemoverNodoABP (NODOABL* T){
+  NODOABL *R;
+  LIVRO X;
+  if (T->Esquerda == NULL && T->Direita == NULL) {   // T é uma folha
+    T = LibertarNodoAB(T);
+    return T;
+  }
+  if (T->Esquerda == NULL) {   //  só um filho direito
+    R = T;
+    T = T->Direita;
+    R = LibertarNodoAB(R);
+    return T;
+  }
+  if (T->Direita == NULL) {     // só um filho esquerdo
+    R = T;
+    T = T->Esquerda;
+    R = LibertarNodoAB(R);
+    return T;
+  }
+  // 2 filhos (1º caso): remover o nodo sucessor (nodo mais à esquerda da subárvore direita) e copiar a sua informação
+  T->Direita = SubstituirNodoDireita(T->Direita, &X);
+  // 2 filhos (2º caso): remover o nodo antecessor (nodo mais à direita da subárvore esquerda) e copiar a sua informação
+  //  T->Esquerda = SubstituirNodoEsquerda(T->Esquerda, &X);  // 2º caso
+  T->livro = X;
+  return T;
+}
+
+NODOABL* LibertarNodoAB(NODOABL *P){
+  P->Esquerda = NULL;
+  P->Direita = NULL;
+  free(P);
+  P = NULL;
+  return P;
+}
+
+NODOABL* SubstituirNodoDireita (NODOABL *T, LIVRO *X){
+  NODOABL  *PAux;
+  if (T->Esquerda == NULL) {
+    *X = T->livro;
+    PAux = T;
+    T = T->Direita;
+    PAux = LibertarNodoAB(PAux);
+    return T;
+  }
+  T->Esquerda = SubstituirNodoDireita(T->Esquerda, X);
+  return T;
+}
+
+NODOABL* SubstituirNodoEsquerda (NODOABL *T, INFO *X){
+  NODOABL  *PAux;
+  if (T->Direita == NULL) {
+    *X = T->livro;
+    PAux = T;
+    T = T->Esquerda;
+    PAux = LibertarNodoAB(PAux);
+    return  T;
+  }
+  T->Direita = SubstituirNodoEsquerda(T->Direita, X);
+  return T;
 }
