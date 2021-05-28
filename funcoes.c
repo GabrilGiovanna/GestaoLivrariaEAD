@@ -254,6 +254,44 @@ void ListarLivroTitulo (char *X, NODOABL *T) {  //Lista Livros que contêm a fra
   }
 }
 
+void ListarLivroAutor (char *X, NODOABL *T) {  //Lista Livros que contêm a frase pedida, no Autor
+  if (T != NULL) {
+    ListarLivroAutor(X,T->Esquerda);
+    if(contemChar(T->livro.primeiroAutor,X)==0) MostrarLivro(T->livro);
+    ListarLivroAutor(X,T->Direita);
+  }
+}
+
+void ListarLivroEditora (char *X, NODOABL *T) {  //Lista Livros que contêm a frase pedida, na Editora
+  if (T != NULL) {
+    ListarLivroEditora(X,T->Esquerda);
+    if(contemChar(T->livro.editora,X)==0) MostrarLivro(T->livro);
+    ListarLivroEditora(X,T->Direita);
+  }
+}
+
+void ListarLivroAC (char *X, NODOABL *T) {  //Lista Livros que contêm a frase pedida, na Área Cientifica
+  if (T != NULL) {
+    ListarLivroAC(X,T->Esquerda);
+    if(contemChar(T->livro.areacientifica,X)==0) MostrarLivro(T->livro);
+    ListarLivroAC(X,T->Direita);
+  }
+}
+
+void ListarLivroAno (int X, NODOABL *T) {  //Lista Livros que foram publicados no ano X
+  if (T != NULL) {
+    ListarLivroAno(X,T->Esquerda);
+    if(verificaAno(T->livro.ano,X)==0) MostrarLivro(T->livro);
+    ListarLivroChar(X,T->Direita);
+  }
+}
+
+
+int verificaAno (int x, int y){  // devolve 0 se string Y está contida algures na string X. Verifica se string contêm substring
+    if(x==y) return 0;
+    return 1;
+}
+
 int contemChar (char *X, char *Y){  // devolve 0 se string Y está contida algures na string X. Verifica se string contêm substring
     char *c = strstr(X, Y);
     if(c!=NULL) return 0;
@@ -452,4 +490,54 @@ NODOLC* InserirFimLC (COMPRA X, NODOLC *L){
     PAux = PAux->next;
   PAux->next = P;
   return  L;
+}
+
+
+//Funções Filas
+
+FILAENCOMENDAS* CriarNodoFila (ENCOMENDA X){
+  FILAENCOMENDAS *P;
+  P = (FILAENCOMENDAS*) malloc(sizeof(FILAENCOMENDAS));
+  if (P == NULL)
+    return NULL;
+  P->encomenda = X;
+  P->next = NULL;
+  return P;
+}
+
+FILAENCOMENDAS* LibertarNodoFila (FILAENCOMENDAS *P){
+  free(P);
+  P = NULL;
+  return P;
+}
+
+int FilaVazia (FILAENCOMENDAS *Fila){
+  if (Fila == NULL)
+    return 1;
+  else
+    return 0;
+}
+
+FILAENCOMENDAS* Juntar (ENCOMENDA X, FILAENCOMENDAS *Fila){
+  FILAENCOMENDAS *Novo, *PAnt;
+  Novo = CriarNodoFila(X);
+  if (Novo == NULL)
+    return Fila;
+  if (FilaVazia(Fila)){
+    Fila = Novo;
+    return Fila;
+  }
+  PAnt = Fila;
+  while(PAnt->next != NULL)
+    PAnt = PAnt->next;
+  PAnt->next = Novo;
+  return Fila;
+}
+
+FILAENCOMENDAS* Remover (FILAENCOMENDAS *Fila){
+  FILAENCOMENDAS *P;
+  P = Fila;
+  Fila = Fila->next;
+  P = LibertarNodoFila(P);
+  return Fila;
 }
