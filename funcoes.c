@@ -232,16 +232,16 @@ NODOABL* SubstituirNodoEsquerda (NODOABL *T, INFO *X){
 
 //
 
-NODOABL* PesquisarISBN (LIVRO X, NODOABL *T) {  //Pesquisar na árvore binário por ISBN
-  NODOABL *P;
+NODOABL* PesquisarABISBN (LIVRO X, NODOABL *T) {  //Pesquisar na árvore binária de Pesquisa por ISBN
+ NODOABL *P;
   if (T == NULL)
-    return NULL;
+    return 0;
   if (CompararLivroISBN(X, T->livro) == 0)
-    return T;
-  P = PesquisarISBN(X, T->Esquerda);
-  if (P != NULL)
-    return P;
-  return PesquisarISBN(X, T->Direita);
+    return 1;
+  if (CompararElementos(X, T->livro) == -1)   // X.ISB < (T->livro).ISBN)
+    return PesquisarABISBN(T->Esquerda, X);
+  else
+    return PesquisarABISBN(T->Direita, X);
 }
 
 NODOABL* PesquisarChar (char *X, NODOABL *T) {  //Pesquisar na árvore binário por ISBN
@@ -254,6 +254,21 @@ NODOABL* PesquisarChar (char *X, NODOABL *T) {  //Pesquisar na árvore binário 
   if (P != NULL)
     return P;
   return PesquisarISBN(X, T->Direita);
+}
+
+void MostrarLivro(LIVRO X){
+    printf("ISBN - %d |", X.ISBN);
+    printf("Título - %d |", X.titulo);
+    printf("Idioma - %d |", X.idioma);
+    printf("Primeiro autor - %d |", X.primeiroAutor);
+    printf("Segundo autor - %d |", X.segundoAutor);
+    printf("Editora - %d |", X.editora);
+    printf("Ano - %d |", X.ano);
+    printf("Área científica - %d |", X.areacientifica);
+    printf("Preço - %d |", X.preco);
+    printf("Stock - %d |", X.stock);
+    return X;
+}
 }
 
 //Funções Lista Ligada Cliente
