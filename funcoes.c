@@ -243,3 +243,43 @@ NODOABL* PesquisarISBN (LIVRO X, NODOABL *T) {  //Pesquisar na árvore binário 
     return P;
   return PesquisarISBN(X, T->Direita);
 }
+
+
+//Funções Lista Ligada Cliente
+
+NODOCLIENTE* CriarNodo (CLIENTE X){
+  NODOCLIENTE *P;
+  P = (NODOCLIENTE*) malloc(sizeof(NODOCLIENTE));
+  if (P == NULL)
+    return NULL;
+  P->cliente = X;
+  P->next = NULL;
+  return P;
+}
+
+void LibertarNodo (NODOCLIENTE* P){
+  free(P);
+  P = NULL;
+}
+
+int Vazia (NODOCLIENTE* L){
+  if (L == NULL)
+    return 1;
+  else
+    return 0;
+}
+
+
+void ListarClienteRec (NODOCLIENTE* L){
+  if (L != NULL){
+    MostrarElementoCliente(L->cliente);
+    ListarClienteRec(L->Prox);
+  }
+}
+
+void MostrarElementoCliente (CLIENTE X){  //Alterar parâmetros
+  printf("%d - ", X.NIF);
+  printf("%d - ", X.Telefone);
+  printf("%d - ", X.NFatura);
+  printf("%f\n",  X.Pagamento);
+}

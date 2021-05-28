@@ -34,6 +34,7 @@ typedef struct Compra{  //Lista Ligada para lista de compras
     DATA  datadecompra;
     int NumeroDeUnidadesCompradas;
     float PrecoTotal;
+    int codigo;
 }COMPRA;
 
 typedef struct NodoLC{  //Lista ligada para manusear clientes, cada Nodo contêm um cliente
