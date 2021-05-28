@@ -127,7 +127,7 @@ NODOABL* InserirABP (NODOABL *T, LIVRO X){  //Utilizar esta função para adicio
     T = CriarNodoAB(X);
     return T;
   }
-  if (CompararElementosLivro(X, T->livro) == -1)
+  if (CompararLivroISBN(X, T->livro) == -1)
     T->Esquerda = InserirABP(T->Esquerda, X);
   else
     T->Direita = InserirABP(T->Direita, X);
@@ -145,7 +145,7 @@ NODOABL* CriarNodoAB(LIVRO X){
 }
 
 
-int CompararElementosLivro (LIVRO X, LIVRO Y){  // devolve -1 se X < Y, 0 se X = Y, 1 se X > Y
+int CompararLivroISBN (LIVRO X, LIVRO Y){  // devolve -1 se X < Y, 0 se X = Y, 1 se X > Y Comparar com ISGN
   if (X.ISBN > Y.ISBN)
     return 1;
   if (X.ISBN < Y.ISBN)
@@ -157,11 +157,11 @@ int CompararElementosLivro (LIVRO X, LIVRO Y){  // devolve -1 se X < Y, 0 se X =
 //Funçoes para remover um elemento da árvore(Não esquecer de equilibrar com a funçao CriarArvoreEquilibrada no fim de cada remoção)
 
 NODOABL* RemoverABP (NODOABL *T, LIVRO X) {
-  if (CompararElementos(X, T->livro) == 0) {
+  if (CompararLivroISBN(X, T->livro) == 0) {
     T = RemoverNodoABP(T);
     return T;
   }
-  if (CompararElementos(X, T->livro) == -1)
+  if (CompararLivroISBN(X, T->livro) == -1)
     T->Esquerda = RemoverABP(T->Esquerda, X);
   else
     T->Direita = RemoverABP(T->Direita, X);
@@ -228,4 +228,18 @@ NODOABL* SubstituirNodoEsquerda (NODOABL *T, INFO *X){
   }
   T->Direita = SubstituirNodoEsquerda(T->Direita, X);
   return T;
+}
+
+//
+
+NODOABL* PesquisarISBN (LIVRO X, NODOABL *T) {  //Pesquisar na árvore binário por ISBN
+  NODOABL *P;
+  if (T == NULL)
+    return NULL;
+  if (CompararLivroISBN(X, T->livro) == 0)
+    return T;
+  P = PesquisarISBN(X, T->Esquerda);
+  if (P != NULL)
+    return P;
+  return PesquisarISBN(X, T->Direita);
 }

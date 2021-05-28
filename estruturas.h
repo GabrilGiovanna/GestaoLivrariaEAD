@@ -70,7 +70,7 @@ typedef struct filaEncomendas{  //Fila para manusear encomendas
 }FILAENCOMENDAS;
 
 
-//Funções utilizadas
+//Protótipo das Funções utilizadas no programa inteiro
 char *getCharDinamicamente();
 CLIENTE NovoCliente();
 LIVRO NovoLivro();
