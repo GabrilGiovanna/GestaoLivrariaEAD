@@ -403,6 +403,32 @@ NODOCLIENTE* InserirFim (CLIENTE X, NODOCLIENTE *L){
   return  L;
 }
 
+NODOCLIENTE* RemoverCliente (CLIENTE X, NODOCLIENTE* L){
+  NODOCLIENTE *P, *PAnt;
+  PAnt = ProcurarAnteriorCliente(X, L);
+  if (PAnt == NULL){   // remover elemento do início de L
+    P = L;
+    L = L->next;
+  }
+  else{
+    P = PAnt->next;
+    PAnt->next = P->next; // ou (PAnt->Prox)->Prox
+  }
+  LibertarNodoCliente(P);
+  return  L;
+}
+
+NODOCLIENTE* ProcurarAnteriorCliente (CLIENTE X, NODOCLIENTE* L){
+  NODOCLIENTE  *Ant = NULL;
+  while (L != NULL && CompararCliente(L->cliente, X) != 0){
+    Ant = L;
+    L = L->next;
+  }
+  return Ant;
+}
+
+
+
 //Funções Lista Ligada Compras
 
 
@@ -492,6 +518,29 @@ NODOLC* InserirFimLC (COMPRA X, NODOLC *L){
   return  L;
 }
 
+NODOCLC* RemoverCompra (COMPRA X, NODOLC* L){
+  NODOLC *P, *PAnt;
+  PAnt = ProcurarAnteriorLC(X, L);
+  if (PAnt == NULL){   // remover elemento do início de L
+    P = L;
+    L = L->next;
+  }
+  else{
+    P = PAnt->next;
+    PAnt->next = P->next; // ou (PAnt->Prox)->Prox
+  }
+  LibertarNodoLC(P);
+  return  L;
+}
+
+NODOLC* ProcurarAnteriorLC (COMPRA X, NODOLC* L){
+  NODOLC  *Ant = NULL;
+  while (L != NULL && CompararCompra(L->compra, X) != 0){
+    Ant = L;
+    L = L->next;
+  }
+  return Ant;
+}
 
 //Funções Filas
 
@@ -534,10 +583,49 @@ FILAENCOMENDAS* Juntar (ENCOMENDA X, FILAENCOMENDAS *Fila){
   return Fila;
 }
 
-FILAENCOMENDAS* Remover (FILAENCOMENDAS *Fila){
+FILAENCOMENDAS* RemoverFila (FILAENCOMENDAS *Fila){
   FILAENCOMENDAS *P;
   P = Fila;
   Fila = Fila->next;
   P = LibertarNodoFila(P);
   return Fila;
+}
+
+//Funções para destruir Estruturas
+
+
+
+NODOABL* DestruirAB(NODOABL *T){
+  if (T == NULL)
+    return NULL;
+  T->Esquerda = DestruirAB(T->Esquerda);
+  T->Direita = DestruirAB(T->Direita);
+  return LibertarNodoAB(T);
+}
+
+NODOCLIENTE* DestruirListaClientes(NODOCLIENTE *L){
+    if(L==NULL) return NULL;
+    while(L!=NULL){
+        L=RemoverCliente(L->cliente,L);
+        L=L->next;
+    }
+    return L;
+}
+
+NODOLC* DestruirListaCompras(NODOLC *L){
+    if(L==NULL) return NULL;
+    while(L!=NULL){
+        L=RemoverCompra(L->compra,L);
+        L=L->next;
+    }
+    return L;
+}
+
+FILAENCOMENDAS* DestruirFila(FILAENCOMENDAS *L){
+    if(L==NULL) return NULL;
+    while(L!=NULL){
+        L=RemoverFila(L->encomenda,L);
+        L=L->next;
+    }
+    return L;
 }

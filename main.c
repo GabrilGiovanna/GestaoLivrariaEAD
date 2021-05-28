@@ -9,9 +9,18 @@ main(){
 
 livro=NovoLivro(); */
 
+NODOABL *livros;
+NODOCLIENTE *clientes;
+NODOLC *listadecompras;
+FILAENCOMENDAS *encomendas;
+
+
 int x=0;
 
 while(x!=6){
+
+
+
 printf("-------Gestão de uma Livraria-------\n");
 
 printf("Pretende ir para que secção?\n");
@@ -36,7 +45,10 @@ switch(x){  //Primeiro Switch para escolher a secção
         int x1=0;
         scanf("%d",&x1);
         switch(x1){  //Switch para escolher o que fazer com ficheiros
-            case 1: break;
+            case 1:
+                livros=CriarArvoreEquilibrada(livros);
+
+                break;
             case 2: break;
             case 3: break;
             case 4: break;
