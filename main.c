@@ -44,10 +44,13 @@ switch(x){  //Primeiro Switch para escolher a secção
         printf("4.Sair\n");
         int x1=0;
         scanf("%d",&x1);
+        getchar();
         switch(x1){  //Switch para escolher o que fazer com ficheiros
-            case 1:
-                livros=CriarArvoreEquilibrada(livros);
-
+            case 1:  //Nova ED. Destrói as ED's de momento, e tornam-se nulas
+                livros=DestruirAB(livros);
+                clientes=DestruirListaClientes(clientes);
+                listadecompras=DestruirListaCompras(listadecompras);
+                encomendas=DestruirFila(encomendas);
                 break;
             case 2: break;
             case 3: break;
@@ -67,10 +70,51 @@ switch(x){  //Primeiro Switch para escolher a secção
         printf("8.Consultar por Área Ciêntifica\n");
         int x2=0;
         scanf("%d",&x2);
+        getchar();
         switch(x2){  //Switch para escolher o que fazer com livros
-            case 1: break;
-            case 2: break;
-            case 3: break;
+            case 1:  //Inserir novo livro na Árvore Binária
+                LIVRO X=NovoLivro();
+                livros=InserirABP(livros,x); //insere novo livro na Árvore de Pesquisa
+                livros=CriarArvoreEquilibrada(livros); //Equilibra a árvore
+
+                 break;
+            case 2:  //Remover dado um ISBN
+                printf("Digite o ISBN do livro que pretende remover\n");
+                int isbn;
+                scanf("%d",&isbn);
+                getchar();
+                LIVRO r=PesquisarporISBN(isbn,livros);
+                if(r!=NULL) livros=RemoverABP(livros,r);
+                else printf("Não existe o livro com o dado ISBN\n");
+
+                 break;
+            case 3:
+                printf("Digite o ISBN do livro que pretende alterar\n");
+                int isbn;
+                scanf("%d",&isbn);
+                getchar();
+                LIVRO r=PesquisarporISBN(isbn,livros);
+                if(r!=NULL){
+                    printf("O que pretende alterar no livro?\n");
+                    printf("1-Título\n");
+                    printf("2-Idioma\n");
+                    printf("3-Primeiro Autor\n");
+                    printf("4-Segundo Autor\n");
+                    printf("5-Editora\n");
+                    printf("6-Ano de Publicação\n");
+                    printf("7-Área científica\n");
+                    printf("8-Preço\n");
+                    printf("9-Quantidade em stock\n");
+                    int alt;
+                    scanf("%d",&alt);
+                    getchar();
+                    r=AlterarLivro(r,alt);  //Função para alterar o parâmetro do livro que foi escolhido anteriormente
+                    printf("Alteração efetuada\n");
+
+                }
+                else printf("Não existe o livro com o dado ISBN\n");
+
+                 break;
             case 4: break;
             case 5: break;
             case 6: break;
@@ -88,6 +132,7 @@ switch(x){  //Primeiro Switch para escolher a secção
         printf("6.Consultar por Morada\n");
         int x3=0;
         scanf("%d",&x3);
+        getchar();
         switch(x3){  //Switch para escolher o que fazer com Clientes
             case 1: break;
             case 2: break;
@@ -105,6 +150,7 @@ switch(x){  //Primeiro Switch para escolher a secção
         printf("2.Remover\n");
         int x4=0;
         scanf("%d",&x4);
+        getchar();
         switch(x4){  //Switch para escolher o que fazer com Encomendas
             case 1: break;
             case 2: break;
@@ -125,6 +171,7 @@ switch(x){  //Primeiro Switch para escolher a secção
         printf("11.Determinar o desperdício de memória (no caso em que por exemplo numlivro, no campo TITULO tenham char TITULO[100], se os TITULOS forem mais pequeno existe muito desperdício.\n");
         int x5=0;
         scanf("%d",&x5);
+        getchar();
         switch(x5){  //Switch para escolher o que fazer com Clientes
             case 1: break;
             case 2: break;

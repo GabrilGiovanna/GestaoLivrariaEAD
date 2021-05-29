@@ -34,6 +34,8 @@ char *getCharDinamicamente()  //Para não haver desperdícios de memória, utili
     return string;
 }
 
+//Funcões para inserir novos dados
+
 CLIENTE NovoCliente(){   //criar novo cliente
   CLIENTE c;
   printf("Digite o NIF do novo cliente:\n");
@@ -74,6 +76,62 @@ LIVRO NovoLivro(){
     scanf("%d",l.stock);
 
     return l;
+
+}
+
+LIVRO AlterarLivro(LIVRO X,int x){  //Função para alterar o parâmetro do livro que o utilizador pretende
+
+    switch(x){
+
+    case 1:
+        printf("Digite o Título que pretende que o livro tenha\n");
+        X.titulo=getCharDinamicamente();
+         break;
+    case 2:
+        printf("Digite o idioma do livro\n");
+        X.idioma=getCharDinamicamente();
+
+         break;
+    case 3:
+        printf("Digite o nome do primeiro autor do livro\n");
+        X.primeiroAutor=getCharDinamicamente();
+         break;
+    case 4:
+        printf("Digite o nome do segundo autor do livro\n");
+        X.segundoAutor=getCharDinamicamente();
+        break;
+    case 5:
+        printf("Digite o nome da editora do livro\n");
+        X.editora=getCharDinamicamente();
+        break;
+    case 6:
+        printf("Digite o ano do livro\n");
+        int ano;
+        scanf("%d",&ano);
+        getchar();
+        X.ano=ano;
+         break;
+    case 7:
+        printf("Digite a área científica do livro\n");
+        X.areacientifica=getCharDinamicamente();
+        break;
+    case 8:
+        printf("Digite o preço do livro\n");
+        float preco;
+        scanf("%f",&preco);
+        getchar();
+        X.preco=preco;
+        break;
+    case 9:
+        printf("Digite o stock do livro\n");
+        int stock;
+        scanf("%d",&stock);
+        getchar();
+        X.stock=stock;
+        break;
+
+
+    }
 
 }
 
@@ -234,16 +292,36 @@ NODOABL* SubstituirNodoEsquerda (NODOABL *T, INFO *X){
 
 //Funções para pesquisar e listar elementos específicos na árvore
 
-NODOABL* PesquisarABISBN (LIVRO X, NODOABL *T) {  //Pesquisar na árvore binária de Pesquisa por ISBN
+NODOABL* PesquisarABP (NODOABL *T, LIVRO X) {  //Pesquisar na árvore binária de Pesquisa por livro ****VERIFICAR SE FUNÇÃO VAI SER USADA/ESTÁ CERTA
  NODOABL *P;
   if (T == NULL)
     return 0;
   if (CompararLivroISBN(X, T->livro) == 0)
     return 1;
   if (CompararLivroISBN(X, T->livro) == -1)   // X.ISB < (T->livro).ISBN)
-    return PesquisarABISBN(T->Esquerda, X);
+    return PesquisarABP(T->Esquerda, X);
   else
-    return PesquisarABISBN(T->Direita, X);
+    return PesquisarABP(T->Direita, X);
+}
+
+LIVRO PesquisarporISBN (int X, NODOABL *T) {  //Pesquisar na árvore binária de Pesquisa por ISBN
+ NODOABL *P;  //Porquê?
+  if (T == NULL)
+    return NULL;
+  if (CompararLivroISBN2(X, T->livro.ISBN) == 0)
+    return T->livro;
+  if (CompararLivroISBN2(X, T->livro.ISBN) == -1)   // X.ISB < (T->livro).ISBN)
+    return PesquisarporISBN(X, T->Esquerda);
+  else
+    return PesquisarporISBN(X, T->Direita);
+}
+
+int CompararLivroISBN2 (int x, int y){  // devolve -1 se X < Y, 0 se X = Y, 1 se X > Y ***USAR NA FUNÇAO PESQUISAR POR ISBN ***
+  if (x> y)
+    return 1;
+  if (x < y)
+    return -1;
+  return 0;
 }
 
 void ListarLivroTitulo (char *X, NODOABL *T) {  //Lista Livros que contêm a frase pedida, no título
