@@ -275,7 +275,7 @@ PNodoABL SubstituirNodoDireita (PNodoABL T, LIVRO *X){
   return T;
 }
 
-PNodoABL SubstituirNodoEsquerda (PNodoABL T, INFO *X){
+PNodoABL SubstituirNodoEsquerda (PNodoABL T, LIVRO *X){
   PNodoABL PAux;
   if (T->Direita == NULL) {
     *X = T->livro;
@@ -290,7 +290,7 @@ PNodoABL SubstituirNodoEsquerda (PNodoABL T, INFO *X){
 
 //Funções para pesquisar e listar elementos específicos na árvore
 
-PNodoABL PesquisarABP (PNodoABL T, LIVRO X) {  //Pesquisar na árvore binária de Pesquisa por livro ****VERIFICAR SE FUNÇÃO VAI SER USADA/ESTÁ CERTA
+int PesquisarABP (PNodoABL T, LIVRO X) {  //Pesquisar na árvore binária de Pesquisa por livro ****VERIFICAR SE FUNÇÃO VAI SER USADA/ESTÁ CERTA
  PNodoABL P;
   if (T == NULL)
     return 0;
@@ -358,7 +358,7 @@ void ListarLivroAno (int X, PNodoABL T) {  //Lista Livros que foram publicados n
   if (T != NULL) {
     ListarLivroAno(X,T->Esquerda);
     if(verificaAno(T->livro.ano,X)==0) MostrarLivro(T->livro);
-    ListarLivroChar(X,T->Direita);
+    ListarLivroAno(X,T->Direita);
   }
 }
 
@@ -425,9 +425,8 @@ void ListarClienteRec (PNodoCliente L){
 
 void MostrarElementoCliente (CLIENTE X){  //Alterar parâmetros *****POR FAZER***
   printf("%d - ", X.NIF);
-  printf("%d - ", X.Telefone);
-  printf("%d - ", X.NFatura);
-  printf("%f\n",  X.Pagamento);
+  printf("%d - ", X.morada);
+  printf("%d - ", X.nome);
 }
 
 int PesquisarClienteRec (CLIENTE X, PNodoCliente L){
@@ -539,11 +538,9 @@ void ListarLCRec (PNodoLC L){
 }
 
 void MostrarLC (COMPRA X){  //Alterar parâmetros *****POR FAZER***
-  printf("%d - ", X.NIF);
-  printf("%d - ", X.Telefone);
-  printf("%d - ", X.NFatura);
-  printf("%f\n",  X.Pagamento);
-}
+  printf("%d - ", X.codigo);
+  printf("%d - ", X.NumeroDeUnidadesCompradas);
+} 
 
 int PesquisarLCRec (COMPRA X, PNodoLC L){
   if (L == NULL)
@@ -699,9 +696,7 @@ PNodoLC DestruirListaCompras(PNodoLC L){
 
 PNodoFilaEncomendas DestruirFila(PNodoFilaEncomendas L){
     if(L==NULL) return NULL;
-    while(L!=NULL){
-        L=RemoverFila(L->encomenda,L);
-        L=L->next;
-    }
+    while(L!=NULL) L=RemoverFila(L);
+    
     return L;
 }

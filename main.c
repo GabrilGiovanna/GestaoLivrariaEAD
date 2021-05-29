@@ -1,7 +1,7 @@
-#include "estruturas.h"
+#include "estruturas.c"
 
 
-main(){
+int main(){
 
 /*LIVRO livro;
 
@@ -111,7 +111,7 @@ switch(x){  //Primeiro Switch para escolher a secção
                     int alt;
                     scanf("%d",&alt);
                     getchar();
-                    aux->livro=AlterarLivro(aux->livro,alt);  //Função para alterar o parâmetro do livro que foi escolhido anteriormente
+                    aux->livro=AlterarLivro(aux->livro,alt);//AlterarLivro(aux->livro,alt);  //Função para alterar o parâmetro do livro que foi escolhido anteriormente
                     printf("Alteração efetuada\n");
 
                 }
@@ -237,4 +237,5 @@ switch(x){  //Primeiro Switch para escolher a secção
 }//Acaba o Switch principal
 
 }  //Acaba o While do Menu
+return 0;
 }  //Acaba o Main
