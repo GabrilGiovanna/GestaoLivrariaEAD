@@ -28,7 +28,8 @@ typedef struct NodoABLivro{ //Arvore binária para manusear livros
     struct NodoABLivro *Esquerda;
     struct NodoABLivro *Direita;
 
-}NODOABL;
+};
+typedef struct NodoABLivro *PNodoABL;
 
 typedef struct Compra{  //Lista Ligada para lista de compras
     char *Produto;
@@ -41,14 +42,15 @@ typedef struct Compra{  //Lista Ligada para lista de compras
 typedef struct NodoLC{  //Lista ligada para manusear clientes, cada Nodo contêm um cliente
  COMPRA compra;
  struct NodoLC* next;
-}NODOLC;
+};
+typedef struct Nodo *PNodoLC;
 
 typedef struct cliente{
     long int NIF;  //NIF
     char *nome;  //Nome do Cliente
     char *morada;  //Morada do Cliente
     long int telefone; //Número de Telefone do Cliente
-    NODOLC compras;
+    PNodoLC compras;
 
 }CLIENTE;  // estrutura para Clientes
 
@@ -56,7 +58,8 @@ typedef struct cliente{
 typedef struct NodoCliente{  //Lista ligada para manusear clientes, cada Nodo contêm um cliente
  CLIENTE cliente;
  struct NodoCliente* next;
-}NODOCLIENTE;
+};
+typedef struct Nodo *PNodoCliente;
 
 typedef struct encomendas{
     int ISBN;  //código do livro
@@ -69,17 +72,18 @@ typedef struct encomendas{
 typedef struct filaEncomendas{  //Fila para manusear encomendas
     ENCOMENDA encomenda;
     struct filaEncomendas *next;
-}FILAENCOMENDAS;
+};
+typedef struct NodoFila *PNodoFilaEncomendas;
 
 
 //Protótipo das Funções utilizadas no programa inteiro
 char *getCharDinamicamente();
 CLIENTE NovoCliente();
 LIVRO NovoLivro();
-NODOABL CriarArvoreEquilibrada (NODOABL *T);
-int NumeroNodosAB (NODOABL *T);
-void CriarSequenciaEmOrdem (NODOABL *T, LIVRO *L, int *N);
-void EquilibrarArvore (NODOABL **T, LIVRO *L, int inicio, int fim);
-NODOABL InserirABP (NODOABL *T, LIVRO X);
-NODOABL CriarNodoAB(LIVRO X);
+PNodoABL CriarArvoreEquilibrada (PNodoABL T);
+int NumeroNodosAB (PNodoABL T);
+void CriarSequenciaEmOrdem (PNodoABL T, LIVRO *L, int *N);
+void EquilibrarArvore (PNodoABL *T, LIVRO *L, int inicio, int fim);
+PNodoABL InserirABP (PNodoABL T, LIVRO X);
+PNodoABL CriarNodoAB(LIVRO X);
 int CompararElementosLivro (LIVRO X, LIVRO Y);

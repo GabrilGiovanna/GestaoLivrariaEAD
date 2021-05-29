@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <string.h>
 #include "estruturas.h"
 
 char *getCharDinamicamente()  //Para não haver desperdícios de memória, utilizamos esta função para alocar apenas a memória necessária em cada array de chars
@@ -79,65 +77,65 @@ LIVRO NovoLivro(){
 
 }
 
-LIVRO AlterarLivro(LIVRO X,int x){  //Função para alterar o parâmetro do livro que o utilizador pretende
+LIVRO AlterarLivro(LIVRO L,int x){  //Função para alterar o parâmetro do livro que o utilizador pretende
 
     switch(x){
 
     case 1:
         printf("Digite o Título que pretende que o livro tenha\n");
-        X.titulo=getCharDinamicamente();
+        L.titulo=getCharDinamicamente();
          break;
     case 2:
         printf("Digite o idioma do livro\n");
-        X.idioma=getCharDinamicamente();
+        L.idioma=getCharDinamicamente();
 
          break;
     case 3:
         printf("Digite o nome do primeiro autor do livro\n");
-        X.primeiroAutor=getCharDinamicamente();
+        L.primeiroAutor=getCharDinamicamente();
          break;
     case 4:
         printf("Digite o nome do segundo autor do livro\n");
-        X.segundoAutor=getCharDinamicamente();
+        L.segundoAutor=getCharDinamicamente();
         break;
     case 5:
         printf("Digite o nome da editora do livro\n");
-        X.editora=getCharDinamicamente();
+        L.editora=getCharDinamicamente();
         break;
     case 6:
         printf("Digite o ano do livro\n");
         int ano;
         scanf("%d",&ano);
         getchar();
-        X.ano=ano;
+        L.ano=ano;
          break;
     case 7:
         printf("Digite a área científica do livro\n");
-        X.areacientifica=getCharDinamicamente();
+        L.areacientifica=getCharDinamicamente();
         break;
     case 8:
         printf("Digite o preço do livro\n");
         float preco;
         scanf("%f",&preco);
         getchar();
-        X.preco=preco;
+        L.preco=preco;
         break;
     case 9:
         printf("Digite o stock do livro\n");
         int stock;
         scanf("%d",&stock);
         getchar();
-        X.stock=stock;
+        L.stock=stock;
         break;
 
 
     }
-
+return L;
 }
 
 
 //Funcões para criar uma árvore binária balanceada
-NODOABL* CriarArvoreEquilibrada (NODOABL *T) {//Algoritmo dado nas aulas para criar árvore binária equilibrada
+PNodoABL CriarArvoreEquilibrada (PNodoABL T) {//Algoritmo dado nas aulas para criar árvore binária equilibrada
     LIVRO *Lista;
     int N = 0, Num;
     Num = NumeroNodosAB(T);
@@ -150,7 +148,7 @@ NODOABL* CriarArvoreEquilibrada (NODOABL *T) {//Algoritmo dado nas aulas para cr
     EquilibrarArvore(&T, Lista, 0, N-1);
     return T;
  }
-int NumeroNodosAB (NODOABL *T) {  //Conta número de Nodos em árvore
+int NumeroNodosAB (PNodoABL T) {  //Conta número de Nodos em árvore
   int  e, d;
   if (T == NULL)
     return 0;
@@ -159,7 +157,7 @@ int NumeroNodosAB (NODOABL *T) {  //Conta número de Nodos em árvore
   return (e + d + 1);
 }
 
-void CriarSequenciaEmOrdem (NODOABL *T, LIVRO *L, int *N) {
+void CriarSequenciaEmOrdem (PNodoABL T, LIVRO *L, int *N) {
     if (T != NULL) {
         CriarSequenciaEmOrdem(T->Esquerda,L,N);
         L[*N] = T->livro;
@@ -168,7 +166,7 @@ void CriarSequenciaEmOrdem (NODOABL *T, LIVRO *L, int *N) {
     }
 }
 
-void EquilibrarArvore (NODOABL **T, LIVRO *L, int inicio, int fim) {
+void EquilibrarArvore (PNodoABL *T, LIVRO *L, int inicio, int fim) {
     int medio;
     if (inicio > fim)
         return;
@@ -182,7 +180,7 @@ void EquilibrarArvore (NODOABL **T, LIVRO *L, int inicio, int fim) {
     EquilibrarArvore(T, L, medio+1, fim);
 }
 
-NODOABL* InserirABP (NODOABL *T, LIVRO X){  //Utilizar esta função para adicionar novos Livros à ABP balanceada, e depois utilizar a função CriarArvoreEquilibrada, para balancear a árvore de novo
+PNodoABL InserirABP (PNodoABL T, LIVRO X){  //Utilizar esta função para adicionar novos Livros à ABP balanceada, e depois utilizar a função CriarArvoreEquilibrada, para balancear a árvore de novo
   if (T == NULL) {
     T = CriarNodoAB(X);
     return T;
@@ -194,8 +192,8 @@ NODOABL* InserirABP (NODOABL *T, LIVRO X){  //Utilizar esta função para adicio
   return T;
 }
 
-NODOABL* CriarNodoAB(LIVRO X){
-  NODOABL *P = (NODOABL*) malloc(sizeof(NODOABL));
+PNodoABL CriarNodoAB(LIVRO X){
+  PNodoABL P = (PNodoABL) malloc(sizeof(struct NodoABLivro));
   if (P == NULL)
     return  NULL;
   P->livro = X;
@@ -216,7 +214,7 @@ int CompararLivroISBN (LIVRO X, LIVRO Y){  // devolve -1 se X < Y, 0 se X = Y, 1
 
 //Funçoes para remover um elemento da árvore(Não esquecer de equilibrar com a funçao CriarArvoreEquilibrada no fim de cada remoção)
 
-NODOABL* RemoverABP (NODOABL *T, LIVRO X) {
+PNodoABL RemoverABP (PNodoABL T, LIVRO X) {
   if (CompararLivroISBN(X, T->livro) == 0) {
     T = RemoverNodoABP(T);
     return T;
@@ -229,8 +227,8 @@ NODOABL* RemoverABP (NODOABL *T, LIVRO X) {
 }
 
 
-NODOABL* RemoverNodoABP (NODOABL* T){
-  NODOABL *R;
+PNodoABL RemoverNodoABP (PNodoABL T){
+  PNodoABL R;
   LIVRO X;
   if (T->Esquerda == NULL && T->Direita == NULL) {   // T é uma folha
     T = LibertarNodoAB(T);
@@ -256,7 +254,7 @@ NODOABL* RemoverNodoABP (NODOABL* T){
   return T;
 }
 
-NODOABL* LibertarNodoAB(NODOABL *P){
+PNodoABL LibertarNodoAB(PNodoABL P){
   P->Esquerda = NULL;
   P->Direita = NULL;
   free(P);
@@ -264,8 +262,8 @@ NODOABL* LibertarNodoAB(NODOABL *P){
   return P;
 }
 
-NODOABL* SubstituirNodoDireita (NODOABL *T, LIVRO *X){
-  NODOABL  *PAux;
+PNodoABL SubstituirNodoDireita (PNodoABL T, LIVRO *X){
+  PNodoABL PAux;
   if (T->Esquerda == NULL) {
     *X = T->livro;
     PAux = T;
@@ -277,8 +275,8 @@ NODOABL* SubstituirNodoDireita (NODOABL *T, LIVRO *X){
   return T;
 }
 
-NODOABL* SubstituirNodoEsquerda (NODOABL *T, INFO *X){
-  NODOABL  *PAux;
+PNodoABL SubstituirNodoEsquerda (PNodoABL T, INFO *X){
+  PNodoABL PAux;
   if (T->Direita == NULL) {
     *X = T->livro;
     PAux = T;
@@ -292,8 +290,8 @@ NODOABL* SubstituirNodoEsquerda (NODOABL *T, INFO *X){
 
 //Funções para pesquisar e listar elementos específicos na árvore
 
-NODOABL* PesquisarABP (NODOABL *T, LIVRO X) {  //Pesquisar na árvore binária de Pesquisa por livro ****VERIFICAR SE FUNÇÃO VAI SER USADA/ESTÁ CERTA
- NODOABL *P;
+PNodoABL PesquisarABP (PNodoABL T, LIVRO X) {  //Pesquisar na árvore binária de Pesquisa por livro ****VERIFICAR SE FUNÇÃO VAI SER USADA/ESTÁ CERTA
+ PNodoABL P;
   if (T == NULL)
     return 0;
   if (CompararLivroISBN(X, T->livro) == 0)
@@ -304,12 +302,12 @@ NODOABL* PesquisarABP (NODOABL *T, LIVRO X) {  //Pesquisar na árvore binária d
     return PesquisarABP(T->Direita, X);
 }
 
-LIVRO PesquisarporISBN (int X, NODOABL *T) {  //Pesquisar na árvore binária de Pesquisa por ISBN
- NODOABL *P;  //Porquê?
+PNodoABL PesquisarporISBN (int X, PNodoABL T) {  //Pesquisar na árvore binária de Pesquisa por ISBN
+ PNodoABL P;  //Porquê?
   if (T == NULL)
     return NULL;
   if (CompararLivroISBN2(X, T->livro.ISBN) == 0)
-    return T->livro;
+    return T;
   if (CompararLivroISBN2(X, T->livro.ISBN) == -1)   // X.ISB < (T->livro).ISBN)
     return PesquisarporISBN(X, T->Esquerda);
   else
@@ -324,7 +322,7 @@ int CompararLivroISBN2 (int x, int y){  // devolve -1 se X < Y, 0 se X = Y, 1 se
   return 0;
 }
 
-void ListarLivroTitulo (char *X, NODOABL *T) {  //Lista Livros que contêm a frase pedida, no título
+void ListarLivroTitulo (char *X, PNodoABL T) {  //Lista Livros que contêm a frase pedida, no título
   if (T != NULL) {
     ListarLivroTitulo(X,T->Esquerda);
     if(contemChar(T->livro.titulo,X)==0) MostrarLivro(T->livro);
@@ -332,15 +330,15 @@ void ListarLivroTitulo (char *X, NODOABL *T) {  //Lista Livros que contêm a fra
   }
 }
 
-void ListarLivroAutor (char *X, NODOABL *T) {  //Lista Livros que contêm a frase pedida, no Autor
+void ListarLivroAutor (char *X, PNodoABL T) {  //Lista Livros que contêm a frase pedida, no Autor(primeiro ou segundo)
   if (T != NULL) {
     ListarLivroAutor(X,T->Esquerda);
-    if(contemChar(T->livro.primeiroAutor,X)==0) MostrarLivro(T->livro);
+    if((contemChar(T->livro.primeiroAutor,X)==0)||(contemChar(T->livro.segundoAutor,X)==0)) MostrarLivro(T->livro);
     ListarLivroAutor(X,T->Direita);
   }
 }
 
-void ListarLivroEditora (char *X, NODOABL *T) {  //Lista Livros que contêm a frase pedida, na Editora
+void ListarLivroEditora (char *X, PNodoABL T) {  //Lista Livros que contêm a frase pedida, na Editora
   if (T != NULL) {
     ListarLivroEditora(X,T->Esquerda);
     if(contemChar(T->livro.editora,X)==0) MostrarLivro(T->livro);
@@ -348,7 +346,7 @@ void ListarLivroEditora (char *X, NODOABL *T) {  //Lista Livros que contêm a fr
   }
 }
 
-void ListarLivroAC (char *X, NODOABL *T) {  //Lista Livros que contêm a frase pedida, na Área Cientifica
+void ListarLivroAC (char *X, PNodoABL T) {  //Lista Livros que contêm a frase pedida, na Área Cientifica
   if (T != NULL) {
     ListarLivroAC(X,T->Esquerda);
     if(contemChar(T->livro.areacientifica,X)==0) MostrarLivro(T->livro);
@@ -356,7 +354,7 @@ void ListarLivroAC (char *X, NODOABL *T) {  //Lista Livros que contêm a frase p
   }
 }
 
-void ListarLivroAno (int X, NODOABL *T) {  //Lista Livros que foram publicados no ano X
+void ListarLivroAno (int X, PNodoABL T) {  //Lista Livros que foram publicados no ano X
   if (T != NULL) {
     ListarLivroAno(X,T->Esquerda);
     if(verificaAno(T->livro.ano,X)==0) MostrarLivro(T->livro);
@@ -389,15 +387,15 @@ void MostrarLivro(LIVRO X){
     printf("Área científica - %d |", X.areacientifica);
     printf("Preço - %d |", X.preco);
     printf("Stock - %d |", X.stock);
-    return X;
+    printf("\n");
 }
 
 
 //Funções Lista Ligada Cliente
 
-NODOCLIENTE* CriarNodoCliente (CLIENTE X){
-  NODOCLIENTE *P;
-  P = (NODOCLIENTE*) malloc(sizeof(NODOCLIENTE));
+PNodoCliente CriarNodoCliente (CLIENTE X){
+  PNodoCliente P;
+  P = (PNodoCliente) malloc(sizeof(struct NodoCliente));
   if (P == NULL)
     return NULL;
   P->cliente = X;
@@ -405,12 +403,12 @@ NODOCLIENTE* CriarNodoCliente (CLIENTE X){
   return P;
 }
 
-void LibertarNodoCliente (NODOCLIENTE* P){
+void LibertarNodoCliente (PNodoCliente P){
   free(P);
   P = NULL;
 }
 
-int VaziaCliente (NODOCLIENTE* L){
+int VaziaCliente (PNodoCliente L){
   if (L == NULL)
     return 1;
   else
@@ -418,10 +416,10 @@ int VaziaCliente (NODOCLIENTE* L){
 }
 
 
-void ListarClienteRec (NODOCLIENTE* L){
+void ListarClienteRec (PNodoCliente L){
   if (L != NULL){
     MostrarElementoCliente(L->cliente);
-    ListarClienteRec(L->Prox);
+    ListarClienteRec(L->next);
   }
 }
 
@@ -432,7 +430,7 @@ void MostrarElementoCliente (CLIENTE X){  //Alterar parâmetros *****POR FAZER**
   printf("%f\n",  X.Pagamento);
 }
 
-int PesquisarClienteRec (CLIENTE X, NODOCLIENTE* L){
+int PesquisarClienteRec (CLIENTE X, PNodoCliente L){
   if (L == NULL)
     return  0;
   if (CompararCliente(L->cliente, X) == 0)
@@ -449,8 +447,8 @@ int CompararCliente (CLIENTE X, CLIENTE Y){  // devolve -1 se X < Y, 0 se X = Y,
   return 0;
 }
 
-NODOCLIENTE* RemoverClienteRec (CLIENTE X, NODOCLIENTE *L, NODOCLIENTE *LAux) {
-  NODOCLIENTE *P;
+PNodoCliente RemoverClienteRec (CLIENTE X, PNodoCliente L, PNodoCliente LAux) {
+  PNodoCliente P;
   if (CompararCliente(L->cliente, X) == 0){   // X está no início da Lista L
     P = L;
     L = L->next;
@@ -467,8 +465,8 @@ NODOCLIENTE* RemoverClienteRec (CLIENTE X, NODOCLIENTE *L, NODOCLIENTE *LAux) {
   return RemoverClienteRec(X, L, LAux->next);
 }
 
-NODOCLIENTE* InserirFim (CLIENTE X, NODOCLIENTE *L){
-  NODOCLIENTE *P, *PAux;
+PNodoCliente InserirFim (CLIENTE X, PNodoCliente L){
+  PNodoCliente P, PAux;
   P = CriarNodoCliente(X);
   if (P == NULL)
     return L;
@@ -481,8 +479,8 @@ NODOCLIENTE* InserirFim (CLIENTE X, NODOCLIENTE *L){
   return  L;
 }
 
-NODOCLIENTE* RemoverCliente (CLIENTE X, NODOCLIENTE* L){
-  NODOCLIENTE *P, *PAnt;
+PNodoCliente RemoverCliente (CLIENTE X, PNodoCliente L){
+  PNodoCliente P, PAnt;
   PAnt = ProcurarAnteriorCliente(X, L);
   if (PAnt == NULL){   // remover elemento do início de L
     P = L;
@@ -496,8 +494,8 @@ NODOCLIENTE* RemoverCliente (CLIENTE X, NODOCLIENTE* L){
   return  L;
 }
 
-NODOCLIENTE* ProcurarAnteriorCliente (CLIENTE X, NODOCLIENTE* L){
-  NODOCLIENTE  *Ant = NULL;
+PNodoCliente ProcurarAnteriorCliente (CLIENTE X, PNodoCliente L){
+  PNodoCliente Ant = NULL;
   while (L != NULL && CompararCliente(L->cliente, X) != 0){
     Ant = L;
     L = L->next;
@@ -510,9 +508,9 @@ NODOCLIENTE* ProcurarAnteriorCliente (CLIENTE X, NODOCLIENTE* L){
 //Funções Lista Ligada Compras
 
 
-NODOLC* CriarNodoLC (COMPRA X){
-  NODOLC *P;
-  P = (NODOLC*) malloc(sizeof(NODOLC));
+PNodoLC CriarNodoLC (COMPRA X){
+  PNodoLC P;
+  P = (PNodoLC) malloc(sizeof(struct NodoLC));
   if (P == NULL)
     return NULL;
   P->compra = X;
@@ -520,12 +518,12 @@ NODOLC* CriarNodoLC (COMPRA X){
   return P;
 }
 
-void LibertarNodoLC (NODOLC *P){
+void LibertarNodoLC (PNodoLC P){
   free(P);
   P = NULL;
 }
 
-int VaziaLC (NODOLC *L){
+int VaziaLC (PNodoLC L){
   if (L == NULL)
     return 1;
   else
@@ -533,7 +531,7 @@ int VaziaLC (NODOLC *L){
 }
 
 
-void ListarLCRec (NODOLC *L){
+void ListarLCRec (PNodoLC L){
   if (L != NULL){
     MostrarLC(L->compra);
     ListarLCRec(L->next);
@@ -547,7 +545,7 @@ void MostrarLC (COMPRA X){  //Alterar parâmetros *****POR FAZER***
   printf("%f\n",  X.Pagamento);
 }
 
-int PesquisarLCRec (COMPRA X, NODOLC *L){
+int PesquisarLCRec (COMPRA X, PNodoLC L){
   if (L == NULL)
     return  0;
   if (CompararCompra(L->compra, X) == 0)
@@ -564,8 +562,8 @@ int CompararCompra (COMPRA X, COMPRA Y){  // devolve -1 se X < Y, 0 se X = Y, 1 
   return 0;
 }
 
-NODOLC* RemoverCompraRec (COMPRA X, NODOLC *L, NODOLC *LAux) {
-  NODOLC *P;
+PNodoLC RemoverCompraRec (COMPRA X, PNodoLC L, PNodoLC LAux) {
+  PNodoLC P;
   if (CompararCompra(L->compra, X) == 0){   // X está no início da Lista L
     P = L;
     L = L->next;
@@ -582,8 +580,8 @@ NODOLC* RemoverCompraRec (COMPRA X, NODOLC *L, NODOLC *LAux) {
   return RemoverCompraRec(X, L, LAux->next);
 }
 
-NODOLC* InserirFimLC (COMPRA X, NODOLC *L){
-  NODOLC *P, *PAux;
+PNodoLC InserirFimLC (COMPRA X, PNodoLC L){
+  PNodoLC P, PAux;
   P = CriarNodoLC(X);
   if (P == NULL)
     return L;
@@ -596,8 +594,8 @@ NODOLC* InserirFimLC (COMPRA X, NODOLC *L){
   return  L;
 }
 
-NODOCLC* RemoverCompra (COMPRA X, NODOLC* L){
-  NODOLC *P, *PAnt;
+PNodoLC RemoverCompra (COMPRA X, PNodoLC L){
+  PNodoLC P, PAnt;
   PAnt = ProcurarAnteriorLC(X, L);
   if (PAnt == NULL){   // remover elemento do início de L
     P = L;
@@ -611,8 +609,8 @@ NODOCLC* RemoverCompra (COMPRA X, NODOLC* L){
   return  L;
 }
 
-NODOLC* ProcurarAnteriorLC (COMPRA X, NODOLC* L){
-  NODOLC  *Ant = NULL;
+PNodoLC ProcurarAnteriorLC (COMPRA X, PNodoLC L){
+  PNodoLC  Ant = NULL;
   while (L != NULL && CompararCompra(L->compra, X) != 0){
     Ant = L;
     L = L->next;
@@ -622,9 +620,9 @@ NODOLC* ProcurarAnteriorLC (COMPRA X, NODOLC* L){
 
 //Funções Filas
 
-FILAENCOMENDAS* CriarNodoFila (ENCOMENDA X){
-  FILAENCOMENDAS *P;
-  P = (FILAENCOMENDAS*) malloc(sizeof(FILAENCOMENDAS));
+PNodoFilaEncomendas CriarNodoFila (ENCOMENDA X){
+  PNodoFilaEncomendas P;
+  P = (PNodoFilaEncomendas) malloc(sizeof(struct filaEncomendas));
   if (P == NULL)
     return NULL;
   P->encomenda = X;
@@ -632,21 +630,21 @@ FILAENCOMENDAS* CriarNodoFila (ENCOMENDA X){
   return P;
 }
 
-FILAENCOMENDAS* LibertarNodoFila (FILAENCOMENDAS *P){
+PNodoFilaEncomendas LibertarNodoFila (PNodoFilaEncomendas P){
   free(P);
   P = NULL;
   return P;
 }
 
-int FilaVazia (FILAENCOMENDAS *Fila){
+int FilaVazia (PNodoFilaEncomendas Fila){
   if (Fila == NULL)
     return 1;
   else
     return 0;
 }
 
-FILAENCOMENDAS* Juntar (ENCOMENDA X, FILAENCOMENDAS *Fila){
-  FILAENCOMENDAS *Novo, *PAnt;
+PNodoFilaEncomendas Juntar (ENCOMENDA X, PNodoFilaEncomendas Fila){
+  PNodoFilaEncomendas Novo, PAnt;
   Novo = CriarNodoFila(X);
   if (Novo == NULL)
     return Fila;
@@ -661,8 +659,8 @@ FILAENCOMENDAS* Juntar (ENCOMENDA X, FILAENCOMENDAS *Fila){
   return Fila;
 }
 
-FILAENCOMENDAS* RemoverFila (FILAENCOMENDAS *Fila){
-  FILAENCOMENDAS *P;
+PNodoFilaEncomendas RemoverFila (PNodoFilaEncomendas Fila){
+  PNodoFilaEncomendas P;
   P = Fila;
   Fila = Fila->next;
   P = LibertarNodoFila(P);
@@ -673,7 +671,7 @@ FILAENCOMENDAS* RemoverFila (FILAENCOMENDAS *Fila){
 
 
 
-NODOABL* DestruirAB(NODOABL *T){
+PNodoABL DestruirAB(PNodoABL T){
   if (T == NULL)
     return NULL;
   T->Esquerda = DestruirAB(T->Esquerda);
@@ -681,7 +679,7 @@ NODOABL* DestruirAB(NODOABL *T){
   return LibertarNodoAB(T);
 }
 
-NODOCLIENTE* DestruirListaClientes(NODOCLIENTE *L){
+PNodoCliente DestruirListaClientes(PNodoCliente L){
     if(L==NULL) return NULL;
     while(L!=NULL){
         L=RemoverCliente(L->cliente,L);
@@ -690,7 +688,7 @@ NODOCLIENTE* DestruirListaClientes(NODOCLIENTE *L){
     return L;
 }
 
-NODOLC* DestruirListaCompras(NODOLC *L){
+PNodoLC DestruirListaCompras(PNodoLC L){
     if(L==NULL) return NULL;
     while(L!=NULL){
         L=RemoverCompra(L->compra,L);
@@ -699,7 +697,7 @@ NODOLC* DestruirListaCompras(NODOLC *L){
     return L;
 }
 
-FILAENCOMENDAS* DestruirFila(FILAENCOMENDAS *L){
+PNodoFilaEncomendas DestruirFila(PNodoFilaEncomendas L){
     if(L==NULL) return NULL;
     while(L!=NULL){
         L=RemoverFila(L->encomenda,L);

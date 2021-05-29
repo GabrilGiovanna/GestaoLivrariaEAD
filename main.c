@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <string.h>
 #include "estruturas.h"
 
 
@@ -9,10 +7,10 @@ main(){
 
 livro=NovoLivro(); */
 
-NODOABL *livros;
-NODOCLIENTE *clientes;
-NODOLC *listadecompras;
-FILAENCOMENDAS *encomendas;
+PNodoABL livros;
+PNodoCliente clientes;
+PNodoLC listadecompras;
+PNodoFilaEncomendas encomendas;
 
 
 int x=0;
@@ -68,33 +66,38 @@ switch(x){  //Primeiro Switch para escolher a secção
         printf("6.Consultar por Autor\n");
         printf("7.Consultar por Editora\n");
         printf("8.Consultar por Área Ciêntifica\n");
+        printf("9.Consultar por Ano de Publicação\n");
         int x2=0;
         scanf("%d",&x2);
         getchar();
         switch(x2){  //Switch para escolher o que fazer com livros
             case 1:  //Inserir novo livro na Árvore Binária
-                LIVRO X=NovoLivro();
-                livros=InserirABP(livros,x); //insere novo livro na Árvore de Pesquisa
-                livros=CriarArvoreEquilibrada(livros); //Equilibra a árvore
+                {
 
+
+                LIVRO X=NovoLivro();
+                livros=InserirABP(livros,X); //insere novo livro na Árvore de Pesquisa
+                livros=CriarArvoreEquilibrada(livros); //Equilibra a árvore
+                }
                  break;
             case 2:  //Remover dado um ISBN
                 printf("Digite o ISBN do livro que pretende remover\n");
                 int isbn;
                 scanf("%d",&isbn);
                 getchar();
-                LIVRO r=PesquisarporISBN(isbn,livros);
-                if(r!=NULL) livros=RemoverABP(livros,r);
-                else printf("Não existe o livro com o dado ISBN\n");
+                PNodoABL aux;  //Nodo para guardar o Nodo correspondente ao livro com o ISBN
+                aux=PesquisarporISBN(isbn,livros);  //Procurar o livro
+                if(aux!=NULL) livros=RemoverABP(livros,aux->livro); //Se existir, remover
+                else printf("Não existe o livro com o dado ISBN\n");//Não existe
 
                  break;
             case 3:
                 printf("Digite o ISBN do livro que pretende alterar\n");
-                int isbn;
+                //int isbn;
                 scanf("%d",&isbn);
                 getchar();
-                LIVRO r=PesquisarporISBN(isbn,livros);
-                if(r!=NULL){
+                aux=PesquisarporISBN(isbn,livros);
+                if(aux!=NULL){
                     printf("O que pretende alterar no livro?\n");
                     printf("1-Título\n");
                     printf("2-Idioma\n");
@@ -108,18 +111,58 @@ switch(x){  //Primeiro Switch para escolher a secção
                     int alt;
                     scanf("%d",&alt);
                     getchar();
-                    r=AlterarLivro(r,alt);  //Função para alterar o parâmetro do livro que foi escolhido anteriormente
+                    aux->livro=AlterarLivro(aux->livro,alt);  //Função para alterar o parâmetro do livro que foi escolhido anteriormente
                     printf("Alteração efetuada\n");
 
                 }
                 else printf("Não existe o livro com o dado ISBN\n");
 
                  break;
-            case 4: break;
-            case 5: break;
-            case 6: break;
-            case 7: break;
-            case 8: break;
+            case 4:  //Consultar livro por ISBN
+                printf("Digite o ISBN do livro que pretende consultar\n");
+                //int isbn;
+                scanf("%d",&isbn);
+                getchar();
+                aux=PesquisarporISBN(isbn,livros);
+                if(aux!=NULL) MostrarLivro(aux->livro);
+                else printf("Não existe o livro com o dado ISBN\n");
+                break;
+            case 5:  //Consultar livro por título
+                printf("Digite o Título do livro que pretende consultar\n");
+                char *titulo=getCharDinamicamente();
+                printf("Lista de Livros:\n");
+                ListarLivroTitulo(titulo,livros);
+
+                break;
+            case 6: //Consultar livro por Autor
+                printf("Digite o nome completo do autor do livro que pretende consultar\n");
+                char *autor=getCharDinamicamente();
+                printf("Lista de Livros:\n");
+                ListarLivroAutor(autor,livros);
+
+
+                 break;
+            case 7:  //Consultar livro por Editora
+                printf("Digite o nome da Editora do livro que pretende consultar\n");
+                char *editora=getCharDinamicamente();
+                printf("Lista de Livros:\n");
+                ListarLivroEditora(editora,livros);
+
+                 break;
+            case 8: //Consultar livro por Área Cientifica
+                 printf("Digite a Área Ciêntifica do livro que pretende consultar\n");
+                char *ac=getCharDinamicamente();
+                printf("Lista de Livros:\n");
+                ListarLivroAC(ac,livros);
+                break;
+            case 9:  //Consultar livro por ano de publicação
+                printf("Digite o Ano de Publicação do livro que pretende consultar\n");
+                int ano;
+                scanf("%d",&ano);
+                printf("Lista de Livros:\n");
+                ListarLivroAno(ano,livros);
+
+                break;
         }//Acaba Switch com variável x2
         break;
     case 3: //CLIENTES
