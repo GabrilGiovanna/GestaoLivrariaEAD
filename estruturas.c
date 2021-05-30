@@ -37,7 +37,7 @@ char *getCharDinamicamente()  //Para não haver desperdícios de memória, utili
 CLIENTE NovoCliente(){   //criar novo cliente
   CLIENTE c;
   printf("Digite o NIF do novo cliente:\n");
-  scanf("%d",&c.telefone);
+  scanf("%ld",&c.telefone);
   getchar();  //Como o scanf deixa um newline no buffer, não podemos utilizar o getCharDinamicamente() não vai funcionar por causa do getc(stdin)
   printf("Digite o nome do novo cliente:\n");
   c.nome = getCharDinamicamente();
@@ -45,8 +45,35 @@ CLIENTE NovoCliente(){   //criar novo cliente
   c.morada = getCharDinamicamente();
   printf("Digite o número de telefone do novo cliente:\n");
   scanf("%ld",&c.telefone);
+  getchar();
+  printf("Lista de Compras do novo cliente:\n");
+  printf("Quantas compras tem a lista de compras?\n");
+  int x;
+  scanf("%d",&x);
+  getchar();
   return c;
 }
+
+COMPRA NovaCompra(){
+
+COMPRA comp;
+
+printf("Digite o Código da Compra:\n");
+comp.codigo=getCharDinamicamente();
+printf("Digite o dia da Compra:\n");
+scanf("%d",&comp.datadecompra.dia);
+getchar();
+printf("Digite o mês da Compra:\n");
+scanf("%d",&comp.datadecompra.mes);
+printf("Digite o ano da Compra:\n");
+scanf("%d",&comp.datadecompra.ano);
+comp.NumeroDeUnidadesCompradas;
+comp.PrecoTotal;
+comp.Produto;
+
+return comp;
+}
+
 
 LIVRO NovoLivro(){
     LIVRO l;
@@ -469,7 +496,7 @@ PNodoCliente RemoverClienteRec (CLIENTE X, PNodoCliente L, PNodoCliente LAux) {
 }
 
 PNodoCliente InserirFim (CLIENTE X, PNodoCliente L){
-  PNodoCliente P, PAux;
+  PNodoCliente P, PAux;  
   P = CriarNodoCliente(X);
   if (P == NULL)
     return L;

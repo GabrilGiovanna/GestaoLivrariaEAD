@@ -38,7 +38,7 @@ typedef struct Compra{  //Lista Ligada para lista de compras
     DATA  datadecompra;
     int NumeroDeUnidadesCompradas;
     float PrecoTotal;
-    int codigo;
+    char *codigo;
 }COMPRA;
 
 struct NodoLC{  //Lista ligada para manusear clientes, cada Nodo contêm um cliente
@@ -69,6 +69,7 @@ typedef struct encomendas{
     DATA data;
     int nmr;  //Numero de Unidades encomendadas
     float precoTotal;
+    char *codigo;
 }ENCOMENDA;
 
 struct filaEncomendas{  //Fila para manusear encomendas
@@ -81,6 +82,7 @@ typedef struct filaEncomendas *PNodoFilaEncomendas;
 //Protótipo das Funções utilizadas no programa inteiro
 char *getCharDinamicamente();
 CLIENTE NovoCliente();
+COMPRA NovaCompra();
 LIVRO NovoLivro();
 LIVRO AlterarLivro(LIVRO L,int x);
 PNodoABL CriarArvoreEquilibrada (PNodoABL T);
