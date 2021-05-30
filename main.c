@@ -12,12 +12,21 @@ PNodoCliente clientes=NULL;
 PNodoLC listadecompras=NULL;
 PNodoFilaEncomendas encomendas=NULL;
 
+time_t s, val = 1;
+struct tm* current_time;
+    
+s = time(NULL);
+    
+current_time = localtime(&s);
+int diaAtual=current_time->tm_mday;
+int mesAtual=current_time->tm_mon + 1;
+int anoAtual=current_time->tm_year + 1900;
+int diaDoAnoAtual=current_time->tm_yday;
 
 int x=0;
-
 while(x!=6){
 
-
+encomendas=ComprasToEncomendas(clientes,encomendas);
 
 printf("-------Gestão de uma Livraria-------\n");
 
@@ -75,7 +84,7 @@ switch(x){  //Primeiro Switch para escolher a secção
                 {
 
 
-                LIVRO X=NovoLivro();
+                LIVRO X=NovoLivro();   //**************FALTA VERIFICAR SE O LIVRO JÁ EXISTE************
                 livros=InserirABP(livros,X); //insere novo livro na Árvore de Pesquisa
                 livros=CriarArvoreEquilibrada(livros); //Equilibra a árvore
                 }
@@ -177,14 +186,55 @@ switch(x){  //Primeiro Switch para escolher a secção
         scanf("%d",&x3);
         getchar();
         switch(x3){  //Switch para escolher o que fazer com Clientes
-            case 1: 
+            case 1:{  //Novo cliente
+            CLIENTE client=NovoCliente();  //**************FALTA VERIFICAR SE O CLIENTE JÁ EXISTE************
+            clientes=InserirFim(client,clientes);           
+            break;
+            }
+            case 2: //Remover cliente
+            printf("Digite o NIF do cliente que pretende remover\n");
+            long int nif;
+            scanf("%ld",&nif);        
+            getchar();
+            if(PesquisarPorNIF(nif,clientes)!=NULL){  //Se existe um cliente com esse NIF
+                CLIENTE client;
+                client=PesquisarPorNIF(nif,clientes)->cliente;
+                client.compras=DestruirListaCompras(client.compras); //Destruir lista de compras para não ficar na memória
+                PNodoFilaEncomendas feaux=encomendas; //auxiliar para percorrer a fila
+                while(feaux!=NULL){
+                    if(feaux->encomenda.NIF==nif) encomendas=RemoverEncomendaFila(feaux->encomenda,encomendas);  //Remove encomendas do cliente removido
+                    feaux=feaux->next;
+                }
+            clientes=RemoverCliente(client,clientes);  //Depois de remover lista de compras e encomendas do cliente, remover o cliente
+            }
+            else printf("Não existe um cliente com esse NIF\n");
+             break;
+            case 3: //Alterar Cliente
+            printf("Digite o NIF do cliente que pretende alterar\n");
+            scanf("%ld",&nif);
+            getchar();
+            PNodoCliente auxcliente=clientes;
+            if(PesquisarPorNIF(nif,clientes)!=NULL){
+                printf("O que pretende alterar no cliente?\n");
+                printf("1-Nome\n");
+                printf("2-Morada\n");
+                printf("3-Telefone\n");
+                printf("4-Lista de Compras\n");
+                int alt;
+                scanf("%d",&alt);
+                getchar();
+                auxcliente->cliente=AlterarCliente(auxcliente->cliente,alt);//AlterarLivro(aux->livro,alt);  //Função para alterar o parâmetro do livro que foi escolhido anteriormente
+                printf("Alteração efetuada\n");
+
+                }
+                else printf("Não existe o cliente com o dado NIF\n");
+             break;
+            case 4:  //Consultar cliente por NIF
+                printf("Digite o NIF do cliente que pretende consultar\n");
+                scanf("%ld",&nif);
                 
             
-            
                 break;
-            case 2: break;
-            case 3: break;
-            case 4: break;
             case 5: break;
             case 6: break;
             case 7: break;

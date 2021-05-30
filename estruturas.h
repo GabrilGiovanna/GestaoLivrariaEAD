@@ -34,7 +34,7 @@ struct NodoABLivro{ //Arvore binária para manusear livros
 typedef struct NodoABLivro * PNodoABL;
 
 typedef struct Compra{  //Lista Ligada para lista de compras
-    char *Produto;
+    int Produto;
     DATA  datadecompra;
     int NumeroDeUnidadesCompradas;
     float PrecoTotal;
@@ -66,7 +66,9 @@ typedef struct NodoCliente *PNodoCliente;
 typedef struct encomendas{
     int ISBN;  //código do livro
     int NIF;
-    DATA data;
+    DATA DataDeEncomenda;
+    DATA DataDeCompra;
+    DATA DataDeVenda;
     int nmr;  //Numero de Unidades encomendadas
     float precoTotal;
     char *codigo;
@@ -119,6 +121,7 @@ PNodoCliente RemoverClienteRec (CLIENTE X, PNodoCliente L, PNodoCliente LAux);
 PNodoCliente InserirFim (CLIENTE X, PNodoCliente L);
 PNodoCliente RemoverCliente (CLIENTE X, PNodoCliente L);
 PNodoCliente ProcurarAnteriorCliente (CLIENTE X, PNodoCliente L);
+PNodoCliente PesquisarPorNIF(long int NIF,PNodoCliente L);
 PNodoLC CriarNodoLC (COMPRA X);
 void LibertarNodoLC (PNodoLC P);
 int VaziaLC (PNodoLC L);
@@ -135,8 +138,14 @@ PNodoFilaEncomendas LibertarNodoFila (PNodoFilaEncomendas P);
 int FilaVazia (PNodoFilaEncomendas Fila);
 PNodoFilaEncomendas Juntar (ENCOMENDA X, PNodoFilaEncomendas Fila);
 PNodoFilaEncomendas RemoverFila (PNodoFilaEncomendas Fila);
+PNodoFilaEncomendas RemoverEncomendaFila(ENCOMENDA X, PNodoFilaEncomendas L);
+void LibertarNodoEncomenda (PNodoFilaEncomendas P);
+PNodoFilaEncomendas ProcurarAnteriorEncomenda (ENCOMENDA X, PNodoFilaEncomendas L);
+int CompararEncomenda (ENCOMENDA X, ENCOMENDA Y);
 PNodoABL DestruirAB(PNodoABL T);
 PNodoCliente DestruirListaClientes(PNodoCliente L);
 PNodoLC DestruirListaCompras(PNodoLC L);
 PNodoFilaEncomendas DestruirFila(PNodoFilaEncomendas L);
+ENCOMENDA ConverterCOMPRAparaENCOMENDA(CLIENTE c,COMPRA X);
+PNodoFilaEncomendas ComprasToEncomendas(PNodoCliente clientes,PNodoFilaEncomendas encomendas);
 #endif
