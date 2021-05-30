@@ -187,7 +187,7 @@ switch(x){  //Primeiro Switch para escolher a secção
         getchar();
         switch(x3){  //Switch para escolher o que fazer com Clientes
             case 1:{  //Novo cliente
-            CLIENTE client=NovoCliente();  //**************FALTA VERIFICAR SE O CLIENTE JÁ EXISTE************
+            CLIENTE client=NovoCliente();  //**************FALTA VERIFICAR SE O CLIENTE JÁ EXISTE COM O NIF************
             clientes=InserirFim(client,clientes);  
             //printf("%s\n",client.compras->compra.codigo); Ele guarda a encomenda
             //Chega aqui
@@ -200,7 +200,7 @@ switch(x){  //Primeiro Switch para escolher a secção
             getchar();
             if(PesquisarPorNIF(nif,clientes)!=NULL){  //Se existe um cliente com esse NIF
                 CLIENTE client;
-                client=PesquisarPorNIF(nif,clientes)->cliente;
+                client=PesquisarPorNIF(nif,clientes)->cliente;  //Guardamos o cliente
                 client.compras=DestruirListaCompras(client.compras); //Destruir lista de compras para não ficar na memória
                 PNodoFilaEncomendas feaux=encomendas; //auxiliar para percorrer a fila
                 while(feaux!=NULL){
@@ -221,7 +221,7 @@ switch(x){  //Primeiro Switch para escolher a secção
                 printf("1-Nome\n");
                 printf("2-Morada\n");
                 printf("3-Telefone\n");
-                printf("4-Lista de Compras\n");
+                printf("4-Lista de Compras\n");  //FALTA****
                 int alt;
                 scanf("%d",&alt);
                 getchar();
