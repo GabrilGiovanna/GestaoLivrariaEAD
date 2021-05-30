@@ -188,7 +188,9 @@ switch(x){  //Primeiro Switch para escolher a secção
         switch(x3){  //Switch para escolher o que fazer com Clientes
             case 1:{  //Novo cliente
             CLIENTE client=NovoCliente();  //**************FALTA VERIFICAR SE O CLIENTE JÁ EXISTE************
-            clientes=InserirFim(client,clientes);           
+            clientes=InserirFim(client,clientes);  
+            //printf("%s\n",client.compras->compra.codigo); Ele guarda a encomenda
+            //Chega aqui
             break;
             }
             case 2: //Remover cliente
@@ -232,13 +234,21 @@ switch(x){  //Primeiro Switch para escolher a secção
             case 4:  //Consultar cliente por NIF
                 printf("Digite o NIF do cliente que pretende consultar\n");
                 scanf("%ld",&nif);
-                
-            
+                getchar();
+                CLIENTE consultaraux=PesquisarPorNIF(nif,clientes)->cliente;
+                MostrarCliente(consultaraux);
                 break;
-            case 5: break;
-            case 6: break;
-            case 7: break;
-            case 8: break;
+            case 5:
+                printf("Digite o Nome do cliente que pretende consultar\n");
+                char *nomecliente=getCharDinamicamente();
+                ListarClienteNome(nomecliente,clientes);
+                break;
+            case 6:
+                printf("Digite a morada do cliente que pretende consultar\n");
+                char *moradacliente=getCharDinamicamente();
+                ListarClienteMorada(moradacliente,clientes);
+            
+             break;
         }//Acaba Switch com variável x3
         break;
     case 4: //ENCOMENDAS

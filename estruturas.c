@@ -61,6 +61,8 @@ CLIENTE NovoCliente(){   //criar novo cliente
     COMPRA cp=NovaCompra();
     c.compras=InserirFimLC(cp,c.compras);
   }
+  //Ele chega aqui
+  //printf("%s\n",c.compras->compra.codigo);
   return c;
 }
 
@@ -582,20 +584,35 @@ return NULL;
 
 //Funções para consultar cliente
 
-void ListarClienteNome(){}
+void ListarClienteNome(char *X,PNodoCliente L){ //Lista clientes que contêm a frase pedida, no nome
+  if (L == NULL) return;
+  while(L!=NULL){
+    if(contemChar(L->cliente.nome,X)==0) MostrarCliente(L->cliente);
+    L=L->next;
+  }
+}
 
-void ListarClienteMorada(){}
+void ListarClienteMorada(char *X,PNodoCliente L){ //Lista clientes que contêm a frase pedida, no nome
+  if (L == NULL) return;
+  while(L!=NULL){
+    if(contemChar(L->cliente.morada,X)==0) MostrarCliente(L->cliente);
+    L=L->next;
+  }
+}
 
-void MostrarLivro(CLIENTE X){
+
+
+void MostrarCliente(CLIENTE X){
     printf("NIF - %ld |", X.NIF);
     printf("Nome - %s |", X.nome);
-    printf("Telefone - %ld |", X.telefone);
+    printf("Telefone - %ld |\n", X.telefone);
     printf("Lista de Compras:\n");
     while(X.compras!=NULL) {
       MostrarLC(X.compras);
       X.compras=X.compras->next;
     }
 }
+
 
 //Função para mostrar lista de compras
 
@@ -868,31 +885,39 @@ int diaAtual=current_time->tm_mday;
 int mesAtual=current_time->tm_mon + 1;
 int anoAtual=current_time->tm_year + 1900;
 int diaDoAnoAtual=current_time->tm_yday;  //Estas linhas de código são necessárias para saber o tempo atual
+if(clientes==NULL) return NULL;
+
+//if(clientes !=NULL) printf("%s\n",clientes->cliente.compras->compra.codigo);
 
 PNodoCliente aux=clientes;
+PNodoLC auxlc=aux->cliente.compras;
+
 while(aux!=NULL){  //Vamos guardar as compras que ainda não foram efetuadas nas encomendas 
-    while(aux->cliente.compras!=NULL){
-        if((aux->cliente.compras->compra.datadecompra.ano)>anoAtual){ //Se ano da compra for mais que o Ano Atual
-            COMPRA new=aux->cliente.compras->compra;
+    while(auxlc!=NULL){
+        if((auxlc->compra.datadecompra.ano)>anoAtual){ //Se ano da compra for mais que o Ano Atual
+            COMPRA new=auxlc->compra;
             ENCOMENDA nova=ConverterCOMPRAparaENCOMENDA(aux->cliente,new);  //Passar como parametro, o cliente e a compra
             encomendas=Juntar(nova,encomendas); //Adicionar a encomenda à fila de encomendas
         }
-        else if(((aux->cliente.compras->compra.datadecompra.ano)==anoAtual)&&((aux->cliente.compras->compra.datadecompra.mes)>mesAtual)){ //Se ano for igual e mes de compra for maior
-        COMPRA new=aux->cliente.compras->compra;
+        else if(((auxlc->compra.datadecompra.ano)==anoAtual)&&((auxlc->compra.datadecompra.mes)>mesAtual)){ //Se ano for igual e mes de compra for maior
+        COMPRA new=auxlc->compra;
         ENCOMENDA nova=ConverterCOMPRAparaENCOMENDA(aux->cliente,new);
         encomendas=Juntar(nova,encomendas); //Adicionar a encomenda à fila de encomendas
         }
-        else if(((aux->cliente.compras->compra.datadecompra.ano)==anoAtual)&&((aux->cliente.compras->compra.datadecompra.mes)==mesAtual)&&((aux->cliente.compras->compra.datadecompra.dia)==diaAtual)){ //Se ano e mes de compra for igual e dia maior
-        COMPRA new=aux->cliente.compras->compra;
+        else if(((auxlc->compra.datadecompra.ano)==anoAtual)&&((auxlc->compra.datadecompra.mes)==mesAtual)&&((auxlc->compra.datadecompra.dia)==diaAtual)){ //Se ano e mes de compra for igual e dia maior
+        COMPRA new=auxlc->compra;
         ENCOMENDA nova=ConverterCOMPRAparaENCOMENDA(aux->cliente,new);
         encomendas=Juntar(nova,encomendas); //Adicionar a encomenda à fila de encomendas
         }
-        else continue;
-        aux->cliente.compras=aux->cliente.compras->next;  //iterar a lista de compras
+        else ;
+        auxlc=auxlc->next;  //iterar a lista de compras
     }  //Fim do While de Compras
     aux=aux->next; //iterar a lista ligada de clientes
 
 
 }
+
+printf("%s\n",clientes->cliente.compras->compra.codigo);
+
 return encomendas;
 }
