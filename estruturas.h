@@ -86,7 +86,7 @@ LIVRO AlterarLivro(LIVRO L,int x);
 PNodoABL CriarArvoreEquilibrada (PNodoABL T);
 int NumeroNodosAB (PNodoABL T);
 void CriarSequenciaEmOrdem (PNodoABL T, LIVRO *L, int *N);
-void EquilibrarArvore (PNodoABL *T, LIVRO *L, int inicio, int fim);
+PNodoABL EquilibrarArvore (PNodoABL T, LIVRO *L, int inicio, int fim);
 PNodoABL InserirABP (PNodoABL T, LIVRO X);
 PNodoABL CriarNodoAB(LIVRO X);
 int CompararLivroISBN (LIVRO X, LIVRO Y);

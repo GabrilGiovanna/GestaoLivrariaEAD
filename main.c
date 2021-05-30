@@ -7,10 +7,10 @@ int main(){
 
 livro=NovoLivro(); */
 
-PNodoABL livros;
-PNodoCliente clientes;
-PNodoLC listadecompras;
-PNodoFilaEncomendas encomendas;
+PNodoABL livros=NULL;
+PNodoCliente clientes=NULL;
+PNodoLC listadecompras=NULL;
+PNodoFilaEncomendas encomendas=NULL;
 
 
 int x=0;
@@ -177,7 +177,11 @@ switch(x){  //Primeiro Switch para escolher a secção
         scanf("%d",&x3);
         getchar();
         switch(x3){  //Switch para escolher o que fazer com Clientes
-            case 1: break;
+            case 1: 
+                
+            
+            
+                break;
             case 2: break;
             case 3: break;
             case 4: break;

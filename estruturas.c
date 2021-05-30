@@ -69,10 +69,11 @@ LIVRO NovoLivro(){
     printf("Digite a Área Científica correspondente ao livro que pretende adicionar\n");
     l.areacientifica=getCharDinamicamente();
     printf("Digite o preço do livro que pretende adicionar\n");
-    scanf("%f",l.preco);
+    scanf("%f",&l.preco);
+    getchar();
     printf("Digite o Stock do livro que pretende adicionar\n");
-    scanf("%d",l.stock);
-
+    scanf("%d",&l.stock);
+    getchar();
     return l;
 
 }
@@ -145,8 +146,10 @@ PNodoABL CriarArvoreEquilibrada (PNodoABL T) {//Algoritmo dado nas aulas para cr
     if (Lista == NULL)
         return NULL;
     CriarSequenciaEmOrdem(T, Lista, &N);
-    EquilibrarArvore(&T, Lista, 0, N-1);
-    return T;
+    PNodoABL aux=NULL;
+    aux=EquilibrarArvore(aux, Lista, 0, N-1);
+    T=DestruirAB(T);
+    return aux;
  }
 int NumeroNodosAB (PNodoABL T) {  //Conta número de Nodos em árvore
   int  e, d;
@@ -166,18 +169,19 @@ void CriarSequenciaEmOrdem (PNodoABL T, LIVRO *L, int *N) {
     }
 }
 
-void EquilibrarArvore (PNodoABL *T, LIVRO *L, int inicio, int fim) {
+PNodoABL EquilibrarArvore (PNodoABL T, LIVRO *L, int inicio, int fim) {
     int medio;
     if (inicio > fim)
-        return;
+        return T;
     if (inicio == fim) {
-        *T = InserirABP(*T, L[inicio]);
-        return;
+        T = InserirABP(T, L[inicio]);
+        return T;
     }
     medio = (inicio + fim) / 2;
-    *T = InserirABP(*T, L[medio]);
-    EquilibrarArvore(T, L, inicio, medio-1);
-    EquilibrarArvore(T, L, medio+1, fim);
+    T = InserirABP(T, L[medio]);
+    T=EquilibrarArvore(T, L, inicio, medio-1);
+    T=EquilibrarArvore(T, L, medio+1, fim);
+    return T;
 }
 
 PNodoABL InserirABP (PNodoABL T, LIVRO X){  //Utilizar esta função para adicionar novos Livros à ABP balanceada, e depois utilizar a função CriarArvoreEquilibrada, para balancear a árvore de novo
@@ -378,14 +382,14 @@ int contemChar (char *X, char *Y){  // devolve 0 se string Y está contida algur
 
 void MostrarLivro(LIVRO X){
     printf("ISBN - %d |", X.ISBN);
-    printf("Título - %d |", X.titulo);
-    printf("Idioma - %d |", X.idioma);
-    printf("Primeiro autor - %d |", X.primeiroAutor);
-    printf("Segundo autor - %d |", X.segundoAutor);
-    printf("Editora - %d |", X.editora);
+    printf("Título - %s |", X.titulo);
+    printf("Idioma - %s |", X.idioma);
+    printf("Primeiro autor - %s |", X.primeiroAutor);
+    printf("Segundo autor - %s |", X.segundoAutor);
+    printf("Editora - %s |", X.editora);
     printf("Ano - %d |", X.ano);
-    printf("Área científica - %d |", X.areacientifica);
-    printf("Preço - %d |", X.preco);
+    printf("Área científica - %s |", X.areacientifica);
+    printf("Preço - %f |", X.preco);
     printf("Stock - %d |", X.stock);
     printf("\n");
 }
