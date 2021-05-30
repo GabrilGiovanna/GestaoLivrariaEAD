@@ -14,7 +14,7 @@ PNodoFilaEncomendas encomendas=NULL;
 
 time_t s, val = 1;
 struct tm* current_time;
-    
+
 s = time(NULL);
     
 current_time = localtime(&s);
@@ -59,8 +59,62 @@ switch(x){  //Primeiro Switch para escolher a secção
                 listadecompras=DestruirListaCompras(listadecompras);
                 encomendas=DestruirFila(encomendas);
                 break;
-            case 2: break;
-            case 3: break;
+            case 2:
+                FILE *f= fopen("ficheiroClientes.txt","r");  //Abre o ficheiro
+                CLIENTE aux;
+                COMPRA aux2;
+                while(!feof(f)){
+                    fscanf(f," %ld",&aux.NIF);
+                    fscanf(f," %s",aux.nome);
+                    fscanf(f," %ld",&aux.telefone);
+                    fscanf(f," %s",aux.morada);
+                    
+                    while(fscanf(f," %s %d %d %d %d %f %d",aux2.codigo,&aux2.datadecompra.dia,&aux2.datadecompra.mes,&aux2.datadecompra.ano,&aux2.NumeroDeUnidadesCompradas,&aux2.PrecoTotal,&aux2.Produto)==7){
+                        aux.compras=InserirFimLC(aux2,aux.compras);
+                    }
+                clientes=InserirFim(aux,clientes);
+                }
+                fclose(f);
+                f=fopen("ficheiroLivros.txt","r");
+                livros=LerNodoABL(f,livros);
+                livros=CriarArvoreEquilibrada(livros);
+                fclose(f);
+                //TODO FILA
+            
+            
+            
+            
+            
+             break;
+            case 3:  //Guardar E.D's em ficheiros
+                FILE *f= fopen("ficheiroClientes.txt","w");  //Abre o ficheiro
+                PNodoCliente auxCliente=clientes;
+                while(auxCliente!=NULL){
+                    fprintf(f,"%ld\n",auxCliente->cliente.NIF);
+                    fprintf(f,"%s\n",auxCliente->cliente.nome);
+                    fprintf(f,"%ld\n",auxCliente->cliente.telefone);
+                    fprintf(f,"%s\n",auxCliente->cliente.morada);
+                    PNodoLC auxLC=auxCliente->cliente.compras;
+                    while(auxLC!=NULL){
+                        fprintf(f,"%s ",auxLC->compra.codigo);
+                        fprintf(f,"%d %d %d ",auxLC->compra.datadecompra.dia,auxLC->compra.datadecompra.mes,auxLC->compra.datadecompra.ano);
+                        fprintf(f,"%d ",auxLC->compra.NumeroDeUnidadesCompradas);
+                        fprintf(f,"%f ",auxLC->compra.PrecoTotal);
+                        fprintf(f,"%d ",auxLC->compra.Produto);
+                        auxLC=auxLC->next;
+                        fprintf(f,"\n");
+                    }
+                    auxCliente=auxCliente->next;
+                }
+                fclose(f);
+                f= fopen("ficheiroLivros.txt","w");  //Abre o ficheiro
+                EscreverNodoABL(f,livros);
+                fclose(f);
+
+                //TODO ficheiro para as Filas
+
+            
+             break;
             case 4: break;
         } //Acaba Switch com variável x1
         break;

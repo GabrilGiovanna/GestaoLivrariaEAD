@@ -921,3 +921,27 @@ printf("%s\n",clientes->cliente.compras->compra.codigo);
 
 return encomendas;
 }
+
+void EscreverNodoABL(FILE *f,PNodoABL T){
+  if(T==NULL) return;
+
+  fprintf(f,"%d\n",T->livro.ISBN);
+  fprintf(f,"%s\n",T->livro.titulo);
+  // ***TODO Resto dos fprintfs
+
+  EscreverNodoABL(f,T->Esquerda);
+  EscreverNodoABL(f,T->Direita);
+
+}
+
+PNodoABL LerNodoABL(FILE *f,PNodoABL T){
+  LIVRO l;
+  if(fscanf(f," %d\n %s\n ",&l.ISBN,l.titulo) == 2) {  //Não esquecer mudar o 2
+    T=InserirABP(T,l);
+    T->Esquerda=LerNodoABL(f,T->Esquerda);
+    T->Direita=LerNodoABL(f,T->Direita);
+  }
+  return T;
+
+//TODO COMPLETAR
+}
