@@ -42,25 +42,24 @@ char *getCharDinamicamente()  //Para não haver desperdícios de memória, utili
 CLIENTE NovoCliente(){   //criar novo cliente
   CLIENTE c;
   c.compras=NULL;
-  printf("Digite o NIF do novo cliente:\n");
-  scanf("%ld",&c.NIF);
-  getchar();  //Como o scanf deixa um newline no buffer, não podemos utilizar o getCharDinamicamente() não vai funcionar por causa do getc(stdin)
+  
+  //getchar();  //Como o scanf deixa um newline no buffer, não podemos utilizar o getCharDinamicamente() não vai funcionar por causa do getc(stdin)
   printf("Digite o nome do novo cliente:\n");
-  c.nome = getCharDinamicamente();
+  scanf("%s",c.nome);
   printf("Digite a morada do novo cliente:\n");
-  c.morada = getCharDinamicamente();
+  scanf("%s",c.morada);
   printf("Digite o número de telefone do novo cliente:\n");
   scanf("%ld",&c.telefone);
-  getchar();
-  printf("Lista de Compras do novo cliente:\n");
+  //getchar();
+  /*printf("Lista de Compras do novo cliente:\n");
   printf("Número de Compras na Lista:\n");
   int x;
   scanf("%d",&x);
-  getchar();
+  //getchar();
   for(int i=0;i<x;i++){
     COMPRA cp=NovaCompra();
     c.compras=InserirFimLC(cp,c.compras);
-  }
+  }*/
   //Ele chega aqui
   //printf("%s\n",c.compras->compra.codigo);
   return c;
@@ -70,57 +69,93 @@ COMPRA NovaCompra(){
 
 COMPRA comp;
 
+
 printf("Digite o Código da Compra:\n");
-comp.codigo=getCharDinamicamente();
+scanf("%s",comp.codigo);
 printf("Digite o dia da Compra:\n");
 scanf("%d",&comp.datadecompra.dia);
-getchar();
+//getchar();
 printf("Digite o mês da Compra(1,2,3...etc):\n");
 scanf("%d",&comp.datadecompra.mes);
-getchar();
+//getchar();
 printf("Digite o ano da Compra:\n");
 scanf("%d",&comp.datadecompra.ano);
-getchar();
+//getchar();
 printf("Digite o numero de unidades compradas:\n");
 scanf("%d",&comp.NumeroDeUnidadesCompradas);
-getchar();
+//getchar();
 printf("Digite o preço total:\n");
 scanf("%f",&comp.PrecoTotal);
-getchar();
+//getchar();
 printf("Digite o ISBN do produto:\n");
-scanf("%f",&comp.Produto);
-getchar();
+scanf("%d",&comp.Produto);
+//getchar();
 
 return comp;
+}
+
+CLIENTE adicionarLCaCliente(CLIENTE c,PNodoABL T){
+
+  printf("Lista de Compras do novo cliente:\n");
+  printf("Número de Compras na Lista:\n");
+  int x;
+  scanf("%d",&x);
+  //getchar();
+  for(int i=0;i<x;i++){
+     COMPRA cp;
+     printf("Digite o ISBN do produto:\n");
+     scanf("%d",&cp.Produto);
+     T=PesquisarporISBN(cp.Produto,T);
+    if(T!=NULL){
+      printf("Digite o Código da Compra:\n");
+      scanf("%s",cp.codigo);
+      printf("Digite o dia da Compra:\n");
+      scanf("%d",&cp.datadecompra.dia);
+      //getchar();
+      printf("Digite o mês da Compra(1,2,3...etc):\n");
+      scanf("%d",&cp.datadecompra.mes);
+      //getchar();
+      printf("Digite o ano da Compra:\n");
+      scanf("%d",&cp.datadecompra.ano);
+      //getchar();
+      printf("Digite o numero de unidades compradas:\n");
+      scanf("%d",&cp.NumeroDeUnidadesCompradas);
+      //getchar();
+      cp.PrecoTotal=(T->livro.preco) * (float)(cp.NumeroDeUnidadesCompradas);  //Muda o Stock
+      T->livro.stock=(T->livro.stock)-cp.NumeroDeUnidadesCompradas;  //Muda o Stock
+      if(T->livro.stock>=0)  c.compras=InserirFimLC(cp,c.compras);  //Inserir na Lista de Compras
+
+    }
+    else printf("Não é possível a compra\n");
+  }
+return c;
 }
 
 
 LIVRO NovoLivro(){
     LIVRO l;
-    printf("Digite o ISBN do livro que pretende adicionar\n");
-    scanf("%d",&l.ISBN);
-    getchar();
+    //getchar();
     printf("Digite o Título do livro que pretende adicionar\n");
-    l.titulo=getCharDinamicamente();
+    scanf("%s",l.titulo);
     printf("Digite o idioma do livro que pretende adicionar\n");
-    l.idioma=getCharDinamicamente();
+    scanf("%s",l.idioma);
     printf("Digite o nome do 1º Autor do livro que pretende adicionar\n");
-    l.primeiroAutor=getCharDinamicamente();
+    scanf("%s",l.primeiroAutor);
     printf("Digite o nome do 2º Autor do livro que pretende adicionar(se existir).\n");  //fazer If para se não existir
-    l.segundoAutor=getCharDinamicamente();
+    scanf("%s",l.segundoAutor);
     printf("Digite o nome da Editora do livro que pretende adicionar\n");
-    l.editora=getCharDinamicamente();
+    scanf("%s",l.editora);
     printf("Digite o ano em que o livro que pretende adicionar foi publicado.\n");
     scanf("%d",&l.ano);
-    getchar();
+    //getchar();
     printf("Digite a Área Científica correspondente ao livro que pretende adicionar\n");
-    l.areacientifica=getCharDinamicamente();
+    scanf("%s",l.areacientifica);
     printf("Digite o preço do livro que pretende adicionar\n");
     scanf("%f",&l.preco);
-    getchar();
+    //getchar();
     printf("Digite o Stock do livro que pretende adicionar\n");
     scanf("%d",&l.stock);
-    getchar();
+    //getchar();
     return l;
 
 }
@@ -131,48 +166,48 @@ LIVRO AlterarLivro(LIVRO L,int x){  //Função para alterar o parâmetro do livr
 
     case 1:
         printf("Digite o Título que pretende que o livro tenha\n");
-        L.titulo=getCharDinamicamente();
+        scanf("%s",L.titulo);
          break;
     case 2:
         printf("Digite o idioma do livro\n");
-        L.idioma=getCharDinamicamente();
+        scanf("%s",L.idioma);
 
          break;
     case 3:
         printf("Digite o nome do primeiro autor do livro\n");
-        L.primeiroAutor=getCharDinamicamente();
+        scanf("%s",L.primeiroAutor);
          break;
     case 4:
         printf("Digite o nome do segundo autor do livro\n");
-        L.segundoAutor=getCharDinamicamente();
+        scanf("%s",L.segundoAutor);
         break;
     case 5:
         printf("Digite o nome da editora do livro\n");
-        L.editora=getCharDinamicamente();
+        scanf("%s",L.editora);
         break;
     case 6:
         printf("Digite o ano do livro\n");
         int ano;
         scanf("%d",&ano);
-        getchar();
+        //getchar();
         L.ano=ano;
          break;
     case 7:
         printf("Digite a área científica do livro\n");
-        L.areacientifica=getCharDinamicamente();
+        scanf("%s",L.areacientifica);
         break;
     case 8:
         printf("Digite o preço do livro\n");
         float preco;
         scanf("%f",&preco);
-        getchar();
+        //getchar();
         L.preco=preco;
         break;
     case 9:
         printf("Digite o stock do livro\n");
         int stock;
         scanf("%d",&stock);
-        getchar();
+        //getchar();
         L.stock=stock;
         break;
 
@@ -187,16 +222,16 @@ CLIENTE AlterarCliente(CLIENTE L,int x){  //Função para alterar o parâmetro d
 
     case 1:
         printf("Digite o nome que pretende que o cliente tenha\n");
-        L.nome=getCharDinamicamente();
+        scanf("%s",L.nome);
          break;
     case 2:
         printf("Digite a morada do cliente\n");
-        L.morada=getCharDinamicamente();
+        scanf("%s",L.morada);
          break;
     case 3:
         printf("Digite o telefone do cliente\n");
         scanf("%ld",&L.telefone);
-        getchar();
+        //getchar();
         break;
     }
 return L;
@@ -606,6 +641,7 @@ void MostrarCliente(CLIENTE X){
     printf("NIF - %ld |", X.NIF);
     printf("Nome - %s |", X.nome);
     printf("Telefone - %ld |\n", X.telefone);
+    printf("Morada - %s |\n", X.morada);
     printf("Lista de Compras:\n");
     while(X.compras!=NULL) {
       MostrarLC(X.compras);
@@ -623,6 +659,7 @@ void MostrarLC(PNodoLC X){
   printf("Ano - %d |", X->compra.datadecompra.ano);
   printf("Preço total - %f |", X->compra.PrecoTotal);
   printf("ISBN - %d |", X->compra.Produto);
+  printf("Número de Unidades Compradas - %d |", X->compra.NumeroDeUnidadesCompradas);
 }
 
 //Funções Lista Ligada Compras
@@ -836,26 +873,35 @@ PNodoABL DestruirAB(PNodoABL T){
 
 PNodoCliente DestruirListaClientes(PNodoCliente L){
     if(L==NULL) return NULL;
+    PNodoCliente aux;
     while(L!=NULL){
-        L=RemoverCliente(L->cliente,L);
+        aux=L;
+        aux->cliente.compras=DestruirListaCompras(aux->cliente.compras);
+        aux=RemoverCliente(aux->cliente,aux);
         L=L->next;
     }
     return L;
 }
 
-PNodoLC DestruirListaCompras(PNodoLC L){
-    if(L==NULL) return NULL;
-    while(L!=NULL){
-        L=RemoverCompra(L->compra,L);
-        L=L->next;
+PNodoLC DestruirListaCompras(PNodoLC lcompras){
+    if(lcompras==NULL) return NULL;
+    PNodoLC aux;
+    while(lcompras!=NULL){
+        aux=lcompras;
+        aux=RemoverCompra(aux->compra,aux);
+        lcompras=lcompras->next;
     }
-    return L;
+    return lcompras;
 }
 
 PNodoFilaEncomendas DestruirFila(PNodoFilaEncomendas L){
     if(L==NULL) return NULL;
-    while(L!=NULL) L=RemoverFila(L);
-    
+    PNodoFilaEncomendas aux;
+    while(L!=NULL) {
+      aux=L;
+      aux=RemoverFila(aux);
+      L=L->next;
+    }
     return L;
 }
 
@@ -864,8 +910,10 @@ PNodoFilaEncomendas DestruirFila(PNodoFilaEncomendas L){
 
 ENCOMENDA ConverterCOMPRAparaENCOMENDA(CLIENTE c,COMPRA X){
   ENCOMENDA nova;
-   nova.codigo=X.codigo;
-   nova.DataDeEncomenda=X.datadecompra;
+   strcpy(nova.codigo,X.codigo);
+   nova.DataDeCompra.dia=X.datadecompra.dia;
+   nova.DataDeCompra.mes=X.datadecompra.mes;
+   nova.DataDeCompra.ano=X.datadecompra.ano;
    nova.ISBN=X.Produto;//Produto é ISBN
    nova.NIF=c.NIF;
    nova.nmr=X.NumeroDeUnidadesCompradas;
@@ -897,16 +945,25 @@ while(aux!=NULL){  //Vamos guardar as compras que ainda não foram efetuadas nas
         if((auxlc->compra.datadecompra.ano)>anoAtual){ //Se ano da compra for mais que o Ano Atual
             COMPRA new=auxlc->compra;
             ENCOMENDA nova=ConverterCOMPRAparaENCOMENDA(aux->cliente,new);  //Passar como parametro, o cliente e a compra
+            nova.DataDeEncomenda.dia=diaAtual;
+            nova.DataDeEncomenda.mes=mesAtual;
+            nova.DataDeEncomenda.ano=anoAtual;
             encomendas=Juntar(nova,encomendas); //Adicionar a encomenda à fila de encomendas
         }
         else if(((auxlc->compra.datadecompra.ano)==anoAtual)&&((auxlc->compra.datadecompra.mes)>mesAtual)){ //Se ano for igual e mes de compra for maior
         COMPRA new=auxlc->compra;
         ENCOMENDA nova=ConverterCOMPRAparaENCOMENDA(aux->cliente,new);
+        nova.DataDeEncomenda.dia=diaAtual;
+        nova.DataDeEncomenda.mes=mesAtual;
+        nova.DataDeEncomenda.ano=anoAtual;
         encomendas=Juntar(nova,encomendas); //Adicionar a encomenda à fila de encomendas
         }
         else if(((auxlc->compra.datadecompra.ano)==anoAtual)&&((auxlc->compra.datadecompra.mes)==mesAtual)&&((auxlc->compra.datadecompra.dia)==diaAtual)){ //Se ano e mes de compra for igual e dia maior
         COMPRA new=auxlc->compra;
         ENCOMENDA nova=ConverterCOMPRAparaENCOMENDA(aux->cliente,new);
+        nova.DataDeEncomenda.dia=diaAtual;
+        nova.DataDeEncomenda.mes=mesAtual;
+        nova.DataDeEncomenda.ano=anoAtual;
         encomendas=Juntar(nova,encomendas); //Adicionar a encomenda à fila de encomendas
         }
         else ;
@@ -917,7 +974,7 @@ while(aux!=NULL){  //Vamos guardar as compras que ainda não foram efetuadas nas
 
 }
 
-printf("%s\n",clientes->cliente.compras->compra.codigo);
+//printf("%s\n",clientes->cliente.compras->compra.codigo);
 
 return encomendas;
 }
@@ -927,6 +984,14 @@ void EscreverNodoABL(FILE *f,PNodoABL T){
 
   fprintf(f,"%d\n",T->livro.ISBN);
   fprintf(f,"%s\n",T->livro.titulo);
+  fprintf(f,"%s\n",T->livro.idioma);
+  fprintf(f,"%s\n",T->livro.primeiroAutor);
+  fprintf(f,"%s\n",T->livro.segundoAutor);
+  fprintf(f,"%s\n",T->livro.editora);
+  fprintf(f,"%d\n",T->livro.ano);
+  fprintf(f,"%s\n",T->livro.areacientifica);
+  fprintf(f,"%f\n",T->livro.preco);
+  fprintf(f,"%d\n",T->livro.stock);
   // ***TODO Resto dos fprintfs
 
   EscreverNodoABL(f,T->Esquerda);
@@ -936,7 +1001,7 @@ void EscreverNodoABL(FILE *f,PNodoABL T){
 
 PNodoABL LerNodoABL(FILE *f,PNodoABL T){
   LIVRO l;
-  if(fscanf(f," %d\n %s\n ",&l.ISBN,l.titulo) == 2) {  //Não esquecer mudar o 2
+  if(fscanf(f," %d\n %s\n %s\n %s\n %s\n %s\n %d\n %s\n %f\n %d\n",&l.ISBN,l.titulo,l.idioma,l.primeiroAutor,l.segundoAutor,l.editora,&l.ano,l.areacientifica,&l.preco,&l.stock) == 10) {  //Não esquecer mudar o 2
     T=InserirABP(T,l);
     T->Esquerda=LerNodoABL(f,T->Esquerda);
     T->Direita=LerNodoABL(f,T->Direita);
@@ -944,4 +1009,78 @@ PNodoABL LerNodoABL(FILE *f,PNodoABL T){
   return T;
 
 //TODO COMPLETAR
+}
+
+
+int LivrosVendidosNumDadoPeriodoDeTempo(int mes,int ano,PNodoCliente L){
+  int c=0;
+  if (L==NULL) return c;
+  while(L!=NULL){  //Percorrer a lista de clientes
+    if(L->cliente.compras==NULL){  //Se o cliente não tem uma lista de compras
+      L=L->next;  //Passa ao próximo cliente
+      continue;
+    }
+    while(L->cliente.compras!=NULL){ //Percorrer a lista de compras de um cliente
+      if((L->cliente.compras->compra.datadecompra.mes==mes) && (L->cliente.compras->compra.datadecompra.ano==ano)) c= c+ L->cliente.compras->compra.NumeroDeUnidadesCompradas;  //Se o ano e o mes coincidem, guardar numero de unidades compradas
+      L->cliente.compras=L->cliente.compras->next;
+    }
+  L=L->next;
+  }
+
+return c;
+}
+
+DATA dataDeUltimaCompra(PNodoCliente L){
+  time_t s, val = 1;
+  struct tm* current_time;
+    
+  s = time(NULL);
+    
+  current_time = localtime(&s);
+  int diaAtual=current_time->tm_mday;
+  int mesAtual=current_time->tm_mon + 1;
+  int anoAtual=current_time->tm_year + 1900;
+  DATA d;
+  d.dia=99;  //valores arbitrários 
+  d.mes=99;
+  d.ano=99999;
+  DATA atual;
+  atual.dia=diaAtual;
+  atual.mes=mesAtual;
+  atual.ano=anoAtual;
+  if(L==NULL) {
+    d.dia=0;
+    return d;
+  }
+  while(L!=NULL){  //Percorrer a lista de clientes
+    if(L->cliente.compras==NULL){  //Se o cliente não tem uma lista de compras
+      L=L->next;  //Passa ao próximo cliente
+      continue;
+    }
+    while(L->cliente.compras!=NULL){
+      if((CompararDatas(L->cliente.compras->compra.datadecompra,atual)==-1) &&(CompararDatas(L->cliente.compras->compra.datadecompra,d))==-1)  {  // Se data da compra for menor que a data atual e for menor do que a data guardada (d)
+      d.dia=L->cliente.compras->compra.datadecompra.dia;
+      d.mes=L->cliente.compras->compra.datadecompra.mes;
+      d.ano=L->cliente.compras->compra.datadecompra.ano;
+      }
+
+    L->cliente.compras=L->cliente.compras->next;
+    }
+
+  L=L->next;
+  }
+  return d;
+}
+
+int CompararDatas (DATA d1, DATA d2){  //Devolve -1 se d1 for menor que d2, devolve 1 se d2 for maior que d1, devolve 0 se forem iguais
+
+  if (d1.ano < d2.ano) return -1;
+  else if (d1.ano > d2.ano) return 1;
+  if (d1.ano == d2.ano){
+    if (d1.mes<d2.mes) return -1;
+    else if (d1.mes>d2.mes) return 1;     
+    else if (d1.mes<d2.mes) return -1;
+    else if(d1.mes>d2.mes) return 1;
+    else return 0;
+  }
 }

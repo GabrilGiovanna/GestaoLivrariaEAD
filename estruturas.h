@@ -4,7 +4,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
-
+#define TAM 50
 
 typedef struct data{
     int dia;
@@ -14,13 +14,13 @@ typedef struct data{
 
 typedef struct livro{
     int ISBN;
-    char *titulo;
-    char *idioma;
-    char *primeiroAutor;
-    char *segundoAutor;
-    char *editora;
+    char titulo[TAM];
+    char idioma[TAM];
+    char primeiroAutor[TAM];
+    char segundoAutor[TAM];
+    char editora[TAM];
     int ano;
-    char *areacientifica;
+    char areacientifica[TAM];
     float preco;
     int stock;
 }LIVRO;
@@ -35,10 +35,10 @@ typedef struct NodoABLivro * PNodoABL;
 
 typedef struct Compra{  //Lista Ligada para lista de compras
     int Produto;
-    DATA  datadecompra;
+    DATA  datadecompra;  //Data em que a compra foi/vai ser efetuada
     int NumeroDeUnidadesCompradas;
     float PrecoTotal;
-    char *codigo;
+    char codigo[TAM];
 }COMPRA;
 
 struct NodoLC{  //Lista ligada para manusear clientes, cada Nodo contêm um cliente
@@ -49,8 +49,8 @@ typedef struct NodoLC *PNodoLC;
 
 typedef struct cliente{
     long int NIF;  //NIF
-    char *nome;  //Nome do Cliente
-    char *morada;  //Morada do Cliente
+    char nome[TAM];  //Nome do Cliente
+    char morada[TAM];  //Morada do Cliente
     long int telefone; //Número de Telefone do Cliente
     PNodoLC compras;
 
@@ -66,12 +66,11 @@ typedef struct NodoCliente *PNodoCliente;
 typedef struct encomendas{
     int ISBN;  //código do livro
     int NIF;
-    DATA DataDeEncomenda;
-    DATA DataDeCompra;
-    DATA DataDeVenda;
+    DATA DataDeEncomenda;  //Data em que a encomenda foi efetuada(será a data atual quando adicionada uma nova encomenda)
+    DATA DataDeCompra;  //Data em que a encomenda é realizada(data da compra futura do cliente)
     int nmr;  //Numero de Unidades encomendadas
     float precoTotal;
-    char *codigo;
+    char codigo[TAM];
 }ENCOMENDA;
 
 struct filaEncomendas{  //Fila para manusear encomendas
@@ -85,6 +84,7 @@ typedef struct filaEncomendas *PNodoFilaEncomendas;
 char *getCharDinamicamente();
 CLIENTE NovoCliente();
 COMPRA NovaCompra();
+CLIENTE adicionarLCaCliente(CLIENTE c,PNodoABL T);
 LIVRO NovoLivro();
 LIVRO AlterarLivro(LIVRO L,int x);
 PNodoABL CriarArvoreEquilibrada (PNodoABL T);
@@ -152,4 +152,6 @@ void ListarClienteNome(char *X,PNodoCliente L);
 void MostrarCliente(CLIENTE X);
 void ListarClienteMorada(char *X,PNodoCliente L);
 void MostrarLC(PNodoLC X);
+int LivrosVendidosNumDadoPeriodoDeTempo(int mes,int ano,PNodoCliente L);
+DATA dataDeUltimaCompra(PNodoCliente L);
 #endif

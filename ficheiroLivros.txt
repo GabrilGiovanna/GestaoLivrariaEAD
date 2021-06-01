@@ -1,0 +1,10 @@
+123456
+titulo
+portugues
+pedro
+nulo
+penguin
+1999
+info
+10.000000
+10
