@@ -1,6 +1,9 @@
 #include "estruturas.c"
 
+/*  Trabalho realizado por Gabriel Alexandre Araújo Ribeiro nº41235, aluno de Engenharia Informática na Universidade da Beira Interior 2020/2021
 
+
+*/
 int main(){
 
 /*LIVRO livro;
@@ -62,18 +65,21 @@ switch(x){  //Primeiro Switch para escolher a secção
             case 2:{
                 FILE *f= fopen("ficheiroClientes.txt","r");  //Abre o ficheiro
                 CLIENTE aux;
-                COMPRA aux2;
+                int count=0;
                 while(!feof(f)){
-                    fscanf(f," %ld",&aux.NIF);
+                    count+=fscanf(f," %ld",&aux.NIF);
                     //printf("Aqui ele vem\n");
-                    fscanf(f," %s",aux.nome);
+                    count+=fscanf(f," %s",aux.nome);
                     //printf("Entrei aqui\n");  //Não entra aqui por alguma razao
-                    fscanf(f," %ld",&aux.telefone);
-                    fscanf(f," %s",aux.morada);
+                    count+=fscanf(f," %ld",&aux.telefone);
+                    count+=fscanf(f," %s",aux.morada);
+                    COMPRA aux2;
+                    aux.compras=NULL;
                     while(fscanf(f," %s %d %d %d %d %f %d",aux2.codigo,&aux2.datadecompra.dia,&aux2.datadecompra.mes,&aux2.datadecompra.ano,&aux2.NumeroDeUnidadesCompradas,&aux2.PrecoTotal,&aux2.Produto)==7){
                         aux.compras=InserirFimLC(aux2,aux.compras);
                     }
-                clientes=InserirFim(aux,clientes);
+                if(count==4) clientes=InserirFim(aux,clientes);
+                else break;
                 }
                 fclose(f);
                 //printf("Entrei aqui\n");
@@ -84,16 +90,18 @@ switch(x){  //Primeiro Switch para escolher a secção
                 //TODO FILA
                 f=fopen("ficheiroEncomendas.txt","r");
                 ENCOMENDA auxiliar;
+                count=0;
                 while(!feof(f)){
-                    fscanf(f," %s",auxiliar.codigo);
-                    fscanf(f," %d %d %d",&auxiliar.DataDeCompra.dia,&auxiliar.DataDeCompra.mes,&auxiliar.DataDeCompra.ano);
-                    fscanf(f," %d %d %d",&auxiliar.DataDeEncomenda.dia,&auxiliar.DataDeEncomenda.mes,&auxiliar.DataDeEncomenda.ano);
+                    count+=fscanf(f," %s",auxiliar.codigo);
+                    count+=fscanf(f," %d %d %d",&auxiliar.DataDeCompra.dia,&auxiliar.DataDeCompra.mes,&auxiliar.DataDeCompra.ano);
+                    count+=fscanf(f," %d %d %d",&auxiliar.DataDeEncomenda.dia,&auxiliar.DataDeEncomenda.mes,&auxiliar.DataDeEncomenda.ano);
                     //fscanf(f," %d %d %d",&auxiliar.DataDeVenda.dia,&auxiliar.DataDeVenda.mes,&auxiliar.DataDeVenda.ano);
-                    fscanf(f," %d",&auxiliar.ISBN);
-                    fscanf(f," %d",&auxiliar.NIF);
-                    fscanf(f," %d",&auxiliar.nmr);
-                    fscanf(f," %f",&auxiliar.precoTotal);
-                    encomendas=Juntar(auxiliar,encomendas);
+                    count+=fscanf(f," %d",&auxiliar.ISBN);
+                    count+=fscanf(f," %d",&auxiliar.NIF);
+                    count+=fscanf(f," %d",&auxiliar.nmr);
+                    count+=fscanf(f," %f",&auxiliar.precoTotal);
+                    if(count==11) encomendas=Juntar(auxiliar,encomendas);
+                    else break;
                 }
                 fclose(f);
             }
@@ -379,7 +387,7 @@ switch(x){  //Primeiro Switch para escolher a secção
                 break;
             } 
             printf("Digite o NIF do cliente da encomenda\n");
-            int nif;
+            long int nif;
             scanf("%ld",&nif);
             PNodoCliente auxcli=PesquisarPorNIF(nif,auxcli);
             if(auxcli==NULL){  //Se cliente não existe
@@ -420,14 +428,37 @@ switch(x){  //Primeiro Switch para escolher a secção
                 int numeroliv=LivrosVendidosNumDadoPeriodoDeTempo(mes,ano,clientes);
                 printf("O número de livros vendidos em %d/%d foi %d\n",mes,ano,numeroliv);
              break;
-            case 2: 
+            case 2: {
                 DATA ultimacompraData;
                 ultimacompraData=dataDeUltimaCompra(clientes);
                 if(ultimacompraData.dia==0) printf("Não há compras feitas\n");
-                else printf("A última compra efetuada foi a %d/%d/%d\n",ultimacompraData.dia,ultimacompraData.mes,ultimacompraData.ano);           
+                else if (ultimacompraData.dia==99) printf("Não há compras ainda terminadas\n");
+                else printf("A última compra efetuada foi a %d/%d/%d\n",ultimacompraData.dia,ultimacompraData.mes,ultimacompraData.ano);   
+            }        
             break;
-            case 3: break;
-            case 4: break;
+            case 3:
+                printf("Digite o NIF do cliente que pretende verificar o número de livros já comprados\n");
+                long int nif;
+                scanf("%ld",&nif);
+                PNodoCliente aux=PesquisarPorNIF(nif,clientes);
+                if(aux==NULL){
+                    printf("Não existe um cliente com esse NIF\n");
+                    continue;
+                }
+                int nmrdelivroscliente=QuantidadeDeLivrosCompradosPorCliente(aux->cliente);
+                printf("O cliente com o NIF %d comprou %d livros\n",nif,nmrdelivroscliente);       
+             break;
+            case 4: 
+                printf("Digite a área ciêntifica que pretende verificar\n");
+                getchar();
+                char *area=getCharDinamicamente();
+                printf("Digite o número de livros mais recentes que pretende verificar\n");
+                int k;
+                scanf("%d",&k);
+                MostrarKLivrosMaisRecentes(area,k,livros);
+                printf("Lista dos %d livros de %s mais recentes:\n",k,area);
+            
+            break;
             case 5: break;
             case 6: break;
             case 7: break;

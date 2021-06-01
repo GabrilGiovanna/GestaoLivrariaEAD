@@ -105,8 +105,8 @@ CLIENTE adicionarLCaCliente(CLIENTE c,PNodoABL T){
      COMPRA cp;
      printf("Digite o ISBN do produto:\n");
      scanf("%d",&cp.Produto);
-     T=PesquisarporISBN(cp.Produto,T);
-    if(T!=NULL){
+     PNodoABL aux=PesquisarporISBN(cp.Produto,T);
+    if(aux!=NULL){
       printf("Digite o Código da Compra:\n");
       scanf("%s",cp.codigo);
       printf("Digite o dia da Compra:\n");
@@ -121,9 +121,13 @@ CLIENTE adicionarLCaCliente(CLIENTE c,PNodoABL T){
       printf("Digite o numero de unidades compradas:\n");
       scanf("%d",&cp.NumeroDeUnidadesCompradas);
       //getchar();
+      if(cp.NumeroDeUnidadesCompradas>aux->livro.stock){
+        printf("Fora de stock\n");
+        break;
+      }      
       cp.PrecoTotal=(T->livro.preco) * (float)(cp.NumeroDeUnidadesCompradas);  //Muda o Stock
-      T->livro.stock=(T->livro.stock)-cp.NumeroDeUnidadesCompradas;  //Muda o Stock
-      if(T->livro.stock>=0)  c.compras=InserirFimLC(cp,c.compras);  //Inserir na Lista de Compras
+      aux->livro.stock=(aux->livro.stock)-cp.NumeroDeUnidadesCompradas;  //Muda o Stock
+      c.compras=InserirFimLC(cp,c.compras);  //Inserir na Lista de Compras
 
     }
     else printf("Não é possível a compra\n");
@@ -659,7 +663,7 @@ void MostrarLC(PNodoLC X){
   printf("Ano - %d |", X->compra.datadecompra.ano);
   printf("Preço total - %f |", X->compra.PrecoTotal);
   printf("ISBN - %d |", X->compra.Produto);
-  printf("Número de Unidades Compradas - %d |", X->compra.NumeroDeUnidadesCompradas);
+  printf("Número de Unidades Compradas - %d |\n", X->compra.NumeroDeUnidadesCompradas);
 }
 
 //Funções Lista Ligada Compras
@@ -888,9 +892,10 @@ PNodoLC DestruirListaCompras(PNodoLC lcompras){
     PNodoLC aux;
     while(lcompras!=NULL){
         aux=lcompras;
-        aux=RemoverCompra(aux->compra,aux);
         lcompras=lcompras->next;
+        free(aux);
     }
+    //printf("Im here\n");
     return lcompras;
 }
 
@@ -899,8 +904,9 @@ PNodoFilaEncomendas DestruirFila(PNodoFilaEncomendas L){
     PNodoFilaEncomendas aux;
     while(L!=NULL) {
       aux=L;
-      aux=RemoverFila(aux);
       L=L->next;
+      free(aux);
+      
     }
     return L;
 }
@@ -927,12 +933,18 @@ time_t s, val = 1;
 struct tm* current_time;
     
 s = time(NULL);
+
+DATA atual;
     
 current_time = localtime(&s);
 int diaAtual=current_time->tm_mday;
 int mesAtual=current_time->tm_mon + 1;
 int anoAtual=current_time->tm_year + 1900;
 int diaDoAnoAtual=current_time->tm_yday;  //Estas linhas de código são necessárias para saber o tempo atual
+
+atual.dia=diaAtual;
+atual.mes=mesAtual;
+atual.ano=anoAtual;
 if(clientes==NULL) return NULL;
 
 //if(clientes !=NULL) printf("%s\n",clientes->cliente.compras->compra.codigo);
@@ -941,8 +953,9 @@ PNodoCliente aux=clientes;
 PNodoLC auxlc=aux->cliente.compras;
 
 while(aux!=NULL){  //Vamos guardar as compras que ainda não foram efetuadas nas encomendas 
+    auxlc=aux->cliente.compras;
     while(auxlc!=NULL){
-        if((auxlc->compra.datadecompra.ano)>anoAtual){ //Se ano da compra for mais que o Ano Atual
+        if((CompararDatas(auxlc->compra.datadecompra,atual))==1){ //Se data da compra for maior que 
             COMPRA new=auxlc->compra;
             ENCOMENDA nova=ConverterCOMPRAparaENCOMENDA(aux->cliente,new);  //Passar como parametro, o cliente e a compra
             nova.DataDeEncomenda.dia=diaAtual;
@@ -950,31 +963,10 @@ while(aux!=NULL){  //Vamos guardar as compras que ainda não foram efetuadas nas
             nova.DataDeEncomenda.ano=anoAtual;
             encomendas=Juntar(nova,encomendas); //Adicionar a encomenda à fila de encomendas
         }
-        else if(((auxlc->compra.datadecompra.ano)==anoAtual)&&((auxlc->compra.datadecompra.mes)>mesAtual)){ //Se ano for igual e mes de compra for maior
-        COMPRA new=auxlc->compra;
-        ENCOMENDA nova=ConverterCOMPRAparaENCOMENDA(aux->cliente,new);
-        nova.DataDeEncomenda.dia=diaAtual;
-        nova.DataDeEncomenda.mes=mesAtual;
-        nova.DataDeEncomenda.ano=anoAtual;
-        encomendas=Juntar(nova,encomendas); //Adicionar a encomenda à fila de encomendas
-        }
-        else if(((auxlc->compra.datadecompra.ano)==anoAtual)&&((auxlc->compra.datadecompra.mes)==mesAtual)&&((auxlc->compra.datadecompra.dia)==diaAtual)){ //Se ano e mes de compra for igual e dia maior
-        COMPRA new=auxlc->compra;
-        ENCOMENDA nova=ConverterCOMPRAparaENCOMENDA(aux->cliente,new);
-        nova.DataDeEncomenda.dia=diaAtual;
-        nova.DataDeEncomenda.mes=mesAtual;
-        nova.DataDeEncomenda.ano=anoAtual;
-        encomendas=Juntar(nova,encomendas); //Adicionar a encomenda à fila de encomendas
-        }
-        else ;
         auxlc=auxlc->next;  //iterar a lista de compras
     }  //Fim do While de Compras
     aux=aux->next; //iterar a lista ligada de clientes
-
-
 }
-
-//printf("%s\n",clientes->cliente.compras->compra.codigo);
 
 return encomendas;
 }
@@ -1030,6 +1022,7 @@ int LivrosVendidosNumDadoPeriodoDeTempo(int mes,int ano,PNodoCliente L){
 return c;
 }
 
+
 DATA dataDeUltimaCompra(PNodoCliente L){
   time_t s, val = 1;
   struct tm* current_time;
@@ -1073,14 +1066,158 @@ DATA dataDeUltimaCompra(PNodoCliente L){
 }
 
 int CompararDatas (DATA d1, DATA d2){  //Devolve -1 se d1 for menor que d2, devolve 1 se d2 for maior que d1, devolve 0 se forem iguais
+  if(d1.ano<d2.ano) return -1;
+  else if(d1.ano>d2.ano) return 1;
 
-  if (d1.ano < d2.ano) return -1;
+  if(d1.mes<d2.mes) return -1;
+  else if(d1.mes>d2.mes) return 1;
+
+  if(d1.dia<d2.dia) return -1;
+  else if(d1.dia>d2.dia) return 1;
+
+  return 0;
+  /*if (d1.ano < d2.ano) return -1;
   else if (d1.ano > d2.ano) return 1;
   if (d1.ano == d2.ano){
     if (d1.mes<d2.mes) return -1;
     else if (d1.mes>d2.mes) return 1;     
     else if (d1.mes<d2.mes) return -1;
     else if(d1.mes>d2.mes) return 1;
-    else return 0;
+    else return 0; */
   }
+
+
+
+int QuantidadeDeLivrosCompradosPorCliente(CLIENTE X){
+  int c=0;
+  DATA atual;
+  time_t s, val = 1;
+  struct tm* current_time;
+    
+  s = time(NULL);
+  
+  current_time = localtime(&s);
+  int diaAtual=current_time->tm_mday;
+  int mesAtual=current_time->tm_mon + 1;
+  int anoAtual=current_time->tm_year + 1900;
+  
+  atual.dia=diaAtual;
+  atual.mes=mesAtual;
+  atual.ano=anoAtual;
+
+  PNodoLC aux=X.compras;
+  if(aux==NULL) return c;
+  while(aux!=NULL){  //Percorrer lista de compras
+  if(CompararDatas(aux->compra.datadecompra,atual)==-1) c=c+(aux->compra.NumeroDeUnidadesCompradas); //Se data de compra for menor que a data atual, a compra já foi feita, portanto adicionar ao count o número de unidades dessa compra
+  aux=aux->next;
+  }
+  return c;
+}
+
+
+void MostrarKLivrosMaisRecentes(char *area,int k,PNodoABL T){
+  if(T==NULL) return;
+  int i=0;
+  PNodoABL aux=converterABPisbnParaABPano(T,area);
+  aux=CriarArvoreEquilibradaAno(aux);
+  while((i<k)&&(aux!=NULL)){
+    PNodoABL aux2=NodoMaiorElementoABP(aux);  //Encontra o nodo maior(numa árvore de pesquisa com index Ano) logo, encontra o livro com o "ano" maior.
+    if(strcmp(aux2->livro.areacientifica,area)==0) {
+      MostrarLivro(aux2->livro);  //Mostra livro
+      i++;
+    }
+    aux=RemoverABPAno(aux,aux2->livro);  //remove livro, para depois encontrar o próximo maior 
+    aux=CriarArvoreEquilibradaAno(aux);
+  }
+}
+
+
+PNodoABL converterABPisbnParaABPano(PNodoABL T,char *area){  //TODO função está mal
+  PNodoABL aux=NULL;
+  //PNodoABL E,D;
+  if (T==NULL) return aux;
+  if(strcmp(T->livro.areacientifica,area)==0) aux=InserirABPAnoDePub(aux,T->livro);
+  aux->Esquerda = converterABPisbnParaABPano(T->Esquerda,area);
+  aux->Direita = converterABPisbnParaABPano(T->Direita,area);
+  return aux;
+}
+
+PNodoABL InserirABPAnoDePub (PNodoABL T, LIVRO X){  //Inserir livro numa ABP mas com o index de pesquisa sendo o ano de publicação
+  if (T == NULL) {
+    T = CriarNodoAB(X);
+    return T;
+  }
+  if (CompararLivroAnoDePub(X, T->livro) == -1)
+    T->Esquerda = InserirABPAnoDePub(T->Esquerda, X);
+  else
+    T->Direita = InserirABPAnoDePub(T->Direita, X);
+  return T;
+}
+
+int CompararLivroAnoDePub (LIVRO X, LIVRO Y){  // devolve -1 se X < Y, 0 se X = Y, 1 se X > Y ***COMPARAR LIVRO COM ANO DE PUBLICAÇÃO***
+  if (X.ano > Y.ano)
+    return 1;
+  if (X.ano < Y.ano)
+    return -1;
+  return 0;
+}
+
+PNodoABL NodoMaiorElementoABP (PNodoABL T){  //Encontrar o maior elemento da arvore
+  if (T == NULL)
+    return NULL;
+  if (T->Direita == NULL)
+    return T;
+  return NodoMaiorElementoABP(T->Direita);
+}
+
+PNodoABL CriarArvoreEquilibradaAno (PNodoABL T) {//Algoritmo dado nas aulas para criar árvore binária equilibrada
+    LIVRO *Lista;
+    int N = 0, Num;
+    Num = NumeroNodosAB(T);
+    if (T == NULL)
+        return NULL;
+    Lista = (LIVRO *) malloc(Num * sizeof(LIVRO));
+    if (Lista == NULL)
+        return NULL;
+    CriarSequenciaEmOrdemAno(T, Lista, &N);
+    PNodoABL aux=NULL;
+    aux=EquilibrarArvoreAno(aux, Lista, 0, N-1);
+    T=DestruirAB(T);
+    return aux;
+ }
+
+void CriarSequenciaEmOrdemAno (PNodoABL T, LIVRO *L, int *N) {
+    if (T != NULL) {
+        CriarSequenciaEmOrdemAno(T->Esquerda,L,N);
+        L[*N] = T->livro;
+        *N = (*N) + 1;
+        CriarSequenciaEmOrdemAno(T->Direita,L,N);
+    }
+}
+
+PNodoABL EquilibrarArvoreAno (PNodoABL T, LIVRO *L, int inicio, int fim) {
+    int medio;
+    if (inicio > fim)
+        return T;
+    if (inicio == fim) {
+        T = InserirABPAnoDePub(T, L[inicio]);
+        return T;
+    }
+    medio = (inicio + fim) / 2;
+    T = InserirABPAnoDePub(T, L[medio]);
+    T=EquilibrarArvoreAno(T, L, inicio, medio-1);
+    T=EquilibrarArvoreAno(T, L, medio+1, fim);
+    return T;
+}
+
+PNodoABL RemoverABPAno (PNodoABL T, LIVRO X) {
+  if (CompararLivroAnoDePub(X, T->livro) == 0) {
+    T = RemoverNodoABP(T);
+    return T;
+  }
+  if (CompararLivroAnoDePub(X, T->livro) == -1)
+    T->Esquerda = RemoverABPAno(T->Esquerda, X);
+  else
+    T->Direita = RemoverABPAno(T->Direita, X);
+  return T;
 }

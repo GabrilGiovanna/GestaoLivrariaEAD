@@ -154,4 +154,15 @@ void ListarClienteMorada(char *X,PNodoCliente L);
 void MostrarLC(PNodoLC X);
 int LivrosVendidosNumDadoPeriodoDeTempo(int mes,int ano,PNodoCliente L);
 DATA dataDeUltimaCompra(PNodoCliente L);
+int CompararDatas (DATA d1, DATA d2);
+int QuantidadeDeLivrosCompradosPorCliente(CLIENTE X);
+void MostrarKLivrosMaisRecentes(char *area,int k,PNodoABL T);
+PNodoABL converterABPisbnParaABPano(PNodoABL T,char *area);
+PNodoABL InserirABPAnoDePub (PNodoABL T, LIVRO X);
+int CompararLivroAnoDePub (LIVRO X, LIVRO Y);
+PNodoABL NodoMaiorElementoABP (PNodoABL T);
+PNodoABL CriarArvoreEquilibradaAno (PNodoABL T);
+void CriarSequenciaEmOrdemAno (PNodoABL T, LIVRO *L, int *N);
+PNodoABL EquilibrarArvoreAno (PNodoABL T, LIVRO *L, int inicio, int fim);
+PNodoABL RemoverABPAno (PNodoABL T, LIVRO X);
 #endif
