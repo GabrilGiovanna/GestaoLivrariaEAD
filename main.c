@@ -1,6 +1,10 @@
 #include "estruturas.c"
 
-/*  Trabalho realizado por Gabriel Alexandre Araújo Ribeiro nº41235, aluno de Engenharia Informática na Universidade da Beira Interior 2020/2021
+/*  Trabalho realizado por Gabriel Alexandre Araújo Ribeiro nº41235, aluno de Engenharia Informatica na Universidade da Beira Interior, e Miguel Vieira Santos nº 41710 
+
+Algoritmos e Estruturas de Dados 2020/2021-Gestao de uma Livraria
+
+Implementacao em C
 
 
 */
@@ -31,21 +35,21 @@ while(x!=6){
 
 encomendas=ComprasToEncomendas(clientes,encomendas);
 
-printf("-------Gestão de uma Livraria-------\n");
+printf("-------Gestao de uma Livraria-------\n");
 
-printf("Pretende ir para que secção?\n");
+printf("Pretende ir para que seccao?\n");
 printf("1.Ficheiro\n");
 printf("2.Livros\n");
 printf("3.Clientes\n");
 printf("4.Encomendas\n");
-printf("5.Operações\n");
+printf("5.Operacões\n");
 printf("6.Sair\n");
 
 
 
 scanf("%d",&x);
 
-switch(x){  //Primeiro Switch para escolher a secção
+switch(x){  //Primeiro Switch para escolher a seccao
     case 1: //FICHEIROS
         printf("-------Ficheiros-------\n");
         printf("1.Novo\n");
@@ -56,7 +60,7 @@ switch(x){  //Primeiro Switch para escolher a secção
         scanf("%d",&x1);
         //getchar();
         switch(x1){  //Switch para escolher o que fazer com ficheiros
-            case 1:  //Nova ED. Destrói as ED's de momento, e tornam-se nulas
+            case 1:  //Nova ED. Destroi as ED's de momento, e tornam-se nulas
                 livros=DestruirAB(livros);
                 clientes=DestruirListaClientes(clientes);
                 //listadecompras=DestruirListaCompras(listadecompras);
@@ -70,7 +74,7 @@ switch(x){  //Primeiro Switch para escolher a secção
                     count+=fscanf(f," %ld",&aux.NIF);
                     //printf("Aqui ele vem\n");
                     count+=fscanf(f," %s",aux.nome);
-                    //printf("Entrei aqui\n");  //Não entra aqui por alguma razao
+                    //printf("Entrei aqui\n");  //Nao entra aqui por alguma razao
                     count+=fscanf(f," %ld",&aux.telefone);
                     count+=fscanf(f," %s",aux.morada);
                     COMPRA aux2;
@@ -149,7 +153,7 @@ switch(x){  //Primeiro Switch para escolher a secção
             }
              break;
             case 4: break;
-        } //Acaba Switch com variável x1
+        } //Acaba Switch com variavel x1
         break;
 
     case 2: //LIVROS
@@ -161,14 +165,14 @@ switch(x){  //Primeiro Switch para escolher a secção
         printf("5.Consultar por Título\n");
         printf("6.Consultar por Autor\n");
         printf("7.Consultar por Editora\n");
-        printf("8.Consultar por Área Ciêntifica\n");
-        printf("9.Consultar por Ano de Publicação\n");
+        printf("8.Consultar por area Ciêntifica\n");
+        printf("9.Consultar por Ano de Publicacao\n");
         printf("10.Voltar\n");
         int x2=0;
         scanf("%d",&x2);
         //getchar();
         switch(x2){  //Switch para escolher o que fazer com livros
-            case 1:  //Inserir novo livro na Árvore Binária
+            case 1:  //Inserir novo livro na arvore Binaria
                 {
 
                 printf("Digite o ISBN do livro que pretende adicionar\n");
@@ -176,12 +180,12 @@ switch(x){  //Primeiro Switch para escolher a secção
                 scanf("%d",&isbn);
                 PNodoABL auxiliarli=PesquisarporISBN(isbn,livros);
                 if(auxiliarli==NULL){
-                LIVRO X=NovoLivro();   //**************FALTA VERIFICAR SE O LIVRO JÁ EXISTE************
+                LIVRO X=NovoLivro();   //**************FALTA VERIFICAR SE O LIVRO Ja EXISTE************
                 X.ISBN=isbn;
-                livros=InserirABP(livros,X); //insere novo livro na Árvore de Pesquisa
-                livros=CriarArvoreEquilibrada(livros); //Equilibra a árvore
+                livros=InserirABP(livros,X); //insere novo livro na arvore de Pesquisa
+                livros=CriarArvoreEquilibrada(livros); //Equilibra a arvore
                 }
-                else printf("Já existe um livro com esse ISBN\n");
+                else printf("Ja existe um livro com esse ISBN\n");
                 }
                  break;
             case 2:  //Remover dado um ISBN
@@ -192,7 +196,7 @@ switch(x){  //Primeiro Switch para escolher a secção
                 PNodoABL aux;  //Nodo para guardar o Nodo correspondente ao livro com o ISBN
                 aux=PesquisarporISBN(isbn,livros);  //Procurar o livro
                 if(aux!=NULL) livros=RemoverABP(livros,aux->livro); //Se existir, remover
-                else printf("Não existe o livro com o dado ISBN\n");//Não existe
+                else printf("Nao existe o livro com o dado ISBN\n");//Nao existe
 
                  break;
             case 3:
@@ -208,18 +212,18 @@ switch(x){  //Primeiro Switch para escolher a secção
                     printf("3-Primeiro Autor\n");
                     printf("4-Segundo Autor\n");
                     printf("5-Editora\n");
-                    printf("6-Ano de Publicação\n");
-                    printf("7-Área científica\n");
-                    printf("8-Preço\n");
+                    printf("6-Ano de Publicacao\n");
+                    printf("7-area científica\n");
+                    printf("8-Preco\n");
                     printf("9-Quantidade em stock\n");
                     int alt;
                     scanf("%d",&alt);
                     //getchar();
-                    aux->livro=AlterarLivro(aux->livro,alt);//AlterarLivro(aux->livro,alt);  //Função para alterar o parâmetro do livro que foi escolhido anteriormente
-                    printf("Alteração efetuada\n");
+                    aux->livro=AlterarLivro(aux->livro,alt);//AlterarLivro(aux->livro,alt);  //Funcao para alterar o parâmetro do livro que foi escolhido anteriormente
+                    printf("Alteracao efetuada\n");
 
                 }
-                else printf("Não existe o livro com o dado ISBN\n");
+                else printf("Nao existe o livro com o dado ISBN\n");
 
                  break;
             case 4:  //Consultar livro por ISBN
@@ -229,7 +233,7 @@ switch(x){  //Primeiro Switch para escolher a secção
                 //getchar();
                 aux=PesquisarporISBN(isbn,livros);
                 if(aux!=NULL) MostrarLivro(aux->livro);
-                else printf("Não existe o livro com o dado ISBN\n");
+                else printf("Nao existe o livro com o dado ISBN\n");
                 break;
             case 5:  //Consultar livro por título
                 printf("Digite o Título do livro que pretende consultar\n");
@@ -256,15 +260,15 @@ switch(x){  //Primeiro Switch para escolher a secção
                 ListarLivroEditora(editora,livros);
 
                  break;
-            case 8: //Consultar livro por Área Cientifica
-                 printf("Digite a Área Ciêntifica do livro que pretende consultar\n");
+            case 8: //Consultar livro por area Cientifica
+                 printf("Digite a area Ciêntifica do livro que pretende consultar\n");
                 char ac[TAM];
                 scanf("%s",ac);
                 printf("Lista de Livros:\n");
                 ListarLivroAC(ac,livros);
                 break;
-            case 9:  //Consultar livro por ano de publicação
-                printf("Digite o Ano de Publicação do livro que pretende consultar\n");
+            case 9:  //Consultar livro por ano de publicacao
+                printf("Digite o Ano de Publicacao do livro que pretende consultar\n");
                 int ano;
                 scanf("%d",&ano);
                 printf("Lista de Livros:\n");
@@ -272,7 +276,7 @@ switch(x){  //Primeiro Switch para escolher a secção
 
                 break;
             case 10: break;
-        }//Acaba Switch com variável x2
+        }//Acaba Switch com variavel x2
         break;
     case 3: //CLIENTES
         printf("-------Clientes-------\n");
@@ -288,7 +292,7 @@ switch(x){  //Primeiro Switch para escolher a secção
         //getchar();
         switch(x3){  //Switch para escolher o que fazer com Clientes
             case 1:{  //Novo cliente
-            CLIENTE client;  //**************FALTA VERIFICAR SE O CLIENTE JÁ EXISTE COM O NIF************
+            CLIENTE client;  //**************FALTA VERIFICAR SE O CLIENTE Ja EXISTE COM O NIF************
             printf("Digite o NIF do novo cliente:\n");
             long int nif;
             scanf("%ld",&nif);
@@ -299,7 +303,7 @@ switch(x){  //Primeiro Switch para escolher a secção
             client=adicionarLCaCliente(client,livros);  //Adiciona a lista de compras ao cliente
             clientes=InserirFim(client,clientes); 
             }
-            else printf("Já existe o cliente com esse NIF\n");
+            else printf("Ja existe o cliente com esse NIF\n");
             //printf("%s\n",client.compras->compra.codigo); Ele guarda a encomenda
             //Chega aqui
             break;
@@ -312,7 +316,7 @@ switch(x){  //Primeiro Switch para escolher a secção
             if(PesquisarPorNIF(nif,clientes)!=NULL){  //Se existe um cliente com esse NIF
                 CLIENTE client;
                 client=PesquisarPorNIF(nif,clientes)->cliente;  //Guardamos o cliente
-                client.compras=DestruirListaCompras(client.compras); //Destruir lista de compras para não ficar na memória
+                client.compras=DestruirListaCompras(client.compras); //Destruir lista de compras para nao ficar na memoria
                 PNodoFilaEncomendas feaux=encomendas; //auxiliar para percorrer a fila
                 while(feaux!=NULL){
                     if(feaux->encomenda.NIF==nif) encomendas=RemoverEncomendaFila(feaux->encomenda,encomendas);  //Remove encomendas do cliente removido
@@ -320,7 +324,7 @@ switch(x){  //Primeiro Switch para escolher a secção
                 }
             clientes=RemoverCliente(client,clientes);  //Depois de remover lista de compras e encomendas do cliente, remover o cliente
             }
-            else printf("Não existe um cliente com esse NIF\n");
+            else printf("Nao existe um cliente com esse NIF\n");
              break;
             case 3: //Alterar Cliente
             printf("Digite o NIF do cliente que pretende alterar\n");
@@ -336,11 +340,11 @@ switch(x){  //Primeiro Switch para escolher a secção
                 int alt;
                 scanf("%d",&alt);
                 //getchar();
-                auxcliente->cliente=AlterarCliente(auxcliente->cliente,alt);//AlterarLivro(aux->livro,alt);  //Função para alterar o parâmetro do livro que foi escolhido anteriormente
-                printf("Alteração efetuada\n");
+                auxcliente->cliente=AlterarCliente(auxcliente->cliente,alt);//AlterarLivro(aux->livro,alt);  //Funcao para alterar o parâmetro do livro que foi escolhido anteriormente
+                printf("Alteracao efetuada\n");
 
                 }
-                else printf("Não existe o cliente com o dado NIF\n");
+                else printf("Nao existe o cliente com o dado NIF\n");
              break;
             case 4:  //Consultar cliente por NIF
                 printf("Digite o NIF do cliente que pretende consultar\n");
@@ -349,7 +353,7 @@ switch(x){  //Primeiro Switch para escolher a secção
                 if(PesquisarPorNIF(nif,clientes)!=NULL){
                 CLIENTE consultaraux=PesquisarPorNIF(nif,clientes)->cliente;
                 MostrarCliente(consultaraux);}
-                else printf("Não existe o cliente com o dado NIF\n");
+                else printf("Nao existe o cliente com o dado NIF\n");
                 break;
             case 5:
                 printf("Digite o Nome do cliente que pretende consultar\n");
@@ -365,7 +369,7 @@ switch(x){  //Primeiro Switch para escolher a secção
             
              break;
             case 7: break;
-        }//Acaba Switch com variável x3
+        }//Acaba Switch com variavel x3
         break;
     case 4: //ENCOMENDAS
         printf("-------Encomendas-------\n");
@@ -382,37 +386,37 @@ switch(x){  //Primeiro Switch para escolher a secção
             int isbn;
             scanf("%d",&isbn);
             PNodoABL aux=PesquisarporISBN(isbn,livros);
-            if(aux==NULL){   //Se livro não existe
-                printf("O livro pedido não se encontra disponível.\n");
+            if(aux==NULL){   //Se livro nao existe
+                printf("O livro pedido nao se encontra disponível.\n");
                 break;
             } 
             printf("Digite o NIF do cliente da encomenda\n");
             long int nif;
             scanf("%ld",&nif);
             PNodoCliente auxcli=PesquisarPorNIF(nif,auxcli);
-            if(auxcli==NULL){  //Se cliente não existe
-                printf("O cliente não existe na base de dados\n");
+            if(auxcli==NULL){  //Se cliente nao existe
+                printf("O cliente nao existe na base de dados\n");
                 break;
             }
             
              } break;
             case 2: break;
             case 3: break;
-        }  //Acaba Switch com variável x4
+        }  //Acaba Switch com variavel x4
         break;
-    case 5:  //OPERAÇÕES
-        printf("-------Operações-------\n");
+    case 5:  //OPERAcÕES
+        printf("-------Operacões-------\n");
         printf("1.Quantos livros foram vendidos num dado período de tempo (mês e ano)?\n");
         printf("2.Determinar a data da última compra/venda de um dado livro\n");
-        printf("3.Determinar quantos livros um dado cliente já comprou\n");
-        printf("4.Mostrar os K livros mais recentes de uma dada Área Científica\n");
+        printf("3.Determinar quantos livros um dado cliente ja comprou\n");
+        printf("4.Mostrar os K livros mais recentes de uma dada area Científica\n");
         printf("5.Mostrar os K livros mais vendidos num dado período (mês e ano)\n");
-        printf("6.Determinar a Área Científica com mais livros\n");
+        printf("6.Determinar a area Científica com mais livros\n");
         printf("7.Determinar qual o Cliente com mais livros comprados\n");
         printf("8.Mostrar os Clientes por ordem decrescente do número de compras\n");
-        printf("9.Determinar o Ano com mais publicações\n");
+        printf("9.Determinar o Ano com mais publicacões\n");
         printf("10.Calcular o cliente que mais gastou num dado período (mês e ano)\n");
-        printf("11.Determinar o desperdício de memória (no caso em que por exemplo numlivro, no campo TITULO tenham char TITULO[100], se os TITULOS forem mais pequeno existe muito desperdício.\n");
+        printf("11.Determinar o desperdício de memoria (no caso em que por exemplo numlivro, no campo TITULO tenham char TITULO[100], se os TITULOS forem mais pequeno existe muito desperdício.\n");
         printf("12.Voltar\n");
         int x5=0;
         scanf("%d",&x5);
@@ -431,25 +435,25 @@ switch(x){  //Primeiro Switch para escolher a secção
             case 2: {
                 DATA ultimacompraData;
                 ultimacompraData=dataDeUltimaCompra(clientes);
-                if(ultimacompraData.dia==0) printf("Não há compras feitas\n");
-                else if (ultimacompraData.dia==99) printf("Não há compras ainda terminadas\n");
+                if(ultimacompraData.dia==0) printf("Nao ha compras feitas\n");
+                else if (ultimacompraData.dia==99) printf("Nao ha compras ainda terminadas\n");
                 else printf("A última compra efetuada foi a %d/%d/%d\n",ultimacompraData.dia,ultimacompraData.mes,ultimacompraData.ano);   
             }        
             break;
             case 3:
-                printf("Digite o NIF do cliente que pretende verificar o número de livros já comprados\n");
+                printf("Digite o NIF do cliente que pretende verificar o número de livros ja comprados\n");
                 long int nif;
                 scanf("%ld",&nif);
                 PNodoCliente aux=PesquisarPorNIF(nif,clientes);
                 if(aux==NULL){
-                    printf("Não existe um cliente com esse NIF\n");
+                    printf("Nao existe um cliente com esse NIF\n");
                     continue;
                 }
                 int nmrdelivroscliente=QuantidadeDeLivrosCompradosPorCliente(aux->cliente);
                 printf("O cliente com o NIF %d comprou %d livros\n",nif,nmrdelivroscliente);       
              break;
             case 4: 
-                printf("Digite a área ciêntifica que pretende verificar\n");
+                printf("Digite a area ciêntifica que pretende verificar\n");
                 getchar();
                 char *area=getCharDinamicamente();
                 printf("Digite o número de livros mais recentes que pretende verificar\n");
@@ -467,7 +471,7 @@ switch(x){  //Primeiro Switch para escolher a secção
             case 10: break;
             case 11: break;
             case 12: break;
-        }//Acaba Switch com variável x5
+        }//Acaba Switch com variavel x5
 
         break;
 

@@ -5,7 +5,7 @@ struct tm* current_time;
 
 
 
-char *getCharDinamicamente()  //Para não haver desperdícios de memória, utilizamos esta função para alocar apenas a memória necessária em cada array de chars
+char *getCharDinamicamente()  //Para nao haver desperdícios de memoria, utilizamos esta funçao para alocar apenas a memoria necessaria em cada array de chars
 {
     char *string = NULL, *aux = NULL;
     size_t size = 0, i = 0;
@@ -14,11 +14,11 @@ char *getCharDinamicamente()  //Para não haver desperdícios de memória, utili
     while (ch) {
         ch = getc(stdin);
 
-        /* Verifica se é necessário parar */
+        /* Verifica se e necessario parar */
         if (ch == EOF || ch == '\n')
             ch = 0;
 
-        /* Verifica se é necessário realocar. */
+        /* Verifica se e necessario realocar. */
         if (size <= i) {
 
             aux =(char*)realloc(aux,i*sizeof(char*));
@@ -30,7 +30,7 @@ char *getCharDinamicamente()  //Para não haver desperdícios de memória, utili
             string = aux;
         }
 
-        /* Guarda o caractér. */
+        /* Guarda o caracter. */
         string[i++] = ch;
     }
 
@@ -43,7 +43,7 @@ CLIENTE NovoCliente(){   //criar novo cliente
   CLIENTE c;
   c.compras=NULL;
   
-  //getchar();  //Como o scanf deixa um newline no buffer, não podemos utilizar o getCharDinamicamente() não vai funcionar por causa do getc(stdin)
+  //getchar();  //Como o scanf deixa um newline no buffer, nao podemos utilizar o getCharDinamicamente() nao vai funcionar por causa do getc(stdin)
   printf("Digite o nome do novo cliente:\n");
   scanf("%s",c.nome);
   printf("Digite a morada do novo cliente:\n");
@@ -70,7 +70,7 @@ COMPRA NovaCompra(){
 COMPRA comp;
 
 
-printf("Digite o Código da Compra:\n");
+printf("Digite o Codigo da Compra:\n");
 scanf("%s",comp.codigo);
 printf("Digite o dia da Compra:\n");
 scanf("%d",&comp.datadecompra.dia);
@@ -107,7 +107,7 @@ CLIENTE adicionarLCaCliente(CLIENTE c,PNodoABL T){
      scanf("%d",&cp.Produto);
      PNodoABL aux=PesquisarporISBN(cp.Produto,T);
     if(aux!=NULL){
-      printf("Digite o Código da Compra:\n");
+      printf("Digite o Codigo da Compra:\n");
       scanf("%s",cp.codigo);
       printf("Digite o dia da Compra:\n");
       scanf("%d",&cp.datadecompra.dia);
@@ -130,7 +130,7 @@ CLIENTE adicionarLCaCliente(CLIENTE c,PNodoABL T){
       c.compras=InserirFimLC(cp,c.compras);  //Inserir na Lista de Compras
 
     }
-    else printf("Não é possível a compra\n");
+    else printf("Nao e possível a compra\n");
   }
 return c;
 }
@@ -145,14 +145,14 @@ LIVRO NovoLivro(){
     scanf("%s",l.idioma);
     printf("Digite o nome do 1º Autor do livro que pretende adicionar\n");
     scanf("%s",l.primeiroAutor);
-    printf("Digite o nome do 2º Autor do livro que pretende adicionar(se existir).\n");  //fazer If para se não existir
+    printf("Digite o nome do 2º Autor do livro que pretende adicionar(se existir).\n");  //fazer If para se nao existir
     scanf("%s",l.segundoAutor);
     printf("Digite o nome da Editora do livro que pretende adicionar\n");
     scanf("%s",l.editora);
     printf("Digite o ano em que o livro que pretende adicionar foi publicado.\n");
     scanf("%d",&l.ano);
     //getchar();
-    printf("Digite a Área Científica correspondente ao livro que pretende adicionar\n");
+    printf("Digite a area Científica correspondente ao livro que pretende adicionar\n");
     scanf("%s",l.areacientifica);
     printf("Digite o preço do livro que pretende adicionar\n");
     scanf("%f",&l.preco);
@@ -164,7 +164,7 @@ LIVRO NovoLivro(){
 
 }
 
-LIVRO AlterarLivro(LIVRO L,int x){  //Função para alterar o parâmetro do livro que o utilizador pretende
+LIVRO AlterarLivro(LIVRO L,int x){  //Funçao para alterar o parâmetro do livro que o utilizador pretende
 
     switch(x){
 
@@ -197,7 +197,7 @@ LIVRO AlterarLivro(LIVRO L,int x){  //Função para alterar o parâmetro do livr
         L.ano=ano;
          break;
     case 7:
-        printf("Digite a área científica do livro\n");
+        printf("Digite a area científica do livro\n");
         scanf("%s",L.areacientifica);
         break;
     case 8:
@@ -220,7 +220,7 @@ LIVRO AlterarLivro(LIVRO L,int x){  //Função para alterar o parâmetro do livr
 return L;
 }
 
-CLIENTE AlterarCliente(CLIENTE L,int x){  //Função para alterar o parâmetro do livro que o utilizador pretende
+CLIENTE AlterarCliente(CLIENTE L,int x){  //Funçao para alterar o parâmetro do livro que o utilizador pretende
 
     switch(x){
 
@@ -242,8 +242,8 @@ return L;
 }
 
 
-//Funcões para criar uma árvore binária balanceada
-PNodoABL CriarArvoreEquilibrada (PNodoABL T) {//Algoritmo dado nas aulas para criar árvore binária equilibrada
+//Funcões para criar uma arvore binaria balanceada
+PNodoABL CriarArvoreEquilibrada (PNodoABL T) {//Algoritmo dado nas aulas para criar arvore binaria equilibrada
     LIVRO *Lista;
     int N = 0, Num;
     Num = NumeroNodosAB(T);
@@ -258,7 +258,7 @@ PNodoABL CriarArvoreEquilibrada (PNodoABL T) {//Algoritmo dado nas aulas para cr
     T=DestruirAB(T);
     return aux;
  }
-int NumeroNodosAB (PNodoABL T) {  //Conta número de Nodos em árvore
+int NumeroNodosAB (PNodoABL T) {  //Conta número de Nodos em arvore
   int  e, d;
   if (T == NULL)
     return 0;
@@ -291,7 +291,7 @@ PNodoABL EquilibrarArvore (PNodoABL T, LIVRO *L, int inicio, int fim) {
     return T;
 }
 
-PNodoABL InserirABP (PNodoABL T, LIVRO X){  //Utilizar esta função para adicionar novos Livros à ABP balanceada, e depois utilizar a função CriarArvoreEquilibrada, para balancear a árvore de novo
+PNodoABL InserirABP (PNodoABL T, LIVRO X){  //Utilizar esta funçao para adicionar novos Livros a ABP balanceada, e depois utilizar a funçao CriarArvoreEquilibrada, para balancear a arvore de novo
   if (T == NULL) {
     T = CriarNodoAB(X);
     return T;
@@ -323,7 +323,7 @@ int CompararLivroISBN (LIVRO X, LIVRO Y){  // devolve -1 se X < Y, 0 se X = Y, 1
 }
 
 
-//Funçoes para remover um elemento da árvore(Não esquecer de equilibrar com a funçao CriarArvoreEquilibrada no fim de cada remoção)
+//Funçoes para remover um elemento da arvore(Nao esquecer de equilibrar com a funçao CriarArvoreEquilibrada no fim de cada remoçao)
 
 PNodoABL RemoverABP (PNodoABL T, LIVRO X) {
   if (CompararLivroISBN(X, T->livro) == 0) {
@@ -341,25 +341,25 @@ PNodoABL RemoverABP (PNodoABL T, LIVRO X) {
 PNodoABL RemoverNodoABP (PNodoABL T){
   PNodoABL R;
   LIVRO X;
-  if (T->Esquerda == NULL && T->Direita == NULL) {   // T é uma folha
+  if (T->Esquerda == NULL && T->Direita == NULL) {   // T e uma folha
     T = LibertarNodoAB(T);
     return T;
   }
-  if (T->Esquerda == NULL) {   //  só um filho direito
+  if (T->Esquerda == NULL) {   //  so um filho direito
     R = T;
     T = T->Direita;
     R = LibertarNodoAB(R);
     return T;
   }
-  if (T->Direita == NULL) {     // só um filho esquerdo
+  if (T->Direita == NULL) {     // so um filho esquerdo
     R = T;
     T = T->Esquerda;
     R = LibertarNodoAB(R);
     return T;
   }
-  // 2 filhos (1º caso): remover o nodo sucessor (nodo mais à esquerda da subárvore direita) e copiar a sua informação
+  // 2 filhos (1º caso): remover o nodo sucessor (nodo mais a esquerda da subarvore direita) e copiar a sua informaçao
   T->Direita = SubstituirNodoDireita(T->Direita, &X);
-  // 2 filhos (2º caso): remover o nodo antecessor (nodo mais à direita da subárvore esquerda) e copiar a sua informação
+  // 2 filhos (2º caso): remover o nodo antecessor (nodo mais a direita da subarvore esquerda) e copiar a sua informaçao
   //  T->Esquerda = SubstituirNodoEsquerda(T->Esquerda, &X);  // 2º caso
   T->livro = X;
   return T;
@@ -399,9 +399,9 @@ PNodoABL SubstituirNodoEsquerda (PNodoABL T, LIVRO *X){
   return T;
 }
 
-//Funções para pesquisar e listar elementos específicos na árvore
+//Funções para pesquisar e listar elementos específicos na arvore
 
-int PesquisarABP (PNodoABL T, LIVRO X) {  //Pesquisar na árvore binária de Pesquisa por livro ****VERIFICAR SE FUNÇÃO VAI SER USADA/ESTÁ CERTA
+int PesquisarABP (PNodoABL T, LIVRO X) {  //Pesquisar na arvore binaria de Pesquisa por livro ****VERIFICAR SE FUNÇaO VAI SER USADA/ESTa CERTA
  PNodoABL P;
   if (T == NULL)
     return 0;
@@ -413,7 +413,7 @@ int PesquisarABP (PNodoABL T, LIVRO X) {  //Pesquisar na árvore binária de Pes
     return PesquisarABP(T->Direita, X);
 }
 
-PNodoABL PesquisarporISBN (int X, PNodoABL T) {  //Pesquisar na árvore binária de Pesquisa por ISBN
+PNodoABL PesquisarporISBN (int X, PNodoABL T) {  //Pesquisar na arvore binaria de Pesquisa por ISBN
  PNodoABL P;  //Porquê?
   if (T == NULL)
     return NULL;
@@ -457,7 +457,7 @@ void ListarLivroEditora (char *X, PNodoABL T) {  //Lista Livros que contêm a fr
   }
 }
 
-void ListarLivroAC (char *X, PNodoABL T) {  //Lista Livros que contêm a frase pedida, na Área Cientifica
+void ListarLivroAC (char *X, PNodoABL T) {  //Lista Livros que contêm a frase pedida, na area Cientifica
   if (T != NULL) {
     ListarLivroAC(X,T->Esquerda);
     if(contemChar(T->livro.areacientifica,X)==0) MostrarLivro(T->livro);
@@ -474,12 +474,12 @@ void ListarLivroAno (int X, PNodoABL T) {  //Lista Livros que foram publicados n
 }
 
 
-int verificaAno (int x, int y){  // devolve 0 se string Y está contida algures na string X. Verifica se string contêm substring
+int verificaAno (int x, int y){  // devolve 0 se string Y esta contida algures na string X. Verifica se string contêm substring
     if(x==y) return 0;
     return 1;
 }
 
-int contemChar (char *X, char *Y){  // devolve 0 se string Y está contida algures na string X. Verifica se string contêm substring
+int contemChar (char *X, char *Y){  // devolve 0 se string Y esta contida algures na string X. Verifica se string contêm substring
     char *c = strstr(X, Y);
     if(c!=NULL) return 0;
     return 1;
@@ -495,7 +495,7 @@ void MostrarLivro(LIVRO X){
     printf("Segundo autor - %s |", X.segundoAutor);
     printf("Editora - %s |", X.editora);
     printf("Ano - %d |", X.ano);
-    printf("Área científica - %s |", X.areacientifica);
+    printf("area científica - %s |", X.areacientifica);
     printf("Preço - %f |", X.preco);
     printf("Stock - %d |", X.stock);
     printf("\n");
@@ -559,14 +559,14 @@ int CompararCliente (CLIENTE X, CLIENTE Y){  // devolve -1 se X < Y, 0 se X = Y,
 
 PNodoCliente RemoverClienteRec (CLIENTE X, PNodoCliente L, PNodoCliente LAux) {
   PNodoCliente P;
-  if (CompararCliente(L->cliente, X) == 0){   // X está no início da Lista L
+  if (CompararCliente(L->cliente, X) == 0){   // X esta no início da Lista L
     P = L;
     L = L->next;
     free(P);
     return  L;
   }
   if (CompararCliente(LAux->next->cliente, X) == 0){
-    // X está na lista L, mas não no inicio
+    // X esta na lista L, mas nao no inicio
     P = LAux->next;
     LAux->next = P->next;    // ou LAux->next->next;
     free(P);
@@ -654,7 +654,7 @@ void MostrarCliente(CLIENTE X){
 }
 
 
-//Função para mostrar lista de compras
+//Funçao para mostrar lista de compras
 
 void MostrarLC(PNodoLC X){
   printf("Codigo de Compra - %s |", X->compra.codigo);
@@ -723,14 +723,14 @@ int CompararCompra (COMPRA X, COMPRA Y){  // devolve -1 se X < Y, 0 se X = Y, 1 
 
 PNodoLC RemoverCompraRec (COMPRA X, PNodoLC L, PNodoLC LAux) {
   PNodoLC P;
-  if (CompararCompra(L->compra, X) == 0){   // X está no início da Lista L
+  if (CompararCompra(L->compra, X) == 0){   // X esta no início da Lista L
     P = L;
     L = L->next;
     free(P);
     return  L;
   }
   if (CompararCompra(LAux->next->compra, X) == 0){
-    // X está na lista L, mas não no inicio
+    // X esta na lista L, mas nao no inicio
     P = LAux->next;
     LAux->next = P->next;    // ou LAux->next->next;
     free(P);
@@ -912,7 +912,7 @@ PNodoFilaEncomendas DestruirFila(PNodoFilaEncomendas L){
 }
 
 
-//Função para passar uma compra para Encomenda
+//Funçao para passar uma compra para Encomenda
 
 ENCOMENDA ConverterCOMPRAparaENCOMENDA(CLIENTE c,COMPRA X){
   ENCOMENDA nova;
@@ -920,7 +920,7 @@ ENCOMENDA ConverterCOMPRAparaENCOMENDA(CLIENTE c,COMPRA X){
    nova.DataDeCompra.dia=X.datadecompra.dia;
    nova.DataDeCompra.mes=X.datadecompra.mes;
    nova.DataDeCompra.ano=X.datadecompra.ano;
-   nova.ISBN=X.Produto;//Produto é ISBN
+   nova.ISBN=X.Produto;//Produto e ISBN
    nova.NIF=c.NIF;
    nova.nmr=X.NumeroDeUnidadesCompradas;
    nova.precoTotal=X.PrecoTotal;
@@ -928,7 +928,7 @@ ENCOMENDA ConverterCOMPRAparaENCOMENDA(CLIENTE c,COMPRA X){
   return nova;
 }
 
-PNodoFilaEncomendas ComprasToEncomendas(PNodoCliente clientes,PNodoFilaEncomendas encomendas){  //Função para tornar as compras futuras em encomendas
+PNodoFilaEncomendas ComprasToEncomendas(PNodoCliente clientes,PNodoFilaEncomendas encomendas){  //Funçao para tornar as compras futuras em encomendas
 time_t s, val = 1;
 struct tm* current_time;
     
@@ -940,7 +940,7 @@ current_time = localtime(&s);
 int diaAtual=current_time->tm_mday;
 int mesAtual=current_time->tm_mon + 1;
 int anoAtual=current_time->tm_year + 1900;
-int diaDoAnoAtual=current_time->tm_yday;  //Estas linhas de código são necessárias para saber o tempo atual
+int diaDoAnoAtual=current_time->tm_yday;  //Estas linhas de codigo sao necessarias para saber o tempo atual
 
 atual.dia=diaAtual;
 atual.mes=mesAtual;
@@ -952,7 +952,7 @@ if(clientes==NULL) return NULL;
 PNodoCliente aux=clientes;
 PNodoLC auxlc=aux->cliente.compras;
 
-while(aux!=NULL){  //Vamos guardar as compras que ainda não foram efetuadas nas encomendas 
+while(aux!=NULL){  //Vamos guardar as compras que ainda nao foram efetuadas nas encomendas 
     auxlc=aux->cliente.compras;
     while(auxlc!=NULL){
         if((CompararDatas(auxlc->compra.datadecompra,atual))==1){ //Se data da compra for maior que 
@@ -961,7 +961,7 @@ while(aux!=NULL){  //Vamos guardar as compras que ainda não foram efetuadas nas
             nova.DataDeEncomenda.dia=diaAtual;
             nova.DataDeEncomenda.mes=mesAtual;
             nova.DataDeEncomenda.ano=anoAtual;
-            encomendas=Juntar(nova,encomendas); //Adicionar a encomenda à fila de encomendas
+            encomendas=Juntar(nova,encomendas); //Adicionar a encomenda a fila de encomendas
         }
         auxlc=auxlc->next;  //iterar a lista de compras
     }  //Fim do While de Compras
@@ -993,7 +993,7 @@ void EscreverNodoABL(FILE *f,PNodoABL T){
 
 PNodoABL LerNodoABL(FILE *f,PNodoABL T){
   LIVRO l;
-  if(fscanf(f," %d\n %s\n %s\n %s\n %s\n %s\n %d\n %s\n %f\n %d\n",&l.ISBN,l.titulo,l.idioma,l.primeiroAutor,l.segundoAutor,l.editora,&l.ano,l.areacientifica,&l.preco,&l.stock) == 10) {  //Não esquecer mudar o 2
+  if(fscanf(f," %d\n %s\n %s\n %s\n %s\n %s\n %d\n %s\n %f\n %d\n",&l.ISBN,l.titulo,l.idioma,l.primeiroAutor,l.segundoAutor,l.editora,&l.ano,l.areacientifica,&l.preco,&l.stock) == 10) {  //Nao esquecer mudar o 2
     T=InserirABP(T,l);
     T->Esquerda=LerNodoABL(f,T->Esquerda);
     T->Direita=LerNodoABL(f,T->Direita);
@@ -1008,8 +1008,8 @@ int LivrosVendidosNumDadoPeriodoDeTempo(int mes,int ano,PNodoCliente L){
   int c=0;
   if (L==NULL) return c;
   while(L!=NULL){  //Percorrer a lista de clientes
-    if(L->cliente.compras==NULL){  //Se o cliente não tem uma lista de compras
-      L=L->next;  //Passa ao próximo cliente
+    if(L->cliente.compras==NULL){  //Se o cliente nao tem uma lista de compras
+      L=L->next;  //Passa ao proximo cliente
       continue;
     }
     while(L->cliente.compras!=NULL){ //Percorrer a lista de compras de um cliente
@@ -1034,7 +1034,7 @@ DATA dataDeUltimaCompra(PNodoCliente L){
   int mesAtual=current_time->tm_mon + 1;
   int anoAtual=current_time->tm_year + 1900;
   DATA d;
-  d.dia=99;  //valores arbitrários 
+  d.dia=99;  //valores arbitrarios 
   d.mes=99;
   d.ano=99999;
   DATA atual;
@@ -1046,8 +1046,8 @@ DATA dataDeUltimaCompra(PNodoCliente L){
     return d;
   }
   while(L!=NULL){  //Percorrer a lista de clientes
-    if(L->cliente.compras==NULL){  //Se o cliente não tem uma lista de compras
-      L=L->next;  //Passa ao próximo cliente
+    if(L->cliente.compras==NULL){  //Se o cliente nao tem uma lista de compras
+      L=L->next;  //Passa ao proximo cliente
       continue;
     }
     while(L->cliente.compras!=NULL){
@@ -1108,7 +1108,7 @@ int QuantidadeDeLivrosCompradosPorCliente(CLIENTE X){
   PNodoLC aux=X.compras;
   if(aux==NULL) return c;
   while(aux!=NULL){  //Percorrer lista de compras
-  if(CompararDatas(aux->compra.datadecompra,atual)==-1) c=c+(aux->compra.NumeroDeUnidadesCompradas); //Se data de compra for menor que a data atual, a compra já foi feita, portanto adicionar ao count o número de unidades dessa compra
+  if(CompararDatas(aux->compra.datadecompra,atual)==-1) c=c+(aux->compra.NumeroDeUnidadesCompradas); //Se data de compra for menor que a data atual, a compra ja foi feita, portanto adicionar ao count o número de unidades dessa compra
   aux=aux->next;
   }
   return c;
@@ -1121,18 +1121,18 @@ void MostrarKLivrosMaisRecentes(char *area,int k,PNodoABL T){
   PNodoABL aux=converterABPisbnParaABPano(T,area);
   aux=CriarArvoreEquilibradaAno(aux);
   while((i<k)&&(aux!=NULL)){
-    PNodoABL aux2=NodoMaiorElementoABP(aux);  //Encontra o nodo maior(numa árvore de pesquisa com index Ano) logo, encontra o livro com o "ano" maior.
+    PNodoABL aux2=NodoMaiorElementoABP(aux);  //Encontra o nodo maior(numa arvore de pesquisa com index Ano) logo, encontra o livro com o "ano" maior.
     if(strcmp(aux2->livro.areacientifica,area)==0) {
       MostrarLivro(aux2->livro);  //Mostra livro
       i++;
     }
-    aux=RemoverABPAno(aux,aux2->livro);  //remove livro, para depois encontrar o próximo maior 
+    aux=RemoverABPAno(aux,aux2->livro);  //remove livro, para depois encontrar o proximo maior 
     aux=CriarArvoreEquilibradaAno(aux);
   }
 }
 
 
-PNodoABL converterABPisbnParaABPano(PNodoABL T,char *area){  //TODO função está mal
+PNodoABL converterABPisbnParaABPano(PNodoABL T,char *area){  //TODO funçao esta mal
   PNodoABL aux=NULL;
   //PNodoABL E,D;
   if (T==NULL) return aux;
@@ -1142,7 +1142,7 @@ PNodoABL converterABPisbnParaABPano(PNodoABL T,char *area){  //TODO função est
   return aux;
 }
 
-PNodoABL InserirABPAnoDePub (PNodoABL T, LIVRO X){  //Inserir livro numa ABP mas com o index de pesquisa sendo o ano de publicação
+PNodoABL InserirABPAnoDePub (PNodoABL T, LIVRO X){  //Inserir livro numa ABP mas com o index de pesquisa sendo o ano de publicaçao
   if (T == NULL) {
     T = CriarNodoAB(X);
     return T;
@@ -1154,7 +1154,7 @@ PNodoABL InserirABPAnoDePub (PNodoABL T, LIVRO X){  //Inserir livro numa ABP mas
   return T;
 }
 
-int CompararLivroAnoDePub (LIVRO X, LIVRO Y){  // devolve -1 se X < Y, 0 se X = Y, 1 se X > Y ***COMPARAR LIVRO COM ANO DE PUBLICAÇÃO***
+int CompararLivroAnoDePub (LIVRO X, LIVRO Y){  // devolve -1 se X < Y, 0 se X = Y, 1 se X > Y ***COMPARAR LIVRO COM ANO DE PUBLICAÇaO***
   if (X.ano > Y.ano)
     return 1;
   if (X.ano < Y.ano)
@@ -1170,7 +1170,7 @@ PNodoABL NodoMaiorElementoABP (PNodoABL T){  //Encontrar o maior elemento da arv
   return NodoMaiorElementoABP(T->Direita);
 }
 
-PNodoABL CriarArvoreEquilibradaAno (PNodoABL T) {//Algoritmo dado nas aulas para criar árvore binária equilibrada
+PNodoABL CriarArvoreEquilibradaAno (PNodoABL T) {//Algoritmo dado nas aulas para criar arvore binaria equilibrada
     LIVRO *Lista;
     int N = 0, Num;
     Num = NumeroNodosAB(T);
