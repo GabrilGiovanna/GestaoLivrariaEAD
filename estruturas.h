@@ -25,7 +25,7 @@ typedef struct livro{
     int stock;
 }LIVRO;
 
-struct NodoABLivro{ //Arvore binária para manusear livros
+struct NodoABLivro{ //Arvore binaria para manusear livros
     LIVRO livro;
     struct NodoABLivro *Esquerda;
     struct NodoABLivro *Direita;
@@ -51,7 +51,7 @@ typedef struct cliente{
     long int NIF;  //NIF
     char nome[TAM];  //Nome do Cliente
     char morada[TAM];  //Morada do Cliente
-    long int telefone; //Número de Telefone do Cliente
+    long int telefone; //Numero de Telefone do Cliente
     PNodoLC compras;
 
 }CLIENTE;  // estrutura para Clientes
@@ -66,7 +66,7 @@ typedef struct NodoCliente *PNodoCliente;
 typedef struct encomendas{
     int ISBN;  //código do livro
     int NIF;
-    DATA DataDeEncomenda;  //Data em que a encomenda foi efetuada(será a data atual quando adicionada uma nova encomenda)
+    DATA DataDeEncomenda;  //Data em que a encomenda foi efetuada(sera a data atual quando adicionada uma nova encomenda)
     DATA DataDeCompra;  //Data em que a encomenda é realizada(data da compra futura do cliente)
     int nmr;  //Numero de Unidades encomendadas
     float precoTotal;

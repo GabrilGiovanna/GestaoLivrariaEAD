@@ -48,11 +48,11 @@ CLIENTE NovoCliente(){   //criar novo cliente
   scanf("%s",c.nome);
   printf("Digite a morada do novo cliente:\n");
   scanf("%s",c.morada);
-  printf("Digite o número de telefone do novo cliente:\n");
+  printf("Digite o numero de telefone do novo cliente:\n");
   scanf("%ld",&c.telefone);
   //getchar();
   /*printf("Lista de Compras do novo cliente:\n");
-  printf("Número de Compras na Lista:\n");
+  printf("Numero de Compras na Lista:\n");
   int x;
   scanf("%d",&x);
   //getchar();
@@ -97,7 +97,7 @@ return comp;
 CLIENTE adicionarLCaCliente(CLIENTE c,PNodoABL T){
 
   printf("Lista de Compras do novo cliente:\n");
-  printf("Número de Compras na Lista:\n");
+  printf("Numero de Compras na Lista:\n");
   int x;
   scanf("%d",&x);
   //getchar();
@@ -258,7 +258,7 @@ PNodoABL CriarArvoreEquilibrada (PNodoABL T) {//Algoritmo dado nas aulas para cr
     T=DestruirAB(T);
     return aux;
  }
-int NumeroNodosAB (PNodoABL T) {  //Conta número de Nodos em arvore
+int NumeroNodosAB (PNodoABL T) {  //Conta numero de Nodos em arvore
   int  e, d;
   if (T == NULL)
     return 0;
@@ -663,7 +663,7 @@ void MostrarLC(PNodoLC X){
   printf("Ano - %d |", X->compra.datadecompra.ano);
   printf("Preço total - %f |", X->compra.PrecoTotal);
   printf("ISBN - %d |", X->compra.Produto);
-  printf("Número de Unidades Compradas - %d |\n", X->compra.NumeroDeUnidadesCompradas);
+  printf("Numero de Unidades Compradas - %d |\n", X->compra.NumeroDeUnidadesCompradas);
 }
 
 //Funções Lista Ligada Compras
@@ -1108,7 +1108,7 @@ int QuantidadeDeLivrosCompradosPorCliente(CLIENTE X){
   PNodoLC aux=X.compras;
   if(aux==NULL) return c;
   while(aux!=NULL){  //Percorrer lista de compras
-  if(CompararDatas(aux->compra.datadecompra,atual)==-1) c=c+(aux->compra.NumeroDeUnidadesCompradas); //Se data de compra for menor que a data atual, a compra ja foi feita, portanto adicionar ao count o número de unidades dessa compra
+  if(CompararDatas(aux->compra.datadecompra,atual)==-1) c=c+(aux->compra.NumeroDeUnidadesCompradas); //Se data de compra for menor que a data atual, a compra ja foi feita, portanto adicionar ao count o numero de unidades dessa compra
   aux=aux->next;
   }
   return c;

@@ -1,6 +1,6 @@
 #include "estruturas.c"
 
-/*  Trabalho realizado por Gabriel Alexandre Araújo Ribeiro nº41235, aluno de Engenharia Informatica na Universidade da Beira Interior, e Miguel Vieira Santos nº 41710 
+/*  Trabalho realizado por Gabriel Alexandre Araujo Ribeiro nº41235, aluno de Engenharia Informatica na Universidade da Beira Interior, e Miguel Vieira Santos nº 41710 
 
 Algoritmos e Estruturas de Dados 2020/2021-Gestao de uma Livraria
 
@@ -407,13 +407,13 @@ switch(x){  //Primeiro Switch para escolher a seccao
     case 5:  //OPERAcÕES
         printf("-------Operacões-------\n");
         printf("1.Quantos livros foram vendidos num dado período de tempo (mês e ano)?\n");
-        printf("2.Determinar a data da última compra/venda de um dado livro\n");
+        printf("2.Determinar a data da ultima compra/venda de um dado livro\n");
         printf("3.Determinar quantos livros um dado cliente ja comprou\n");
         printf("4.Mostrar os K livros mais recentes de uma dada area Científica\n");
         printf("5.Mostrar os K livros mais vendidos num dado período (mês e ano)\n");
         printf("6.Determinar a area Científica com mais livros\n");
         printf("7.Determinar qual o Cliente com mais livros comprados\n");
-        printf("8.Mostrar os Clientes por ordem decrescente do número de compras\n");
+        printf("8.Mostrar os Clientes por ordem decrescente do numero de compras\n");
         printf("9.Determinar o Ano com mais publicacões\n");
         printf("10.Calcular o cliente que mais gastou num dado período (mês e ano)\n");
         printf("11.Determinar o desperdício de memoria (no caso em que por exemplo numlivro, no campo TITULO tenham char TITULO[100], se os TITULOS forem mais pequeno existe muito desperdício.\n");
@@ -430,18 +430,18 @@ switch(x){  //Primeiro Switch para escolher a seccao
                 int ano;
                 scanf("%d",&ano);
                 int numeroliv=LivrosVendidosNumDadoPeriodoDeTempo(mes,ano,clientes);
-                printf("O número de livros vendidos em %d/%d foi %d\n",mes,ano,numeroliv);
+                printf("O numero de livros vendidos em %d/%d foi %d\n",mes,ano,numeroliv);
              break;
             case 2: {
                 DATA ultimacompraData;
                 ultimacompraData=dataDeUltimaCompra(clientes);
                 if(ultimacompraData.dia==0) printf("Nao ha compras feitas\n");
                 else if (ultimacompraData.dia==99) printf("Nao ha compras ainda terminadas\n");
-                else printf("A última compra efetuada foi a %d/%d/%d\n",ultimacompraData.dia,ultimacompraData.mes,ultimacompraData.ano);   
+                else printf("A ultima compra efetuada foi a %d/%d/%d\n",ultimacompraData.dia,ultimacompraData.mes,ultimacompraData.ano);   
             }        
             break;
             case 3:
-                printf("Digite o NIF do cliente que pretende verificar o número de livros ja comprados\n");
+                printf("Digite o NIF do cliente que pretende verificar o numero de livros ja comprados\n");
                 long int nif;
                 scanf("%ld",&nif);
                 PNodoCliente aux=PesquisarPorNIF(nif,clientes);
@@ -456,7 +456,7 @@ switch(x){  //Primeiro Switch para escolher a seccao
                 printf("Digite a area ciêntifica que pretende verificar\n");
                 getchar();
                 char *area=getCharDinamicamente();
-                printf("Digite o número de livros mais recentes que pretende verificar\n");
+                printf("Digite o numero de livros mais recentes que pretende verificar\n");
                 int k;
                 scanf("%d",&k);
                 MostrarKLivrosMaisRecentes(area,k,livros);
